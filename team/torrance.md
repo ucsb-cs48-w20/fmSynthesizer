@@ -1,0 +1,1 @@
+a plug in that can generate and manipulate noise, coded using c++
