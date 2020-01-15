@@ -9,3 +9,7 @@
 * Proper communication between members responsible for user-side and backend
 
 * Ensure everyone is open to others' suggestions
+
+* Maintain friendly and helpful environment
+
+* Arrive to scheduled meetings on time; check Slack regularly for new info
