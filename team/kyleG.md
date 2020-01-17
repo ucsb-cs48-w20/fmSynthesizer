@@ -1,4 +1,4 @@
-#Hi, I'm Kyle.
+# Hi, I'm Kyle.
 
 I'm a second year CS major and in my free time I love playing around in DAWs such as Ableton and messing around with sounds. I've played around with software synths a bit so I'm familiar with the concept of FM and other types of synthesis, just not so much the math-y side of it so this will still be a learning opportunity for me
 
