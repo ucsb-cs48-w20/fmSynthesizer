@@ -10,5 +10,6 @@
     * Will do some tests to see if cpp and h files are portable.
     
 
-* Made user perspective stories.
-* 
+* Made user perspective stories. Find as a pdf in this folder.
+* Made user journey story. Find as a markdown file in team/.
+* Made problem scenario. Find as a markdown file in team/.
