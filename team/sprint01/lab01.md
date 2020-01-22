@@ -1,4 +1,4 @@
-#Lab01 Loose Transcript
+## Lab01 Loose Transcript
 
 * Took attendance. 
 
