@@ -32,6 +32,6 @@
 *.app
 
 # JUCE folders
-/fmSynth/Builds/*
-/fmSynth/JuceLibraryCode/*
+/fmSynth/Builds
+/fmSynth/JuceLibraryCode
 /fmSynth/fmSynth.jucer
