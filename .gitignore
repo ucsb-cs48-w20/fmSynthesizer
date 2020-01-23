@@ -30,3 +30,8 @@
 *.exe
 *.out
 *.app
+
+# JUCE folders
+/fmSynth/Builds/*
+/fmSynth/JuceLibraryCode/*
+/fmSynth/fmSynth.jucer
