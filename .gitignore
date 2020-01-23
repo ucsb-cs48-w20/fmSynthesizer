@@ -1,6 +1,6 @@
 #JUCE stuff 
 fmSynth/Builds
-fmSynth/fmPlugin.jucer
+fmSynth/fmSynth.jucer
 fmSynth/JuceLibraryCode
 *.DS_STORE
 
