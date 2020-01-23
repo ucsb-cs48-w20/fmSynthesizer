@@ -16,11 +16,11 @@
 //==============================================================================
 /**
 */
-class FmPlugInAudioProcessorEditor  : public AudioProcessorEditor
+class FmSynthAudioProcessorEditor  : public AudioProcessorEditor
 {
 public:
-    FmPlugInAudioProcessorEditor (FmPlugInAudioProcessor&);
-    ~FmPlugInAudioProcessorEditor();
+    FmSynthAudioProcessorEditor (FmSynthAudioProcessor&);
+    ~FmSynthAudioProcessorEditor();
 
     //==============================================================================
     void paint (Graphics&) override;
@@ -29,7 +29,7 @@ public:
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
-    FmPlugInAudioProcessor& processor;
+    FmSynthAudioProcessor& processor;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FmPlugInAudioProcessorEditor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FmSynthAudioProcessorEditor)
 };

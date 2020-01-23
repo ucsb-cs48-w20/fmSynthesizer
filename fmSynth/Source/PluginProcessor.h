@@ -15,12 +15,12 @@
 //==============================================================================
 /**
 */
-class FmPlugInAudioProcessor  : public AudioProcessor
+class FmSynthAudioProcessor  : public AudioProcessor
 {
 public:
     //==============================================================================
-    FmPlugInAudioProcessor();
-    ~FmPlugInAudioProcessor();
+    FmSynthAudioProcessor();
+    ~FmSynthAudioProcessor();
 
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
@@ -57,5 +57,5 @@ public:
 
 private:
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FmPlugInAudioProcessor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FmSynthAudioProcessor)
 };
