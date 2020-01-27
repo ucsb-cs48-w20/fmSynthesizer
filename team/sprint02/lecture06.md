@@ -1,4 +1,4 @@
-##Attendance 
+## Attendance 
 * Jackie : Not Here
 * Everyone else: Here
 
