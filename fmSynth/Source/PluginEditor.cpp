@@ -12,7 +12,7 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-FmSynthAudioProcessorEditor::FmSynthAudioProcessorEditor (FmSynthAudioProcessor& p)
+HelloWorldAudioProcessorEditor::HelloWorldAudioProcessorEditor (HelloWorldAudioProcessor& p)
     : AudioProcessorEditor (&p), processor (p)
 {
     // Make sure that before the constructor has finished, you've set the
@@ -20,12 +20,12 @@ FmSynthAudioProcessorEditor::FmSynthAudioProcessorEditor (FmSynthAudioProcessor&
     setSize (400, 300);
 }
 
-FmSynthAudioProcessorEditor::~FmSynthAudioProcessorEditor()
+HelloWorldAudioProcessorEditor::~HelloWorldAudioProcessorEditor()
 {
 }
 
 //==============================================================================
-void FmSynthAudioProcessorEditor::paint (Graphics& g)
+void HelloWorldAudioProcessorEditor::paint (Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));
@@ -35,7 +35,7 @@ void FmSynthAudioProcessorEditor::paint (Graphics& g)
     g.drawFittedText ("Hello World!", getLocalBounds(), Justification::centred, 1);
 }
 
-void FmSynthAudioProcessorEditor::resized()
+void HelloWorldAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..

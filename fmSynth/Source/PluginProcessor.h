@@ -15,12 +15,12 @@
 //==============================================================================
 /**
 */
-class FmSynthAudioProcessor  : public AudioProcessor
+class HelloWorldAudioProcessor  : public AudioProcessor
 {
 public:
     //==============================================================================
-    FmSynthAudioProcessor();
-    ~FmSynthAudioProcessor();
+    HelloWorldAudioProcessor();
+    ~HelloWorldAudioProcessor();
 
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
@@ -57,5 +57,5 @@ public:
 
 private:
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FmSynthAudioProcessor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (HelloWorldAudioProcessor)
 };

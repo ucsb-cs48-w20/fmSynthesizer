@@ -12,7 +12,7 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-FmSynthAudioProcessor::FmSynthAudioProcessor()
+HelloWorldAudioProcessor::HelloWorldAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
      : AudioProcessor (BusesProperties()
                      #if ! JucePlugin_IsMidiEffect
@@ -26,17 +26,17 @@ FmSynthAudioProcessor::FmSynthAudioProcessor()
 {
 }
 
-FmSynthAudioProcessor::~FmSynthAudioProcessor()
+HelloWorldAudioProcessor::~HelloWorldAudioProcessor()
 {
 }
 
 //==============================================================================
-const String FmSynthAudioProcessor::getName() const
+const String HelloWorldAudioProcessor::getName() const
 {
     return JucePlugin_Name;
 }
 
-bool FmSynthAudioProcessor::acceptsMidi() const
+bool HelloWorldAudioProcessor::acceptsMidi() const
 {
    #if JucePlugin_WantsMidiInput
     return true;
@@ -45,7 +45,7 @@ bool FmSynthAudioProcessor::acceptsMidi() const
    #endif
 }
 
-bool FmSynthAudioProcessor::producesMidi() const
+bool HelloWorldAudioProcessor::producesMidi() const
 {
    #if JucePlugin_ProducesMidiOutput
     return true;
@@ -54,7 +54,7 @@ bool FmSynthAudioProcessor::producesMidi() const
    #endif
 }
 
-bool FmSynthAudioProcessor::isMidiEffect() const
+bool HelloWorldAudioProcessor::isMidiEffect() const
 {
    #if JucePlugin_IsMidiEffect
     return true;
@@ -63,50 +63,50 @@ bool FmSynthAudioProcessor::isMidiEffect() const
    #endif
 }
 
-double FmSynthAudioProcessor::getTailLengthSeconds() const
+double HelloWorldAudioProcessor::getTailLengthSeconds() const
 {
     return 0.0;
 }
 
-int FmSynthAudioProcessor::getNumPrograms()
+int HelloWorldAudioProcessor::getNumPrograms()
 {
     return 1;   // NB: some hosts don't cope very well if you tell them there are 0 programs,
                 // so this should be at least 1, even if you're not really implementing programs.
 }
 
-int FmSynthAudioProcessor::getCurrentProgram()
+int HelloWorldAudioProcessor::getCurrentProgram()
 {
     return 0;
 }
 
-void FmSynthAudioProcessor::setCurrentProgram (int index)
+void HelloWorldAudioProcessor::setCurrentProgram (int index)
 {
 }
 
-const String FmSynthAudioProcessor::getProgramName (int index)
+const String HelloWorldAudioProcessor::getProgramName (int index)
 {
     return {};
 }
 
-void FmSynthAudioProcessor::changeProgramName (int index, const String& newName)
+void HelloWorldAudioProcessor::changeProgramName (int index, const String& newName)
 {
 }
 
 //==============================================================================
-void FmSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
+void HelloWorldAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
 }
 
-void FmSynthAudioProcessor::releaseResources()
+void HelloWorldAudioProcessor::releaseResources()
 {
     // When playback stops, you can use this as an opportunity to free up any
     // spare memory, etc.
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
-bool FmSynthAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
+bool HelloWorldAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
 {
   #if JucePlugin_IsMidiEffect
     ignoreUnused (layouts);
@@ -129,7 +129,7 @@ bool FmSynthAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) 
 }
 #endif
 
-void FmSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
+void HelloWorldAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
     ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
@@ -159,25 +159,25 @@ void FmSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer
 }
 
 //==============================================================================
-bool FmSynthAudioProcessor::hasEditor() const
+bool HelloWorldAudioProcessor::hasEditor() const
 {
     return true; // (change this to false if you choose to not supply an editor)
 }
 
-AudioProcessorEditor* FmSynthAudioProcessor::createEditor()
+AudioProcessorEditor* HelloWorldAudioProcessor::createEditor()
 {
-    return new FmSynthAudioProcessorEditor (*this);
+    return new HelloWorldAudioProcessorEditor (*this);
 }
 
 //==============================================================================
-void FmSynthAudioProcessor::getStateInformation (MemoryBlock& destData)
+void HelloWorldAudioProcessor::getStateInformation (MemoryBlock& destData)
 {
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
 }
 
-void FmSynthAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
+void HelloWorldAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
@@ -187,5 +187,5 @@ void FmSynthAudioProcessor::setStateInformation (const void* data, int sizeInByt
 // This creates new instances of the plugin..
 AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
-    return new FmSynthAudioProcessor();
+    return new HelloWorldAudioProcessor();
 }
