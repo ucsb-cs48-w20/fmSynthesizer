@@ -17,7 +17,22 @@ FmSynthAudioProcessorEditor::FmSynthAudioProcessorEditor (FmSynthAudioProcessor&
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (400, 300);
+    setSize (200, 200);
+    
+    //This defines the parameters of our slider object.
+    midiVolume.setSliderStyle(Slider::LinearBarVertical);
+    midiVolume.setRange(0.0, 127.0, 1.0);
+    midiVolume.setTextBoxStyle(Slider::NoTextBox, false, 90, 0);
+    midiVolume.setPopupDisplayEnabled(true, false, this);
+    midiVolume.setTextValueSuffix (" Volume");
+    midiVolume.setValue(1.0);
+    
+    // this function adds the slider to the editor
+    addAndMakeVisible (&midiVolume);
+    
+    //Add midiVolume listener.
+    midiVolume.addListener(this);
+    
 }
 
 FmSynthAudioProcessorEditor::~FmSynthAudioProcessorEditor()
@@ -32,11 +47,18 @@ void FmSynthAudioProcessorEditor::paint (Graphics& g)
 
     g.setColour (Colours::white);
     g.setFont (15.0f);
-    g.drawFittedText ("Hello World!", getLocalBounds(), Justification::centred, 1);
+    g.drawFittedText ("Volume Slider Test", getLocalBounds(), Justification::centred, 1);
 }
 
 void FmSynthAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
+    // sets the position and size of the slider with arguments (x, y, width, height)
+    midiVolume.setBounds (40, 30, 20, getHeight() - 60);
+}
+
+void FmSynthAudioProcessorEditor::sliderValueChanged(Slider* slider)
+{
+    processor.noteOnVel = midiVolume.getValue();
 }
