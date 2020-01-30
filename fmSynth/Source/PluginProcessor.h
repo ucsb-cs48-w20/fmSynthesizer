@@ -11,6 +11,7 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "Oscillator.hpp"
 
 //==============================================================================
 /**
@@ -19,6 +20,7 @@ class FmSynthAudioProcessor  : public AudioProcessor
 {
 public:
     //================Variables====================================================
+    float gain;
     float noteOnVel;
     //==============================================================================
     FmSynthAudioProcessor();
@@ -60,4 +62,6 @@ public:
 private:
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FmSynthAudioProcessor)
+    Random random;
+    Sine sine;
 };

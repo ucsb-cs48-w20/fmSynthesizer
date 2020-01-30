@@ -95,8 +95,7 @@ void FmSynthAudioProcessor::changeProgramName (int index, const String& newName)
 //==============================================================================
 void FmSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need..
+    sine.initialize(sampleRate,440,512);
 }
 
 void FmSynthAudioProcessor::releaseResources()
@@ -131,8 +130,30 @@ bool FmSynthAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) 
 
 void FmSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
+    
     buffer.clear();
     
+    ScopedNoDenormals noDenormals;
+    auto totalNumInputChannels = getTotalNumInputChannels();
+    auto totalNumOutputChannels = getTotalNumOutputChannels();
+    
+    for(auto i = totalNumInputChannels; i < totalNumOutputChannels; i++ )
+        buffer.clear(i, 0, buffer.getNumSamples());
+    
+    for(int channel = 0; channel < totalNumOutputChannels; channel++)
+    {
+        auto* channelData = buffer.getWritePointer(channel);
+        
+       
+        
+        for(auto sample = 0; sample < buffer.getNumSamples(); ++sample)
+        {
+            *channelData++ = sine.processAudio() * gain;
+//            *channelData++ = (random.nextFloat() * 2.0f - 1.0f) * gain;
+        }
+    }
+        
+
     MidiBuffer processedMidi;
     int time;
     MidiMessage m;
