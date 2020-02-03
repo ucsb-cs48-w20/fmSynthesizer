@@ -8,6 +8,7 @@
 #include "Oscillator.hpp"
 
 #include <math.h>
+#include <iostream>
 
 //============================= Sine Implementation =============================
 
@@ -45,9 +46,14 @@ float Sine::processAudio()
     mIndex += mIncrement;
     
     //Wrappers
-    if(mIndex >= mTableSize) mIndex -= mTableSize;
+    if(mIndex + 1 >= mTableSize) mIndex -= (mTableSize - 1);
     if(mIndex < 0) mIndex += mTableSize;
     
-    return mTable.at((int)mIndex);
+    // Linear Interpolation
+    float amp_1 = mTable.at((int)mIndex);
+    float amp_2 = mTable.at((int)mIndex + 1);
+    float slope = (amp_2 - amp_1)/( ((int)mIndex + 1) - (int)mIndex );
+
+    return slope * (mIndex - (int)mIndex) + amp_1;
 }
 

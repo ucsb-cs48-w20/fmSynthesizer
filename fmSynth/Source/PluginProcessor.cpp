@@ -95,7 +95,7 @@ void FmSynthAudioProcessor::changeProgramName (int index, const String& newName)
 //==============================================================================
 void FmSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    sine.initialize(sampleRate,440,512);
+    sine.initialize(sampleRate,220,512);
 }
 
 void FmSynthAudioProcessor::releaseResources()
@@ -132,6 +132,7 @@ void FmSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer
 {
     
     buffer.clear();
+    channelWritePtrs.clear();
     
     ScopedNoDenormals noDenormals;
     auto totalNumInputChannels = getTotalNumInputChannels();
@@ -141,15 +142,16 @@ void FmSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer
         buffer.clear(i, 0, buffer.getNumSamples());
     
     for(int channel = 0; channel < totalNumOutputChannels; channel++)
+        channelWritePtrs.push_back(buffer.getWritePointer(channel));
+    
+    for(auto sample = 0; sample < buffer.getNumSamples(); ++sample)
     {
-        auto* channelData = buffer.getWritePointer(channel);
+        auto currentSample = sine.processAudio()* gain;
         
-       
-        
-        for(auto sample = 0; sample < buffer.getNumSamples(); ++sample)
+        //Apply samples equally to all channels.
+        for (auto channel = channelWritePtrs.begin(); channel != channelWritePtrs.end(); ++channel)
         {
-            *channelData++ = sine.processAudio() * gain;
-//            *channelData++ = (random.nextFloat() * 2.0f - 1.0f) * gain;
+            (*channel)[sample] = currentSample;
         }
     }
         
