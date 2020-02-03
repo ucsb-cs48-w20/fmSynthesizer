@@ -1,10 +1,7 @@
 /*
   ==============================================================================
-
     This file was auto-generated!
-
     It contains the basic framework code for a JUCE plugin editor.
-
   ==============================================================================
 */
 
@@ -16,26 +13,26 @@
 //==============================================================================
 /**
 */
-class FmSynthProjectAudioProcessorEditor  : public AudioProcessorEditor, private Slider::Listener
+class FmSynthAudioProcessorEditor  : public AudioProcessorEditor,
+                                     private Slider::Listener
 {
 public:
-    FmSynthProjectAudioProcessorEditor (FmSynthProjectAudioProcessor&);
-    ~FmSynthProjectAudioProcessorEditor();
+    FmSynthAudioProcessorEditor (FmSynthAudioProcessor&);
+    ~FmSynthAudioProcessorEditor();
 
     //==============================================================================
     void paint (Graphics&) override;
     void resized() override;
 
 private:
-    
+
     void sliderValueChanged (Slider* slider) override;
     
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
-    FmSynthProjectAudioProcessor& processor;
+    FmSynthAudioProcessor& processor;
     
-    Slider midiVolume;
+    Slider gainSlider;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FmSynthProjectAudioProcessorEditor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FmSynthAudioProcessorEditor)
 };
-
