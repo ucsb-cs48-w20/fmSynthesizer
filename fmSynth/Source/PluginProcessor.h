@@ -18,6 +18,8 @@
 class FmSynthAudioProcessor  : public AudioProcessor
 {
 public:
+
+    float noteOnVel;
     //==============================================================================
     FmSynthAudioProcessor();
     ~FmSynthAudioProcessor();
