@@ -19,9 +19,9 @@ FmSynthAudioProcessorEditor::FmSynthAudioProcessorEditor (FmSynthAudioProcessor&
     // editor's size to whatever you need it to be.
     setSize (400, 300);
 
-    volumeSlider.setSliderStyle(Slider::LinearBar);
+    volumeSlider.setSliderStyle(Slider::Rotary);
     volumeSlider.setRange(0.0, 127.0, 1.0);
-    volumeSlider.setTextBoxStyle(Slider::TextBoxAbove, true, 150, 25);
+    volumeSlider.setTextBoxStyle(Slider::NoTextBox, false, 90, 0);
     volumeSlider.setPopupDisplayEnabled(true, false, this);
     volumeSlider.setTextValueSuffix(" Volume");
     volumeSlider.setValue(1.0);
@@ -30,6 +30,8 @@ FmSynthAudioProcessorEditor::FmSynthAudioProcessorEditor (FmSynthAudioProcessor&
 
     //add the listener to the slider
     volumeSlider.addListener(this);
+
+    volumeSlider.setLookAndFeel(&myLook);
 }
 
 void FmSynthAudioProcessorEditor::sliderValueChanged(Slider* slider) {
@@ -54,5 +56,10 @@ void FmSynthAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
-    volumeSlider.setBounds(40, 30, 20, getHeight() - 60);
+    auto border = 4;
+
+    auto area = getLocalBounds();
+
+    auto dialArea = area.removeFromTop(area.getHeight() / 2);
+    volumeSlider.setBounds(dialArea.removeFromLeft(dialArea.getWidth() / 2).reduced(border));
 }
