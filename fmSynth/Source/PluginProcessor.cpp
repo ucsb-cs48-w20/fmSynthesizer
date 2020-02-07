@@ -95,8 +95,7 @@ void FmSynthAudioProcessor::changeProgramName (int index, const String& newName)
 //==============================================================================
 void FmSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need..
+    this->sampleRate = sampleRate;
 }
 
 void FmSynthAudioProcessor::releaseResources()

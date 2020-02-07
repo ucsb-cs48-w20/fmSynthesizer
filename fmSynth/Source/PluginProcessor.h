@@ -55,10 +55,17 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+<<<<<<< HEAD
 
     float noteOnVel;
+=======
+    double filterCutoff;
+>>>>>>> 6c63939af4a695d4d1d8df3503ac15ca1888cc08
 
 private:
     //==============================================================================
+    IIRFilter filter;
+    double sampleRate;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FmSynthAudioProcessor)
 };
