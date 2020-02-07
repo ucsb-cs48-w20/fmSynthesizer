@@ -1,13 +1,4 @@
-Update your own `README.md` using the template below. We are specifically interested in the installation instructions (e.g., all the necessary dependencies, how to load real or seed data, etc.). This sample README was originally developed for a Rails project, and the "Dependencies" section of the "Installation" instructions was originally called "Gems" to reflect that. Feel free to rename back for Rails projects. For all other types of projects, simply include libraries and add-ons that are relevant to you. (Note that with the use of Github Actions, a lot of the installation and continuous integration can be automated!)
-
-
-**Make sure to check out the repo anew (potentially on a loaned laptop) and test your installation instructions.**
-
-
-
-Provide a README file with the following information:
-
-# Project Name
+# FM Synthesizer
 
 ## Project summary
 
