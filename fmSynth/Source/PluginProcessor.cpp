@@ -95,7 +95,6 @@ void FmSynthAudioProcessor::changeProgramName (int index, const String& newName)
 //==============================================================================
 void FmSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    sine.initialize(sampleRate,220,512);
     this->sampleRate = sampleRate;
 }
 
@@ -147,7 +146,7 @@ void FmSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer
     
     for(auto sample = 0; sample < buffer.getNumSamples(); ++sample)
     {
-        auto currentSample = sine.processAudio()* gain;
+        auto currentSample = (random.nextFloat()*2 - 1) * gain;
         
         //Apply samples equally to all channels.
         for (auto channel = channelWritePtrs.begin(); channel != channelWritePtrs.end(); ++channel)

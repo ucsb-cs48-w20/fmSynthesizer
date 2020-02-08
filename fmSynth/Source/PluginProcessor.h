@@ -11,7 +11,6 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "Oscillator.hpp"
 
 //==============================================================================
 /**
@@ -68,6 +67,5 @@ private:
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FmSynthAudioProcessor)
     Random random;
-    Sine sine;
     std::vector<float*> channelWritePtrs;
 };
