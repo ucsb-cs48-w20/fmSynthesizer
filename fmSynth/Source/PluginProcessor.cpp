@@ -96,6 +96,7 @@ void FmSynthAudioProcessor::changeProgramName (int index, const String& newName)
 void FmSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     sine.initialize(sampleRate,220,512);
+    this->sampleRate = sampleRate;
 }
 
 void FmSynthAudioProcessor::releaseResources()
