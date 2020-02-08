@@ -11,6 +11,7 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "Synth.hpp"
 
 //==============================================================================
 /**
@@ -68,4 +69,6 @@ private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FmSynthAudioProcessor)
     Random random;
     std::vector<float*> channelWritePtrs;
+    MidiKeyboardState keyboardState;
+    PolySynth synth;
 };

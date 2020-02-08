@@ -21,7 +21,10 @@ FmSynthAudioProcessor::FmSynthAudioProcessor()
                       #endif
                        .withOutput ("Output", AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ),
+        synth(keyboardState)
+#else
+    : synth(keyboardState)
 #endif
 {
 }
@@ -96,6 +99,10 @@ void FmSynthAudioProcessor::changeProgramName (int index, const String& newName)
 void FmSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     this->sampleRate = sampleRate;
+    
+    //Adds twelve voices of type Sine to the poly synth.
+    synth.addVoice<SineSound,SineVoice>(12);
+    synth.prepareToPlay(sampleRate);
 }
 
 void FmSynthAudioProcessor::releaseResources()
@@ -141,47 +148,22 @@ void FmSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer
     for(auto i = totalNumInputChannels; i < totalNumOutputChannels; i++ )
         buffer.clear(i, 0, buffer.getNumSamples());
     
-    for(int channel = 0; channel < totalNumOutputChannels; channel++)
-        channelWritePtrs.push_back(buffer.getWritePointer(channel));
+    synth.renderNextAudioBlock(buffer, 0, buffer.getNumSamples(), midiMessages);
     
-    for(auto sample = 0; sample < buffer.getNumSamples(); ++sample)
-    {
-        auto currentSample = (random.nextFloat()*2 - 1) * gain;
+//    for(int channel = 0; channel < totalNumOutputChannels; channel++)
+//        channelWritePtrs.push_back(buffer.getWritePointer(channel));
+//
+//    for(auto sample = 0; sample < buffer.getNumSamples(); ++sample)
+//    {
+//        auto currentSample = (random.nextFloat()*2 - 1) * gain;
+//
+//        //Apply samples equally to all channels.
+//        for (auto channel = channelWritePtrs.begin(); channel != channelWritePtrs.end(); ++channel)
+//        {
+//            (*channel)[sample] = currentSample;
+//        }
+//    }
         
-        //Apply samples equally to all channels.
-        for (auto channel = channelWritePtrs.begin(); channel != channelWritePtrs.end(); ++channel)
-        {
-            (*channel)[sample] = currentSample;
-        }
-    }
-        
-
-    MidiBuffer processedMidi;
-    int time;
-    MidiMessage m;
-    for(MidiBuffer::Iterator i (midiMessages); i.getNextEvent(m,time);)
-    {
-        if(m.isNoteOn()) {
-            uint8 newVel = (uint8)noteOnVel;
-            m = MidiMessage::noteOn(m.getChannel(),m.getNoteNumber(),newVel);
-        }
-        else if (m.isNoteOff()) {
-            
-        }
-        else if (m.isAftertouch()) {
-            
-        }
-        else if (m.isPitchWheel()) {
-            
-        }
-        else {
-            
-        }
-        
-        processedMidi.addEvent(m, time);
-    }
-    
-    midiMessages.swapWith (processedMidi);
     
 }
 

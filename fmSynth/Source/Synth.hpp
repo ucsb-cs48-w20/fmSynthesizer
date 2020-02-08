@@ -9,25 +9,25 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 
 
-struct SynthSound : SynthesiserSound
+struct SineSound : public SynthesiserSound
 {
     
-    SynthSound() {}
+    SineSound() {}
     
     bool appliesToNote    (int) override        { return true; }
     bool appliesToChannel (int) override        { return true; }
     
 };
 
-class SynthVoice : SynthesiserVoice
+class SineVoice : public SynthesiserVoice
 {
 public:
     
-    SynthVoice() {}
+    SineVoice() {}
     
     bool canPlaySound (SynthesiserSound* sound) override
     {
-        return dynamic_cast<SynthSound*> (sound) != nullptr;
+        return dynamic_cast<SineSound*> (sound) != nullptr;
     }
     
     void startNote (int midiNoteNumber, float velocity,
@@ -49,9 +49,47 @@ class PolySynth
 {
 public:
     
+    PolySynth (MidiKeyboardState& keyState): keyboardState (keyState) {}
+    
+    template<typename T1, typename T2>
+    void addVoice(int number)
+    {
+        static_assert(std::is_base_of<SynthesiserSound, T1>::value,
+                      "First type must derive from the SynthesiserSound class.");
+        static_assert(std::is_base_of<SynthesiserVoice, T2>::value,
+                      "Second type must derive from the SynthesiserVoice class.");
+        for (auto i = 0; i < number; ++i)
+            synth.addVoice (new T2());
+    
+        synth.addSound (new T1());
+    }
+    
+    void clearSounds()
+    {
+       synth.clearSounds();
+    }
+    
+    void prepareToPlay (double sampleRate)
+    {
+       synth.setCurrentPlaybackSampleRate (sampleRate);
+    }
+    
+     void renderNextAudioBlock (AudioBuffer<float>& outputBuffer, int startSample, int numSamples, MidiBuffer& incomingMidi)
+    {
+        outputBuffer.clear();
+
+        keyboardState.processNextMidiBuffer (incomingMidi, startSample,
+                                             numSamples, true);
+
+        synth.renderNextBlock (outputBuffer, incomingMidi,
+                               startSample, numSamples);
+    }
+    
 private:
-    MidiKeyboardState keyboardState;
+    MidiKeyboardState& keyboardState;
+    MidiMessageCollector midiCollector;
     Synthesiser synth;
+    
     
 };
 

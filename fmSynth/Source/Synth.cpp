@@ -9,7 +9,7 @@
 
 //=====SynthVoice Implementation==========
 
-void SynthVoice::startNote (int midiNoteNumber, float velocity,
+void SineVoice::startNote (int midiNoteNumber, float velocity,
                 SynthesiserSound*, int /*currentPitchWheelPosition*/)
 {
     currentAngle = 0.0;
@@ -22,7 +22,7 @@ void SynthVoice::startNote (int midiNoteNumber, float velocity,
     angleDelta = cyclesPerSample * 2.0 * MathConstants<double>::pi;
 }
 
-void SynthVoice::stopNote (float /*velocity*/, bool allowTailOff)
+void SineVoice::stopNote (float /*velocity*/, bool allowTailOff)
 {
     if (allowTailOff)
     {
@@ -36,7 +36,7 @@ void SynthVoice::stopNote (float /*velocity*/, bool allowTailOff)
     }
 }
 
-void SynthVoice::renderNextBlock (AudioBuffer<float>& outputBuffer,
+void SineVoice::renderNextBlock (AudioBuffer<float>& outputBuffer,
                       int startSample, int numSamples)
 {
     if (angleDelta != 0.0)
@@ -80,3 +80,4 @@ void SynthVoice::renderNextBlock (AudioBuffer<float>& outputBuffer,
     }
 }
 
+//=====PolySynth Implementation==========
