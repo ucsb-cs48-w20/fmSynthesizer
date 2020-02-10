@@ -28,7 +28,8 @@ public:
     void resized() override;
 
 private:
-    void FmSynthAudioProcessorEditor::sliderValueChanged(Slider* slider);
+
+    void sliderValueChanged(Slider* slider) override;
 
 
     // This reference is provided as a quick way for your editor to
