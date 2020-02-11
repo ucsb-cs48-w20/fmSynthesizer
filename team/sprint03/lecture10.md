@@ -2,9 +2,9 @@
 Present: Tom Parker, Kyle G, Torrance Cui, Jackie Ma, Jack Kilgore
 
 ### Roles for Demo:
-Demonstrator: Jack
-Scribe : Kyle G
-Reviewer : Torrance
+Demonstrator: Jack, 
+Scribe : Kyle G, 
+Reviewer : Torrance, 
 Review Scribe : Tom
 
 ### Notes
