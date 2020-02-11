@@ -1,12 +1,13 @@
-### Lecture 10 Stand Up Notes
+# Lecture 10 Stand Up Notes
 Present: Tom Parker, Kyle G, Torrance Cui, Jackie Ma, Jack Kilgore
 
-# Roles for Demo:
+### Roles for Demo:
 Demonstrator: Jack
 Scribe : Kyle G
 Reviewer : Torrance
 Review Scribe : Tom
 
+### Notes
 Polyphony framework has been setup by Jack with wrapper classes. Basic polyphony is now working.
 Todo: Implement square(Torrance) and sawtooth(Tom) waves for the synth.
 
