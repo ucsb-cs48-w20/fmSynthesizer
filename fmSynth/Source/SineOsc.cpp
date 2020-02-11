@@ -1,16 +1,16 @@
 //
-//  Synth.cpp
+//  SineOsc.hpp
 //  fmSynth
 //
-//  Created by Jack Kilgore on 2/7/20.
-//
+#include "SineOsc.hpp"
 
-#include "Synth.hpp"
+//=====SineVoice Implementation==========
 
-//=====SynthVoice Implementation==========
-
+/**
+ This is where we set up all the parameters needed when a note is pressed.
+ */
 void SineVoice::startNote (int midiNoteNumber, float velocity,
-                SynthesiserSound*, int /*currentPitchWheelPosition*/)
+                SynthesiserSound* sound, int /*currentPitchWheelPosition*/)
 {
     currentAngle = 0.0;
     level = velocity * 0.15;
@@ -22,6 +22,9 @@ void SineVoice::startNote (int midiNoteNumber, float velocity,
     angleDelta = cyclesPerSample * 2.0 * MathConstants<double>::pi;
 }
 
+/**
+ Little decay envelope, SEE MIDI Synth tutorial.
+ */
 void SineVoice::stopNote (float /*velocity*/, bool allowTailOff)
 {
     if (allowTailOff)
@@ -36,6 +39,9 @@ void SineVoice::stopNote (float /*velocity*/, bool allowTailOff)
     }
 }
 
+/**
+ Render AUDIO for processing block.
+ */
 void SineVoice::renderNextBlock (AudioBuffer<float>& outputBuffer,
                       int startSample, int numSamples)
 {
@@ -79,5 +85,3 @@ void SineVoice::renderNextBlock (AudioBuffer<float>& outputBuffer,
         }
     }
 }
-
-//=====PolySynth Implementation==========
