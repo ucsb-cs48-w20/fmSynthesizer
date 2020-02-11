@@ -27,6 +27,16 @@ FmSynthAudioProcessor::FmSynthAudioProcessor()
     : synth(keyboardState)
 #endif
 {
+    /**
+     Clear Voice and Sound Buffer for polySynth instance.
+     */
+    synth.clearVoices();
+    synth.clearSounds();
+    
+    /**
+     Add the voices found in the SinOsc files.
+     */
+    synth.addVoice<SineVoice,SineSound>(12);
 }
 
 FmSynthAudioProcessor::~FmSynthAudioProcessor()
@@ -99,16 +109,11 @@ void FmSynthAudioProcessor::changeProgramName (int index, const String& newName)
 void FmSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     this->sampleRate = sampleRate;
-    
-    //Adds twelve voices of type Sine to the poly synth.
-    synth.addVoice<SineSound,SineVoice>(12);
     synth.prepareToPlay(sampleRate);
 }
 
 void FmSynthAudioProcessor::releaseResources()
 {
-    // When playback stops, you can use this as an opportunity to free up any
-    // spare memory, etc.
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -139,7 +144,6 @@ void FmSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer
 {
     
     buffer.clear();
-    channelWritePtrs.clear();
     
     ScopedNoDenormals noDenormals;
     auto totalNumInputChannels = getTotalNumInputChannels();
@@ -148,22 +152,18 @@ void FmSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer
     for(auto i = totalNumInputChannels; i < totalNumOutputChannels; i++ )
         buffer.clear(i, 0, buffer.getNumSamples());
     
-    synth.renderNextAudioBlock(buffer, 0, buffer.getNumSamples(), midiMessages);
+    // WIP, NOT GENERAL ENOUGH -- Will be used to pass parameters to PolySynth.
+     for(auto i = 0; i < synth.getNumVoices(); i++)
+    {
+        if( (tempVoice = dynamic_cast<SineVoice*>(synth.getVoice(i))) )
+        {
+        }
+    }
     
-//    for(int channel = 0; channel < totalNumOutputChannels; channel++)
-//        channelWritePtrs.push_back(buffer.getWritePointer(channel));
-//
-//    for(auto sample = 0; sample < buffer.getNumSamples(); ++sample)
-//    {
-//        auto currentSample = (random.nextFloat()*2 - 1) * gain;
-//
-//        //Apply samples equally to all channels.
-//        for (auto channel = channelWritePtrs.begin(); channel != channelWritePtrs.end(); ++channel)
-//        {
-//            (*channel)[sample] = currentSample;
-//        }
-//    }
-        
+    /**
+        Render poly synth. NOTE does not support parameter changes of anything but pitch... YET
+     */
+    synth.renderNextAudioBlock(buffer, 0, buffer.getNumSamples(), midiMessages);
     
 }
 
