@@ -34,9 +34,9 @@ FmSynthAudioProcessor::FmSynthAudioProcessor()
     synth.clearSounds();
     
     /**
-     Add the voices found in the SinOsc files.
+     Add the voices found in the SqaureOsc files.
      */
-    synth.addVoice<SineVoice,SineSound>(12);
+    synth.addVoice<SquareVoice,SquareSound>(12);
 }
 
 FmSynthAudioProcessor::~FmSynthAudioProcessor()
@@ -155,7 +155,7 @@ void FmSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer
     // WIP, NOT GENERAL ENOUGH -- Will be used to pass parameters to PolySynth.
      for(auto i = 0; i < synth.getNumVoices(); i++)
     {
-        if( (tempVoice = dynamic_cast<SineVoice*>(synth.getVoice(i))) )
+        if( (tempVoice = dynamic_cast<SquareVoice*>(synth.getVoice(i))) )
         {
         }
     }

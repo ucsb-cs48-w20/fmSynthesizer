@@ -1,1 +1,1 @@
-#include "PolySynth.hpp"
+#include "PolySynth.h"
