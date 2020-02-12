@@ -38,8 +38,9 @@ private:
     FmSynthAudioProcessor& processor;
     Slider cutoffSlider;
     Slider volumeSlider;
-    Slider dial1;
-    Slider dial2;
+    Slider octaveKnob;
+    Slider cmRatioKnob;
+    Slider modAmtKnob;
 
     Label textLabel;
     ComboBox modWaveSelect;

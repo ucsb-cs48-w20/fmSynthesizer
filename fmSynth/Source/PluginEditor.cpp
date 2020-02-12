@@ -25,7 +25,6 @@ FmSynthAudioProcessorEditor::FmSynthAudioProcessorEditor (FmSynthAudioProcessor&
     cutoffSlider.setTextBoxStyle(Slider::NoTextBox, false, 90, 0);
     cutoffSlider.setPopupDisplayEnabled(true, false, this);
     cutoffSlider.setValue(1.0);
-
     addAndMakeVisible(cutoffSlider);
     cutoffSlider.addListener(this);
 
@@ -34,22 +33,34 @@ FmSynthAudioProcessorEditor::FmSynthAudioProcessorEditor (FmSynthAudioProcessor&
     volumeSlider.setTextBoxStyle(Slider::NoTextBox, false, 90, 0);
     volumeSlider.setPopupDisplayEnabled(true, false, this);
     volumeSlider.setValue(1.0);
-
     addAndMakeVisible(volumeSlider);
     volumeSlider.addListener(this);
 
-    dial1.setSliderStyle(Slider::Rotary);
-    dial1.setTextBoxStyle(Slider::TextBoxBelow, true, 90, 25);
+    octaveKnob.setSliderStyle(Slider::Rotary);
+    octaveKnob.setTextBoxStyle(Slider::TextBoxBelow, true, 90, 25);
+    octaveKnob.setRange(2, 18, 2);
+    octaveKnob.setValue(10);
+    addAndMakeVisible(octaveKnob);
+    octaveKnob.addListener(this);
 
-    addAndMakeVisible(dial1);
-    dial1.addListener(this);
+    cmRatioKnob.setSliderStyle(Slider::Rotary);
+    cmRatioKnob.setTextBoxStyle(Slider::TextBoxBelow, true, 90, 25);
+    cmRatioKnob.setRange(0, 1, 0.01);
+    cmRatioKnob.setValue(0.5);
+    addAndMakeVisible(cmRatioKnob);
+    cmRatioKnob.addListener(this);
+
+    modAmtKnob.setSliderStyle(Slider::Rotary);
+    modAmtKnob.setTextBoxStyle(Slider::TextBoxBelow, true, 90, 25);
+    modAmtKnob.setRange(0, 1, 0.01);
+    modAmtKnob.setValue(0.5);
+    addAndMakeVisible(modAmtKnob);
+    modAmtKnob.addListener(this);
 
     addAndMakeVisible(carWaveSelect);
-
     carWaveSelect.addItem("Sine", 1);
     carWaveSelect.addItem("Square", 2);
     carWaveSelect.addItem("Saw", 3);
-
     carWaveSelect.onChange = [this] { WaveSelectChanged(); };
     //waveSelect.setSelectedId(1);
 
@@ -87,8 +98,16 @@ void FmSynthAudioProcessorEditor::paint (Graphics& g)
 
     g.drawFittedText("Filter Cutoff", 480, 20, getWidth(), 30, Justification::left, 1);
     g.drawFittedText("Volume", 600, 20, getWidth(), 30, Justification::left, 1);
-    g.drawFittedText("Modulator", 50, 20, getWidth(), 30, Justification::left, 1);
-    g.drawFittedText("Carrier", 300, 20, getWidth(), 30, Justification::left, 1);
+    g.drawFittedText("Modulator", 60, 20, getWidth(), 30, Justification::left, 1);
+    g.drawFittedText("Carrier", 305, 20, getWidth(), 30, Justification::left, 1);
+
+    g.setColour(Colours::grey);
+
+    Line<float> line1(Point<float>(220, 0), Point<float>(220, 400));
+    g.drawLine(line1, 2.0f);
+
+    Line<float> line2(Point<float>(440, 0), Point<float>(440, 400));
+    g.drawLine(line2, 2.0f);
 }
 
 void FmSynthAudioProcessorEditor::resized()
@@ -101,7 +120,9 @@ void FmSynthAudioProcessorEditor::resized()
 
     cutoffSlider.setBounds(520, 50, 20, 300);
     volumeSlider.setBounds(620, 50, 20, 300);
-    dial1.setBounds(border, 250, dialWidth, dialHeight);
-    modWaveSelect.setBounds(50, 70, 100, 20);
-    carWaveSelect.setBounds(200, 70, 100, 20);
+    octaveKnob.setBounds(140, 130, dialWidth, dialHeight);
+    cmRatioKnob.setBounds(-100, 130, dialWidth, dialHeight);
+    modAmtKnob.setBounds(-80, 260, dialWidth-30, dialHeight-30);
+    modWaveSelect.setBounds(50, 50, 100, 20);
+    carWaveSelect.setBounds(280, 50, 100, 20);
 }
