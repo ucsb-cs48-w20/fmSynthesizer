@@ -16,24 +16,33 @@
 //==============================================================================
 /**
 */
-class BasicPluginAudioProcessorEditor  : public AudioProcessorEditor, private Slider::Listener
+class FmSynthAudioProcessorEditor  : public AudioProcessorEditor,
+                                     private Slider::Listener
 {
 public:
-    BasicPluginAudioProcessorEditor (BasicPluginAudioProcessor&);
-    ~BasicPluginAudioProcessorEditor();
+    FmSynthAudioProcessorEditor (FmSynthAudioProcessor&);
+    ~FmSynthAudioProcessorEditor();
 
     //==============================================================================
     void paint (Graphics&) override;
     void resized() override;
 
 private:
+
     void sliderValueChanged(Slider* slider) override;
+
+    void WaveSelectChanged();
 
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
-    BasicPluginAudioProcessor& processor;
+    FmSynthAudioProcessor& processor;
+    Slider cutoffSlider;
+    Slider volumeSlider;
+    Slider dial1;
+    Slider dial2;
 
-    Slider midiVolume;
-
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BasicPluginAudioProcessorEditor)
+    Label textLabel;
+    ComboBox modWaveSelect;
+    ComboBox carWaveSelect;
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FmSynthAudioProcessorEditor)
 };

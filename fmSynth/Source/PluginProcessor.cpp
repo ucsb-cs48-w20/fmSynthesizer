@@ -12,7 +12,7 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-BasicPluginAudioProcessor::BasicPluginAudioProcessor()
+FmSynthAudioProcessor::FmSynthAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
      : AudioProcessor (BusesProperties()
                      #if ! JucePlugin_IsMidiEffect
@@ -21,22 +21,35 @@ BasicPluginAudioProcessor::BasicPluginAudioProcessor()
                       #endif
                        .withOutput ("Output", AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ),
+        synth(keyboardState)
+#else
+    : synth(keyboardState)
 #endif
 {
+    /**
+     Clear Voice and Sound Buffer for polySynth instance.
+     */
+    synth.clearVoices();
+    synth.clearSounds();
+    
+    /**
+     Add the voices found in the SinOsc files.
+     */
+    //synth.addVoice<SineVoice,SineSound>(12);
 }
 
-BasicPluginAudioProcessor::~BasicPluginAudioProcessor()
+FmSynthAudioProcessor::~FmSynthAudioProcessor()
 {
 }
 
 //==============================================================================
-const String BasicPluginAudioProcessor::getName() const
+const String FmSynthAudioProcessor::getName() const
 {
     return JucePlugin_Name;
 }
 
-bool BasicPluginAudioProcessor::acceptsMidi() const
+bool FmSynthAudioProcessor::acceptsMidi() const
 {
    #if JucePlugin_WantsMidiInput
     return true;
@@ -45,7 +58,7 @@ bool BasicPluginAudioProcessor::acceptsMidi() const
    #endif
 }
 
-bool BasicPluginAudioProcessor::producesMidi() const
+bool FmSynthAudioProcessor::producesMidi() const
 {
    #if JucePlugin_ProducesMidiOutput
     return true;
@@ -54,7 +67,7 @@ bool BasicPluginAudioProcessor::producesMidi() const
    #endif
 }
 
-bool BasicPluginAudioProcessor::isMidiEffect() const
+bool FmSynthAudioProcessor::isMidiEffect() const
 {
    #if JucePlugin_IsMidiEffect
     return true;
@@ -63,50 +76,48 @@ bool BasicPluginAudioProcessor::isMidiEffect() const
    #endif
 }
 
-double BasicPluginAudioProcessor::getTailLengthSeconds() const
+double FmSynthAudioProcessor::getTailLengthSeconds() const
 {
     return 0.0;
 }
 
-int BasicPluginAudioProcessor::getNumPrograms()
+int FmSynthAudioProcessor::getNumPrograms()
 {
     return 1;   // NB: some hosts don't cope very well if you tell them there are 0 programs,
                 // so this should be at least 1, even if you're not really implementing programs.
 }
 
-int BasicPluginAudioProcessor::getCurrentProgram()
+int FmSynthAudioProcessor::getCurrentProgram()
 {
     return 0;
 }
 
-void BasicPluginAudioProcessor::setCurrentProgram (int index)
+void FmSynthAudioProcessor::setCurrentProgram (int index)
 {
 }
 
-const String BasicPluginAudioProcessor::getProgramName (int index)
+const String FmSynthAudioProcessor::getProgramName (int index)
 {
     return {};
 }
 
-void BasicPluginAudioProcessor::changeProgramName (int index, const String& newName)
+void FmSynthAudioProcessor::changeProgramName (int index, const String& newName)
 {
 }
 
 //==============================================================================
-void BasicPluginAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
+void FmSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need..
+    this->sampleRate = sampleRate;
+    synth.prepareToPlay(sampleRate);
 }
 
-void BasicPluginAudioProcessor::releaseResources()
+void FmSynthAudioProcessor::releaseResources()
 {
-    // When playback stops, you can use this as an opportunity to free up any
-    // spare memory, etc.
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
-bool BasicPluginAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
+bool FmSynthAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
 {
   #if JucePlugin_IsMidiEffect
     ignoreUnused (layouts);
@@ -129,57 +140,53 @@ bool BasicPluginAudioProcessor::isBusesLayoutSupported (const BusesLayout& layou
 }
 #endif
 
-void BasicPluginAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
+void FmSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
+    
     buffer.clear();
-
-    MidiBuffer processedMidi;
-    int time;
-    MidiMessage m;
-
-    for (MidiBuffer::Iterator i(midiMessages); i.getNextEvent(m, time);)
+    
+    ScopedNoDenormals noDenormals;
+    auto totalNumInputChannels = getTotalNumInputChannels();
+    auto totalNumOutputChannels = getTotalNumOutputChannels();
+    
+    for(auto i = totalNumInputChannels; i < totalNumOutputChannels; i++ )
+        buffer.clear(i, 0, buffer.getNumSamples());
+    
+    // WIP, NOT GENERAL ENOUGH -- Will be used to pass parameters to PolySynth.
+     for(auto i = 0; i < synth.getNumVoices(); i++)
     {
-        if (m.isNoteOn())
+        /*if( (tempVoice = dynamic_cast<SineVoice*>(synth.getVoice(i))) )
         {
-            uint8 newVel = (uint8)noteOnVel;
-            m = MidiMessage::noteOn(m.getChannel(), m.getNoteNumber(), newVel);
-        }
-        else if (m.isNoteOff())
-        {
-        }
-        else if (m.isAftertouch())
-        {
-        }
-        else if (m.isPitchWheel())
-        {
-        }
-
-        processedMidi.addEvent(m, time);
+        }*/
     }
-
-    midiMessages.swapWith(processedMidi);
+    
+    /**
+        Render poly synth. NOTE does not support parameter changes of anything but pitch... YET
+     */
+    synth.renderNextAudioBlock(buffer, 0, buffer.getNumSamples(), midiMessages);
+    
 }
 
 //==============================================================================
-bool BasicPluginAudioProcessor::hasEditor() const
+bool FmSynthAudioProcessor::hasEditor() const
 {
     return true; // (change this to false if you choose to not supply an editor)
 }
 
-AudioProcessorEditor* BasicPluginAudioProcessor::createEditor()
+AudioProcessorEditor* FmSynthAudioProcessor::createEditor()
 {
-    return new BasicPluginAudioProcessorEditor (*this);
+    return new FmSynthAudioProcessorEditor (*this);
 }
 
 //==============================================================================
-void BasicPluginAudioProcessor::getStateInformation (MemoryBlock& destData)
+void FmSynthAudioProcessor::getStateInformation (MemoryBlock& destData)
 {
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
 }
 
-void BasicPluginAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
+void FmSynthAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
@@ -189,5 +196,5 @@ void BasicPluginAudioProcessor::setStateInformation (const void* data, int sizeI
 // This creates new instances of the plugin..
 AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
-    return new BasicPluginAudioProcessor();
+    return new FmSynthAudioProcessor();
 }

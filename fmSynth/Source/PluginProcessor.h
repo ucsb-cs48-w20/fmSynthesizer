@@ -11,16 +11,23 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "SineOsc.hpp"
+#include "SquareOsc.hpp"
+#include "SawOsc.hpp"
+#include "PolySynth.hpp"
 
 //==============================================================================
 /**
 */
-class BasicPluginAudioProcessor  : public AudioProcessor
+class FmSynthAudioProcessor  : public AudioProcessor
 {
 public:
+    //================Variables====================================================
+    float gain;
+    float noteOnVel;
     //==============================================================================
-    BasicPluginAudioProcessor();
-    ~BasicPluginAudioProcessor();
+    FmSynthAudioProcessor();
+    ~FmSynthAudioProcessor();
 
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
@@ -55,8 +62,16 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-    float noteOnVel;
+    double filterCutoff;
+
+    PolySynth synth;
 private:
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BasicPluginAudioProcessor)
+    IIRFilter filter;
+    double sampleRate;
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FmSynthAudioProcessor)
+    Random random;
+    MidiKeyboardState keyboardState;
+    SineVoice* tempVoice;
 };
