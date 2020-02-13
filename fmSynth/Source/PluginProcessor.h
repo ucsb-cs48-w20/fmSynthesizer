@@ -25,6 +25,7 @@ public:
     //================Variables====================================================
     float gain;
     float noteOnVel;
+    float minVolume, maxVolume;
     double filterCutoff;
     //==============================================================================
     FmSynthAudioProcessor();

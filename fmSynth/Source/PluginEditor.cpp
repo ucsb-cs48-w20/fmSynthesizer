@@ -29,8 +29,11 @@ FmSynthAudioProcessorEditor::FmSynthAudioProcessorEditor (FmSynthAudioProcessor&
     addAndMakeVisible(cutoffSlider);
     cutoffSlider.addListener(this); // If preferred, statements like these can be replaced with callbacks like how carWaveSelect is done
 
+    //volumeSlider parameters
+    processor.minVolume = .1;
+    processor.maxVolume = 1000.0;
     volumeSlider.setSliderStyle(Slider::LinearBarVertical);
-    volumeSlider.setRange(0.1, 1000.0, 1.0);
+    volumeSlider.setRange(processor.minVolume, processor.maxVolume, 1.0);
     volumeSlider.setTextBoxStyle(Slider::NoTextBox, false, 90, 0);
     volumeSlider.setPopupDisplayEnabled(true, false, this);
     volumeSlider.setValue(1.0);

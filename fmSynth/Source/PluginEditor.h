@@ -28,7 +28,6 @@ public:
     void resized() override;
 
 private:
-
     void sliderValueChanged(Slider* slider) override;
 
     void WaveSelectChanged();
