@@ -41,5 +41,11 @@ public:
     void renderNextBlock (AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override;
     
 private:
-    // TO DO TO DO
+    float saw(float currentAngle);
+    bool resetCheck = false;
+    void angleCap(); // call after you increment currentAngle to avoid overflows
+
+    float nextSample = 0.0, delta = 0.0,
+        currentAngle = 0.0, angleDelta = 0.0,
+        level = 0.0, tailOff = 0.0, twoPi = 0.0;
 };

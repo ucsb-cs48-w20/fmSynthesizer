@@ -19,7 +19,8 @@ void SineVoice::startNote (int midiNoteNumber, float velocity,
     auto cyclesPerSecond = MidiMessage::getMidiNoteInHertz (midiNoteNumber);
     auto cyclesPerSample = cyclesPerSecond / getSampleRate();
 
-    angleDelta = cyclesPerSample * 2.0 * MathConstants<double>::pi;
+    twoPi = 2.0 * MathConstants<double>::pi;
+    angleDelta = cyclesPerSample * twoPi;
 }
 
 /**
@@ -57,6 +58,7 @@ void SineVoice::renderNextBlock (AudioBuffer<float>& outputBuffer,
                     outputBuffer.addSample (i, startSample, currentSample);
                 
                 currentAngle += angleDelta;
+                angleCap();
                 ++startSample;
 
                 tailOff *= 0.99; // [8]
@@ -80,8 +82,17 @@ void SineVoice::renderNextBlock (AudioBuffer<float>& outputBuffer,
                     outputBuffer.addSample (i, startSample, currentSample);
 
                 currentAngle += angleDelta;
+                angleCap();
                 ++startSample;
             }
         }
+    }
+}
+
+void SineVoice::angleCap()
+{
+    if (currentAngle >= twoPi)
+    {
+        currentAngle -= twoPi;
     }
 }
