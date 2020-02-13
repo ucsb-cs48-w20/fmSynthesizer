@@ -86,6 +86,7 @@ void FmSynthAudioProcessorEditor::WaveSelectChanged() {
     switch (carWaveSelect.getSelectedId()) {
     case 1: processor.synth.addVoice<SineVoice, SineSound>(12); break;
     case 2: processor.synth.addVoice<SquareVoice, SquareSound>(12); break;
+    case 3: processor.synth.addVoice<SawVoice, SawSound>(12); break;
     }
 }
 
