@@ -25,6 +25,7 @@ public:
     //================Variables====================================================
     float gain;
     float noteOnVel;
+    double filterCutoff;
     //==============================================================================
     FmSynthAudioProcessor();
     ~FmSynthAudioProcessor();
@@ -62,9 +63,8 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-    double filterCutoff;
-
     PolySynth synth;
+
 private:
     //==============================================================================
     IIRFilter filterL, filterR; // filters stateful, so each channel needs its own

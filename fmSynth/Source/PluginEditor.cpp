@@ -79,7 +79,12 @@ FmSynthAudioProcessorEditor::~FmSynthAudioProcessorEditor()
 
 void FmSynthAudioProcessorEditor::sliderValueChanged(Slider* slider)
 {
-    processor.filterCutoff = cutoffSlider.getValue();
+    //When a slider value changes, check which slider was changed
+    //and update the correct processor variable accordingly.
+    if (slider == &cutoffSlider)
+        processor.filterCutoff = slider->getValue();
+    else if (slider == &volumeSlider)
+        processor.noteOnVel = slider->getValue();
 }
 
 void FmSynthAudioProcessorEditor::WaveSelectChanged() {
