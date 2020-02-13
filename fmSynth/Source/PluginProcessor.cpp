@@ -14,15 +14,15 @@
 //==============================================================================
 FmSynthAudioProcessor::FmSynthAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
-     : AudioProcessor (BusesProperties()
-                     #if ! JucePlugin_IsMidiEffect
-                      #if ! JucePlugin_IsSynth
-                       .withInput  ("Input",  AudioChannelSet::stereo(), true)
-                      #endif
-                       .withOutput ("Output", AudioChannelSet::stereo(), true)
-                     #endif
-                       ),
-        synth(keyboardState)
+    : AudioProcessor(BusesProperties()
+#if ! JucePlugin_IsMidiEffect
+#if ! JucePlugin_IsSynth
+        .withInput("Input", AudioChannelSet::stereo(), true)
+#endif
+        .withOutput("Output", AudioChannelSet::stereo(), true)
+#endif
+    ),
+    synth(keyboardState)
 #else
     : synth(keyboardState)
 #endif
@@ -32,11 +32,11 @@ FmSynthAudioProcessor::FmSynthAudioProcessor()
      */
     synth.clearVoices();
     synth.clearSounds();
-    
+
     /**
-     Add the voices found in the SinOsc files.
+     Add the voices found in the SqaureOsc files.
      */
-    synth.addVoice<SineVoice,SineSound>(12);
+    synth.addVoice<SineVoice, SineSound>(12);
 }
 
 FmSynthAudioProcessor::~FmSynthAudioProcessor()
@@ -51,29 +51,29 @@ const String FmSynthAudioProcessor::getName() const
 
 bool FmSynthAudioProcessor::acceptsMidi() const
 {
-   #if JucePlugin_WantsMidiInput
+#if JucePlugin_WantsMidiInput
     return true;
-   #else
+#else
     return false;
-   #endif
+#endif
 }
 
 bool FmSynthAudioProcessor::producesMidi() const
 {
-   #if JucePlugin_ProducesMidiOutput
+#if JucePlugin_ProducesMidiOutput
     return true;
-   #else
+#else
     return false;
-   #endif
+#endif
 }
 
 bool FmSynthAudioProcessor::isMidiEffect() const
 {
-   #if JucePlugin_IsMidiEffect
+#if JucePlugin_IsMidiEffect
     return true;
-   #else
+#else
     return false;
-   #endif
+#endif
 }
 
 double FmSynthAudioProcessor::getTailLengthSeconds() const
@@ -92,21 +92,21 @@ int FmSynthAudioProcessor::getCurrentProgram()
     return 0;
 }
 
-void FmSynthAudioProcessor::setCurrentProgram (int index)
+void FmSynthAudioProcessor::setCurrentProgram(int index)
 {
 }
 
-const String FmSynthAudioProcessor::getProgramName (int index)
+const String FmSynthAudioProcessor::getProgramName(int index)
 {
     return {};
 }
 
-void FmSynthAudioProcessor::changeProgramName (int index, const String& newName)
+void FmSynthAudioProcessor::changeProgramName(int index, const String& newName)
 {
 }
 
 //==============================================================================
-void FmSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
+void FmSynthAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
     this->sampleRate = sampleRate;
     synth.prepareToPlay(sampleRate);
@@ -117,54 +117,54 @@ void FmSynthAudioProcessor::releaseResources()
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
-bool FmSynthAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
+bool FmSynthAudioProcessor::isBusesLayoutSupported(const BusesLayout& layouts) const
 {
-  #if JucePlugin_IsMidiEffect
-    ignoreUnused (layouts);
+#if JucePlugin_IsMidiEffect
+    ignoreUnused(layouts);
     return true;
-  #else
+#else
     // This is the place where you check if the layout is supported.
     // In this template code we only support mono or stereo.
     if (layouts.getMainOutputChannelSet() != AudioChannelSet::mono()
-     && layouts.getMainOutputChannelSet() != AudioChannelSet::stereo())
+        && layouts.getMainOutputChannelSet() != AudioChannelSet::stereo())
         return false;
 
     // This checks if the input layout matches the output layout
-   #if ! JucePlugin_IsSynth
+#if ! JucePlugin_IsSynth
     if (layouts.getMainOutputChannelSet() != layouts.getMainInputChannelSet())
         return false;
-   #endif
+#endif
 
     return true;
-  #endif
+#endif
 }
 #endif
 
-void FmSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
+void FmSynthAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
-    
+
     buffer.clear();
-    
+
     ScopedNoDenormals noDenormals;
     auto totalNumInputChannels = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
-    
-    for(auto i = totalNumInputChannels; i < totalNumOutputChannels; i++ )
+
+    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; i++)
         buffer.clear(i, 0, buffer.getNumSamples());
-    
+
     // WIP, NOT GENERAL ENOUGH -- Will be used to pass parameters to PolySynth.
-     for(auto i = 0; i < synth.getNumVoices(); i++)
+    for (auto i = 0; i < synth.getNumVoices(); i++)
     {
-        if( (tempVoice = dynamic_cast<SineVoice*>(synth.getVoice(i))) )
+        if ((tempVoice = dynamic_cast<SineVoice*>(synth.getVoice(i))))
         {
         }
     }
-    
+
     /**
         Render poly synth. NOTE does not support parameter changes of anything but pitch... YET
      */
     synth.renderNextAudioBlock(buffer, 0, buffer.getNumSamples(), midiMessages);
-    
+
 }
 
 //==============================================================================
@@ -175,18 +175,18 @@ bool FmSynthAudioProcessor::hasEditor() const
 
 AudioProcessorEditor* FmSynthAudioProcessor::createEditor()
 {
-    return new FmSynthAudioProcessorEditor (*this);
+    return new FmSynthAudioProcessorEditor(*this);
 }
 
 //==============================================================================
-void FmSynthAudioProcessor::getStateInformation (MemoryBlock& destData)
+void FmSynthAudioProcessor::getStateInformation(MemoryBlock& destData)
 {
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
 }
 
-void FmSynthAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
+void FmSynthAudioProcessor::setStateInformation(const void* data, int sizeInBytes)
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.

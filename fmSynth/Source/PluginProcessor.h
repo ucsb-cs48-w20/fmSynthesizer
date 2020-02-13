@@ -11,10 +11,10 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "SineOsc.hpp"
-#include "SquareOsc.hpp"
-#include "SawOsc.hpp"
-#include "PolySynth.hpp"
+#include "SineOsc.h"
+#include "SquareOsc.h"
+#include "SawOsc.h"
+#include "PolySynth.h"
 
 //==============================================================================
 /**
@@ -64,6 +64,7 @@ public:
 
     double filterCutoff;
 
+    PolySynth synth;
 private:
     //==============================================================================
     IIRFilter filter;
@@ -72,6 +73,5 @@ private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FmSynthAudioProcessor)
     Random random;
     MidiKeyboardState keyboardState;
-    PolySynth synth;
     SineVoice* tempVoice;
 };

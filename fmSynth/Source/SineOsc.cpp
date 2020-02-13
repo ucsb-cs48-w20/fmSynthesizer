@@ -1,8 +1,14 @@
-//
-//  SineOsc.hpp
-//  fmSynth
-//
-#include "SineOsc.hpp"
+/*
+  ==============================================================================
+
+    SineOsc.cpp
+    Created: 10 Feb 2020 9:48:07pm
+    Author:  Torrance Cui
+
+  ==============================================================================
+*/
+
+#include "SineOsc.h"
 
 //=====SineVoice Implementation==========
 
