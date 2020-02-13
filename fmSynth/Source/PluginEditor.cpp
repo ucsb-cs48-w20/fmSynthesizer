@@ -119,15 +119,12 @@ void FmSynthAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
-    const int border = 20;
-    const int dialWidth = getWidth() / 1.7 - border;
-    const int dialHeight = getHeight() / 1.7 - border - 100;
-
+  
     cutoffSlider.setBounds(520, 50, 20, 300);
     volumeSlider.setBounds(620, 50, 20, 300);
-    octaveKnob.setBounds(140, 130, dialWidth, dialHeight);
-    cmRatioKnob.setBounds(-100, 130, dialWidth, dialHeight);
-    modAmtKnob.setBounds(-80, 260, dialWidth-30, dialHeight-30);
+    octaveKnob.setBounds(275, 130, 120, 120);
+    cmRatioKnob.setBounds(50, 130, 120, 120);
+    modAmtKnob.setBounds(50, 260, 120, 120);
     modWaveSelect.setBounds(50, 50, 100, 20);
     carWaveSelect.setBounds(280, 50, 100, 20);
 }
