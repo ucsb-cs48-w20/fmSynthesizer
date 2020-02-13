@@ -24,8 +24,10 @@ class FmSynthAudioProcessor  : public AudioProcessor
 public:
     //================Variables====================================================
     float gain;
-    float noteOnVel;
-    double filterCutoff;
+    float noteOnVel = 1000.0;
+    double filterCutoff = 20000.0;
+    int currCarWave = 1;
+    int currModWave = 1;
     //==============================================================================
     FmSynthAudioProcessor();
     ~FmSynthAudioProcessor();
@@ -64,7 +66,6 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
     PolySynth synth;
-
 private:
     //==============================================================================
     IIRFilter filterL, filterR; // filters stateful, so each channel needs its own
