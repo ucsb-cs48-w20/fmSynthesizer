@@ -4,6 +4,9 @@ fmSynth/fmSynth.jucer
 fmSynth/JuceLibraryCode
 *.DS_STORE
 
+# jackkilgore - temporary gitginores 
+CMakeLists.txt
+
 # Prerequisites
 *.d
 
