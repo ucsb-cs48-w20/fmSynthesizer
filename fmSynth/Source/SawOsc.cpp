@@ -1,9 +1,14 @@
-//
-//  SawOsc.cpp
-//  fmSynth
-//
+/*
+  ==============================================================================
 
-#include "SawOsc.hpp"
+    SawOsc.cpp
+    Created: 10 Feb 2020 9:47:20pm
+    Author:  Torrance Cui
+
+  ==============================================================================
+*/
+
+#include "SawOsc.h"
 
 //=====SawVoice Implementation==========
 
