@@ -4,46 +4,62 @@
 
 ### One-sentence description of the project
 
-TODO: A 20-second elevator pitch of your project - its core idea summarized in one sentence.
+A polyphonic FM synthesizer with highly flexible parameter modulation.
 
 ### Additional information about the project
 
-TODO: Write a compelling/creative/informative project description / summary, as part of which you... 
-... TODO: Name the **target audience** (result of your initial user analysis)
-... TODO: Name the **main functionality** you plan to achieve (result of your initial task analysis) 
+Our synthesizer aims to be a highly flexible instrument which is both easy to use and inspiring for the musician. The instrument's design emphasizes an exploration of interesting new sounds without requiring extensize prior knowlege about synthesis.
 
+Our **target audience** is any musician looking for a highly tweakable instrument capable of producing novel/unique sound.
+**Main functionality**: Our synth will take the form of a standardized plugin, easily usable with and OS and DAW. The foundation of our signal processing relies on frequency modulation(FM). FM allows for highly complex sounds that would otherwise be unattainable. On top of this, our synth will allow for very powerful paramater modulation through the use of numerous LFOs (Low Frequency Oscillators).The combination of these two design choices will allow for very insteresting and surprising results for the musician.
 
 ## Installation
 
 ### Prerequisites
-
-TODO: List what a user needs to have installed before running the installation instructions below (e.g., git, which version(s) of your framework(s) of choice)
+**Windows** Visual Studio (2015 and later)
+**OSX** Xcode
+DAW that supports VST3 or AU
 
 ### Dependencies
 
-TODO: List which libraries / add-ons you added to the project, and the purpose each of those add-ons serves in your app.
+**JUCE Framework:** a C++ framework that streamlines the installation, development, and distribution process for audio software.
 
 ### Installation Steps
 
-TODO: Describe the installation process (making sure you give complete instructions to get your project going from scratch).
-Instructions need to be such that a user can just copy/paste the commands to get things set up and running. Note that with the use of GitHub Actions, these instructions can eventually be fully automated (e.g. with [act](https://github.com/nektos/act), you can run GitHub Actions locally). 
+1. Install Visual Studio(Windows) or XCode(OSX).
+2. Install the JUCE framework:
+ - https://shop.juce.com/get-juce
+ - The "education" license is free and sufficent for our needs.
+ - Follow the simple installation instructions for JUCE according to your OS.
+3. Clone this repo (fmSynthesizer) to your machine
+4. Open Projucer (located in your JUCE installation folder) and create a new project.
+ - Select Audio Plugin
+ - Uncheck "use global path" option and click "Create"
+ - Open the plugin settings and inside of "plugin characterstics" select: "plugin is a synth" and "plugin MIDI input"
+5. Delete all of the files that have been generated within your project
+6. Drag the files from fmSynth/Source into your project
+7. Press "Save and Open in IDE"
+8. Once the IDE has opened, build the project
+9. OSX: The plugin should now be installed and recognized in your IDE of choice
+10. Windows: in the Juce project folder, navigate to Builds\VisualStudio\x64\VST3
+ - This is where the built VST3 is located. Installation of VST3 plugins is simple but varies depending on your DAW of choice.
 
 
 ## Functionality
 
-TODO: Write usage instructions. Structuring it as a walkthrough can help structure this section,
-and showcase your features.
-
+Currently, the synth only has a few features. Once the plugin is running within your DAW:
+ - The synth plugin will be looking for midi signals for note input 
+ - Select the carrier wave type (sin, square, or sawtooth) via the dropdown menu
+ - Set the filter cutoff frequency using the filter cutoff slider
 
 ## Known Problems
 
-TODO: Describe any known issues, bugs, odd behaviors or code smells. 
-Provide steps to reproduce the problem and/or name a file or a function where the problem lives.
+ - There is an audible "click" when notes start. This expected as we have not implemented an envelope yet.
+
+ - Several GUI elements are not functional, as they have not been implemented yet. (modulator section, volume, octave selection, etc)
 
 
 ## Contributing
-
-TODO: Leave the steps below if you want others outside your team to contribute to your project.
 
 1. Fork it!
 2. Create your feature branch: `git checkout -b my-new-feature`
@@ -53,6 +69,4 @@ TODO: Leave the steps below if you want others outside your team to contribute t
 
 ## License
 
-If you haven't already, add a file called `LICENSE.txt` with the text of the appropriate license.
-We recommend using the MIT license: <https://choosealicense.com/licenses/mit/>
-
+See `LICENSE.txt`
