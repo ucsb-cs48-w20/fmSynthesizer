@@ -1,3 +1,9 @@
+#JUCE stuff 
+fmSynth/Builds
+fmSynth/fmSynth.jucer
+fmSynth/JuceLibraryCode
+*.DS_STORE
+
 # Prerequisites
 *.d
 
