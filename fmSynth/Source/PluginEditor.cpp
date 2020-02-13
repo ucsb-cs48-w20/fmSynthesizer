@@ -26,7 +26,7 @@ FmSynthAudioProcessorEditor::FmSynthAudioProcessorEditor (FmSynthAudioProcessor&
     cutoffSlider.setPopupDisplayEnabled(true, false, this);
     cutoffSlider.setValue(1.0);
     addAndMakeVisible(cutoffSlider);
-    cutoffSlider.addListener(this);
+    cutoffSlider.addListener(this); // If preferred, statements like these can be replaced with callbacks like how carWaveSelect is done
 
     volumeSlider.setSliderStyle(Slider::LinearBarVertical);
     volumeSlider.setRange(0.1, 1000.0, 1.0);
@@ -65,10 +65,10 @@ FmSynthAudioProcessorEditor::FmSynthAudioProcessorEditor (FmSynthAudioProcessor&
     carWaveSelect.setSelectedId(1);
 
     addAndMakeVisible(modWaveSelect);
-
     modWaveSelect.addItem("Sine", 1);
     modWaveSelect.addItem("Square", 2);
     modWaveSelect.addItem("Saw", 3);
+    modWaveSelect.setSelectedId(1);
 
 }
 
