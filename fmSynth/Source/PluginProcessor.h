@@ -67,7 +67,7 @@ public:
     PolySynth synth;
 private:
     //==============================================================================
-    IIRFilter filter;
+    IIRFilter filterL, filterR; // filters stateful, so each channel needs its own
     double sampleRate;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FmSynthAudioProcessor)

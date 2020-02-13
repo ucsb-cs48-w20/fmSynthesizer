@@ -21,10 +21,11 @@ FmSynthAudioProcessorEditor::FmSynthAudioProcessorEditor (FmSynthAudioProcessor&
     setSize (700, 400);
 
     cutoffSlider.setSliderStyle(Slider::LinearBarVertical);
-    cutoffSlider.setRange(0.1, 1000.0, 1.0);
+    cutoffSlider.setRange(0.1, 20000.0, 1.0);
     cutoffSlider.setTextBoxStyle(Slider::NoTextBox, false, 90, 0);
     cutoffSlider.setPopupDisplayEnabled(true, false, this);
-    cutoffSlider.setValue(1.0);
+    cutoffSlider.setValue(20000.0);
+    cutoffSlider.setSkewFactorFromMidPoint(1000);
     addAndMakeVisible(cutoffSlider);
     cutoffSlider.addListener(this); // If preferred, statements like these can be replaced with callbacks like how carWaveSelect is done
 
@@ -78,6 +79,7 @@ FmSynthAudioProcessorEditor::~FmSynthAudioProcessorEditor()
 
 void FmSynthAudioProcessorEditor::sliderValueChanged(Slider* slider)
 {
+    processor.filterCutoff = cutoffSlider.getValue();
 }
 
 void FmSynthAudioProcessorEditor::WaveSelectChanged() {

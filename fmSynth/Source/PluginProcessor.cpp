@@ -165,6 +165,10 @@ void FmSynthAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBuffer&
      */
     synth.renderNextAudioBlock(buffer, 0, buffer.getNumSamples(), midiMessages);
 
+    filterL.setCoefficients(IIRCoefficients::makeLowPass(getSampleRate(), filterCutoff));
+    filterR.setCoefficients(IIRCoefficients::makeLowPass(getSampleRate(), filterCutoff));
+    filterL.processSamples(buffer.getWritePointer(0, 0), buffer.getNumSamples());
+    filterR.processSamples(buffer.getWritePointer(1, 0), buffer.getNumSamples());
 }
 
 //==============================================================================
