@@ -31,7 +31,7 @@ FmSynthAudioProcessorEditor::FmSynthAudioProcessorEditor (FmSynthAudioProcessor&
 
     //volumeSlider parameters
     processor.minVolume = .1;
-    processor.maxVolume = 1000.0;
+    processor.maxVolume = 1500.0;
     volumeSlider.setSliderStyle(Slider::LinearBarVertical);
     volumeSlider.setRange(processor.minVolume, processor.maxVolume, 1.0);
     volumeSlider.setTextBoxStyle(Slider::NoTextBox, false, 90, 0);
