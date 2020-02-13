@@ -16,8 +16,8 @@ Our **target audience** is any musician looking for a highly tweakable instrumen
 ## Installation
 
 ### Prerequisites
-**Windows** Visual Studio (2015 and later)
-**OSX** Xcode
+ - **Windows** Visual Studio (2015 and later)
+ - **OSX** Xcode
 DAW that supports VST3 or AU
 
 ### Dependencies
