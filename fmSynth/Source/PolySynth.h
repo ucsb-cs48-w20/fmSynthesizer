@@ -1,4 +1,4 @@
-//PolySynth.hpp
+//PolySynth.h
 
 #pragma one
 

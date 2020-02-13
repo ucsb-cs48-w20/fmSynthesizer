@@ -1,5 +1,5 @@
 //
-//  SawOsc.hpp
+//  SawOsc.h
 //  fmSynth
 //
 #pragma one

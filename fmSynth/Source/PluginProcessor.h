@@ -11,10 +11,10 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "SineOsc.hpp"
-#include "SquareOsc.hpp"
-#include "SawOsc.hpp"
-#include "PolySynth.hpp"
+#include "SineOsc.h"
+#include "SquareOsc.h"
+#include "SawOsc.h"
+#include "PolySynth.h"
 
 //==============================================================================
 /**

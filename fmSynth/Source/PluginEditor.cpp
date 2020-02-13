@@ -62,7 +62,7 @@ FmSynthAudioProcessorEditor::FmSynthAudioProcessorEditor (FmSynthAudioProcessor&
     carWaveSelect.addItem("Square", 2);
     carWaveSelect.addItem("Saw", 3);
     carWaveSelect.onChange = [this] { WaveSelectChanged(); };
-    //waveSelect.setSelectedId(1);
+    carWaveSelect.setSelectedId(1);
 
     addAndMakeVisible(modWaveSelect);
 
@@ -81,6 +81,8 @@ void FmSynthAudioProcessorEditor::sliderValueChanged(Slider* slider)
 }
 
 void FmSynthAudioProcessorEditor::WaveSelectChanged() {
+    processor.synth.clearVoices();
+    processor.synth.clearSounds();
     switch (carWaveSelect.getSelectedId()) {
     case 1: processor.synth.addVoice<SineVoice, SineSound>(12); break;
     case 2: processor.synth.addVoice<SquareVoice, SquareSound>(12); break;
