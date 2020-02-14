@@ -169,6 +169,17 @@ void FmSynthAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBuffer&
     filterR.setCoefficients(IIRCoefficients::makeLowPass(getSampleRate(), filterCutoff));
     filterL.processSamples(buffer.getWritePointer(0, 0), buffer.getNumSamples());
     filterR.processSamples(buffer.getWritePointer(1, 0), buffer.getNumSamples());
+
+    //gain rescales the volume setting to be from 0 to 1
+    gain = (noteOnVel) / 1000.0;
+    //loop through every channel and then each buffer to adjust the volume
+    for (auto channel = 0; channel < buffer.getNumChannels(); channel++) {
+        auto* channelBuffer = buffer.getWritePointer(channel);
+
+        for (auto sample = 0; sample < buffer.getNumSamples(); sample++) {
+            channelBuffer[sample] *= gain;
+        }
+    }
 }
 
 //==============================================================================

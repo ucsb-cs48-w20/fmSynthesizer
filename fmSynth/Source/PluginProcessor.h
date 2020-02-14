@@ -24,10 +24,11 @@ class FmSynthAudioProcessor  : public AudioProcessor
 public:
     //================Variables====================================================
     float gain;
-    float noteOnVel = 1000.0;
-    double filterCutoff = 20000.0;
-    int currCarWave = 1;
-    int currModWave = 1;
+    float noteOnVel;
+    float minVolume, maxVolume;
+    double filterCutoff;
+    int currCarWave;
+    int currModWave;
     //==============================================================================
     FmSynthAudioProcessor();
     ~FmSynthAudioProcessor();
