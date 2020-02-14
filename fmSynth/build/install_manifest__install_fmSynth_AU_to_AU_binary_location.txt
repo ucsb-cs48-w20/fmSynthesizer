@@ -1,0 +1,2 @@
+/Users/jkilgore/Library/Audio/Plug-Ins/Components/fmSynth.component/Contents/MacOS/fmSynth
+/Users/jkilgore/Library/Audio/Plug-Ins/Components/fmSynth.component/Contents/Info.plist
