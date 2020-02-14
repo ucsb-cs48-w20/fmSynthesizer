@@ -1,0 +1,19 @@
+name: C/C++ CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: configure
+      run: python3 configure.py
+      working-directory: ./fmSynth
+      shell: bash
+    - name: make
+      run: python3 run.py
+      working-directory: ./fmSynth
+      shell: bash
