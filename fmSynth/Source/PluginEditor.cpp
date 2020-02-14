@@ -24,7 +24,7 @@ FmSynthAudioProcessorEditor::FmSynthAudioProcessorEditor (FmSynthAudioProcessor&
     cutoffSlider.setRange(0.1, 20000.0, 1.0);
     cutoffSlider.setTextBoxStyle(Slider::NoTextBox, false, 90, 0);
     cutoffSlider.setPopupDisplayEnabled(true, false, this);
-    cutoffSlider.setValue(20000.0);
+    cutoffSlider.setValue(processor.filterCutoff);
     cutoffSlider.setSkewFactorFromMidPoint(1000);
     addAndMakeVisible(cutoffSlider);
     cutoffSlider.addListener(this); // If preferred, statements like these can be replaced with callbacks like how carWaveSelect is done
@@ -36,7 +36,7 @@ FmSynthAudioProcessorEditor::FmSynthAudioProcessorEditor (FmSynthAudioProcessor&
     volumeSlider.setRange(processor.minVolume, processor.maxVolume, 1.0);
     volumeSlider.setTextBoxStyle(Slider::NoTextBox, false, 90, 0);
     volumeSlider.setPopupDisplayEnabled(true, false, this);
-    volumeSlider.setValue(1.0);
+    volumeSlider.setValue(processor.noteOnVel);
     addAndMakeVisible(volumeSlider);
     volumeSlider.addListener(this);
 
@@ -66,13 +66,13 @@ FmSynthAudioProcessorEditor::FmSynthAudioProcessorEditor (FmSynthAudioProcessor&
     carWaveSelect.addItem("Square", 2);
     carWaveSelect.addItem("Saw", 3);
     carWaveSelect.onChange = [this] { WaveSelectChanged(); };
-    carWaveSelect.setSelectedId(1);
+    carWaveSelect.setSelectedId(processor.currCarWave);
 
     addAndMakeVisible(modWaveSelect);
     modWaveSelect.addItem("Sine", 1);
     modWaveSelect.addItem("Square", 2);
     modWaveSelect.addItem("Saw", 3);
-    modWaveSelect.setSelectedId(1);
+    modWaveSelect.setSelectedId(processor.currModWave);
 
 }
 
@@ -93,6 +93,7 @@ void FmSynthAudioProcessorEditor::sliderValueChanged(Slider* slider)
 void FmSynthAudioProcessorEditor::WaveSelectChanged() {
     processor.synth.clearVoices();
     processor.synth.clearSounds();
+    processor.currCarWave = carWaveSelect.getSelectedId();
     switch (carWaveSelect.getSelectedId()) {
     case 1: processor.synth.addVoice<SineVoice, SineSound>(12); break;
     case 2: processor.synth.addVoice<SquareVoice, SquareSound>(12); break;
@@ -127,15 +128,12 @@ void FmSynthAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
-    const int border = 20;
-    const int dialWidth = getWidth() / 1.7 - border;
-    const int dialHeight = getHeight() / 1.7 - border - 100;
 
     cutoffSlider.setBounds(520, 50, 20, 300);
     volumeSlider.setBounds(620, 50, 20, 300);
-    octaveKnob.setBounds(140, 130, dialWidth, dialHeight);
-    cmRatioKnob.setBounds(-100, 130, dialWidth, dialHeight);
-    modAmtKnob.setBounds(-80, 260, dialWidth-30, dialHeight-30);
+    octaveKnob.setBounds(275, 130, 120, 120);
+    cmRatioKnob.setBounds(50, 130, 120, 120);
+    modAmtKnob.setBounds(50, 260, 120, 120);
     modWaveSelect.setBounds(50, 50, 100, 20);
     carWaveSelect.setBounds(280, 50, 100, 20);
 }

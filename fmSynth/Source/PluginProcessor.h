@@ -27,6 +27,8 @@ public:
     float noteOnVel;
     float minVolume, maxVolume;
     double filterCutoff;
+    int currCarWave = 1;
+    int currModWave = 1;
     //==============================================================================
     FmSynthAudioProcessor();
     ~FmSynthAudioProcessor();
@@ -65,7 +67,6 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
     PolySynth synth;
-
 private:
     //==============================================================================
     IIRFilter filterL, filterR; // filters stateful, so each channel needs its own
