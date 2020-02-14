@@ -1,11 +1,10 @@
 #JUCE stuff 
 fmSynth/Builds
-fmSynth/fmSynth.jucer
 fmSynth/JuceLibraryCode
 *.DS_STORE
 
-# jackkilgore - temporary gitginores 
-CMakeLists.txt
+#Cmake stuff
+fmSynth/build
 
 # Prerequisites
 *.d
