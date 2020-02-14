@@ -20,6 +20,7 @@ FmSynthAudioProcessorEditor::FmSynthAudioProcessorEditor (FmSynthAudioProcessor&
 
     setSize (700, 400);
 
+    processor.filterCutoff = 20000.0;
     cutoffSlider.setSliderStyle(Slider::LinearBarVertical);
     cutoffSlider.setRange(0.1, 20000.0, 1.0);
     cutoffSlider.setTextBoxStyle(Slider::NoTextBox, false, 90, 0);
@@ -32,6 +33,8 @@ FmSynthAudioProcessorEditor::FmSynthAudioProcessorEditor (FmSynthAudioProcessor&
     //volumeSlider parameters
     processor.minVolume = .1;
     processor.maxVolume = 1500.0;
+    processor.noteOnVel = 1.0;
+
     volumeSlider.setSliderStyle(Slider::LinearBarVertical);
     volumeSlider.setRange(processor.minVolume, processor.maxVolume, 1.0);
     volumeSlider.setTextBoxStyle(Slider::NoTextBox, false, 90, 0);
@@ -61,6 +64,7 @@ FmSynthAudioProcessorEditor::FmSynthAudioProcessorEditor (FmSynthAudioProcessor&
     addAndMakeVisible(modAmtKnob);
     modAmtKnob.addListener(this);
 
+    processor.currCarWave = 1;
     addAndMakeVisible(carWaveSelect);
     carWaveSelect.addItem("Sine", 1);
     carWaveSelect.addItem("Square", 2);
@@ -68,6 +72,7 @@ FmSynthAudioProcessorEditor::FmSynthAudioProcessorEditor (FmSynthAudioProcessor&
     carWaveSelect.onChange = [this] { WaveSelectChanged(); };
     carWaveSelect.setSelectedId(processor.currCarWave);
 
+    processor.currModWave = 1;
     addAndMakeVisible(modWaveSelect);
     modWaveSelect.addItem("Sine", 1);
     modWaveSelect.addItem("Square", 2);
