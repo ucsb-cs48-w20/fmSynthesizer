@@ -5,6 +5,7 @@ fmSynth/JuceLibraryCode
 
 #Cmake stuff
 fmSynth/build
+fmSynth/CMakeLists.txt
 
 # Prerequisites
 *.d
