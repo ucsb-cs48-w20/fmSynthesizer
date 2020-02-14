@@ -10,8 +10,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: configure
-      run: python3 fmSynth/configure.py
+      run: python3 ../fmSynth/configure.py
       shell: bash
     - name: make
-      run: python3 fmSynth/run.py
+      run: python3 ../fmSynth/run.py
       shell: bash
