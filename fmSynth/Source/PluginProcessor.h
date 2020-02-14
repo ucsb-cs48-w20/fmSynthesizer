@@ -27,8 +27,8 @@ public:
     float noteOnVel;
     float minVolume, maxVolume;
     double filterCutoff;
-    int currCarWave = 1;
-    int currModWave = 1;
+    int currCarWave;
+    int currModWave;
     //==============================================================================
     FmSynthAudioProcessor();
     ~FmSynthAudioProcessor();
