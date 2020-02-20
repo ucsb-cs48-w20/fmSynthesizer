@@ -12,7 +12,9 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PolySynth.h"
-#include "FMOsc.h"
+#include "SquareOsc.h"
+#include "SineOsc.h"
+#include "SawOsc.h"
 
 //==============================================================================
 /**
