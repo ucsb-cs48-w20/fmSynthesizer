@@ -1,12 +1,8 @@
 # FM Synthesizer
 
-## Project summary
-
-### One-sentence description of the project
-
 A polyphonic FM synthesizer with highly flexible parameter modulation.
 
-### Additional information about the project
+### Additional information
 
 Our synthesizer aims to be a highly flexible instrument which is both easy to use and inspiring for the musician. The instrument's design emphasizes an exploration of interesting new sounds without requiring extensize prior knowlege about synthesis.
 
@@ -65,7 +61,7 @@ Currently, the synth only has a few features. Once the plugin is running within 
 2. Create your feature branch: `git checkout -b my-new-feature`
 3. Commit your changes: `git commit -am 'Add some feature'`
 4. Push to the branch: `git push origin my-new-feature`
-5. Submit a pull request :D
+5. Submit a pull request
 
 ## License
 
