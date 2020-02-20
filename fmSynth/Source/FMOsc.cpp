@@ -6,9 +6,9 @@
 void FMVoice::startNote (int midiNoteNumber, float velocity,
                 SynthesiserSound* sound, int currentPitchWheelPosition)
 {
-    mCarrierPtr.startNote(midiNoteNumber, velocity, sound, currentPitchWheelPosition);
+    mCarrier.startNote(midiNoteNumber, velocity, sound, currentPitchWheelPosition);
     
-    mModulatorPtr.startNote(midiNoteNumber, velocity, sound, currentPitchWheelPosition);
+    mModulator.startNote(midiNoteNumber, velocity, sound, currentPitchWheelPosition);
     
 }
 

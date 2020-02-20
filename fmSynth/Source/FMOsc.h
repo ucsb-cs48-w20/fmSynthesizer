@@ -1,9 +1,7 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "SineOsc.h"
-#include "SawOsc.h"
-#include "SquareOsc.h"
+#include "Oscillator.h"
 
 ////EXPERIMENTAL FILES BLEHHH
 
@@ -45,7 +43,7 @@ public:
 
 private:
     
-    SineVoice  mCarrierPtr;
-    SineVoice mModulatorPtr;
+    Oscillator  mCarrier;
+    Oscillator mModulator;
     
 };
