@@ -1,8 +1,11 @@
 #JUCE stuff 
 fmSynth/Builds
-fmSynth/fmSynth.jucer
 fmSynth/JuceLibraryCode
 *.DS_STORE
+
+#Cmake stuff
+fmSynth/build
+fmSynth/CMakeLists.txt #for now??
 
 # Prerequisites
 *.d

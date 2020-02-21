@@ -1,0 +1,6 @@
+[submodule "external/JUCE"]
+	path = external/JUCE
+	url = https://github.com/WeAreROLI/JUCE
+[submodule "external/FRUT"]
+	path = external/FRUT
+	url = https://github.com/McMartin/FRUT
