@@ -24,8 +24,8 @@
 #define CARRIER_WAVE_ID     "CARRIERWAVE"
 #define CARRIER_WAVE_NAME   "Wave Type"
 
-#define CARRIER_OCTAVE_ID   "CARRIEROCT"
-#define CARRIER_OCTAVE_NAME "Octave"
+#define OCTAVE_ID   "OCT"
+#define OCTAVE_NAME "Octave"
 
 #define MOD_WAVE_ID         "MODWAVE"
 #define MOD_WAVE_NAME       "Wave Type"
@@ -42,13 +42,6 @@
 class FmSynthAudioProcessor  : public AudioProcessor
 {
 public:
-    //================Variables====================================================
-    float gain;
-    float noteOnVel;
-    float minVolume, maxVolume;
-    double filterCutoff;
-    int currCarWave;
-    int currModWave;
     //==============================================================================
     FmSynthAudioProcessor();
     ~FmSynthAudioProcessor();
@@ -90,6 +83,10 @@ public:
 private:
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FmSynthAudioProcessor)
+    
+    float gain;
+    double filterCutoff;
+
     Random random;
     MidiKeyboardState keyboardState;
     OscillatorVoice* tempVoice;

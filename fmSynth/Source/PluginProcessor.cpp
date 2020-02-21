@@ -47,12 +47,15 @@ FmSynthAudioProcessor::~FmSynthAudioProcessor()
 AudioProcessorValueTreeState::ParameterLayout FmSynthAudioProcessor::createParameterLayout()
 {
     // all the parameters should be set here!
+
+    NormalisableRange<float> cutoffRange(0.0, 20000.0, 1.0, .3, false);
+
     std::vector<std::unique_ptr<RangedAudioParameter>> params;
     auto gain = std::make_unique<AudioParameterFloat>(GAIN_ID, GAIN_NAME, 0.0f, 1.0f, 1.0f);
-    auto cutoff = std::make_unique<AudioParameterFloat>(FILTER_CUTOFF_ID, FILTER_CUTOFF_NAME, 0.1f, 20000.0f, 20000.0f);
-    auto carrierWave = std::make_unique<AudioParameterInt>(CARRIER_WAVE_ID, CARRIER_WAVE_NAME, 0, 2, 0);
-    auto carrierOctave = std::make_unique<AudioParameterInt>(CARRIER_OCTAVE_ID, CARRIER_OCTAVE_NAME, 2, 18, 4);
-    auto modWave = std::make_unique<AudioParameterInt>(MOD_WAVE_ID, MOD_WAVE_NAME, 0, 2, 0);
+    auto cutoff = std::make_unique<AudioParameterFloat>(FILTER_CUTOFF_ID, FILTER_CUTOFF_NAME, cutoffRange, 20000.0f);
+    auto carrierWave = std::make_unique<AudioParameterInt>(CARRIER_WAVE_ID, CARRIER_WAVE_NAME, 1, 3, 1);
+    auto carrierOctave = std::make_unique<AudioParameterInt>(OCTAVE_ID, OCTAVE_NAME, 1, 4, 2);
+    auto modWave = std::make_unique<AudioParameterInt>(MOD_WAVE_ID, MOD_WAVE_NAME, 1, 3, 1);
     auto modFreq = std::make_unique<AudioParameterFloat>(MOD_FREQ_ID, MOD_FREQ_NAME, 0.1f, 20000.0f, 1.0f);
     auto modAmt = std::make_unique<AudioParameterFloat>(MOD_AMT_ID, MOD_AMT_NAME, 0.0f, 400.0f, 20.0f);
 
@@ -188,13 +191,15 @@ void FmSynthAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBuffer&
      */
     synth.renderNextAudioBlock(buffer, 0, buffer.getNumSamples(), midiMessages);
 
+    filterCutoff = *valTreeState.getRawParameterValue(FILTER_CUTOFF_ID);
     filterL.setCoefficients(IIRCoefficients::makeLowPass(getSampleRate(), filterCutoff));
     filterR.setCoefficients(IIRCoefficients::makeLowPass(getSampleRate(), filterCutoff));
     filterL.processSamples(buffer.getWritePointer(0, 0), buffer.getNumSamples());
     filterR.processSamples(buffer.getWritePointer(1, 0), buffer.getNumSamples());
 
     //gain rescales the volume setting to be from 0 to 1
-    gain = (noteOnVel) / 1000.0;
+    gain = *valTreeState.getRawParameterValue(GAIN_ID);
+
     //loop through every channel and then each buffer to adjust the volume
     for (auto channel = 0; channel < buffer.getNumChannels(); channel++) {
         auto* channelBuffer = buffer.getWritePointer(channel);
@@ -213,7 +218,7 @@ bool FmSynthAudioProcessor::hasEditor() const
 
 AudioProcessorEditor* FmSynthAudioProcessor::createEditor()
 {
-    return new FmSynthAudioProcessorEditor(*this);
+    return new FmSynthAudioProcessorEditor(*this, valTreeState);
 }
 
 //==============================================================================
