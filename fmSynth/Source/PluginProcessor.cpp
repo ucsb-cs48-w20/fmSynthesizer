@@ -22,9 +22,11 @@ FmSynthAudioProcessor::FmSynthAudioProcessor()
         .withOutput("Output", AudioChannelSet::stereo(), true)
 #endif
     ),
-    synth(keyboardState)
+    synth(keyboardState),
+    valTreeState(*this, nullptr, "PARAMETERS", createParameterLayout())
+    
 #else
-    : synth(keyboardState)
+    : synth(keyboardState)     
 #endif
 {
     /**
@@ -33,9 +35,6 @@ FmSynthAudioProcessor::FmSynthAudioProcessor()
     synth.clearVoices();
     synth.clearSounds();
 
-    /**
-     Add the voices found in the SqaureOsc files.
-     */
     synth.addVoice<OscillatorVoice, OscillatorSound>(12);
 }
 
@@ -44,6 +43,31 @@ FmSynthAudioProcessor::~FmSynthAudioProcessor()
 }
 
 //==============================================================================
+
+AudioProcessorValueTreeState::ParameterLayout FmSynthAudioProcessor::createParameterLayout()
+{
+    // all the parameters should be set here!
+    std::vector<std::unique_ptr<RangedAudioParameter>> params;
+    auto gain = std::make_unique<AudioParameterFloat>(GAIN_ID, GAIN_NAME, 0.0f, 1.0f, 1.0f);
+    auto cutoff = std::make_unique<AudioParameterFloat>(FILTER_CUTOFF_ID, FILTER_CUTOFF_NAME, 0.1f, 20000.0f, 20000.0f);
+    auto carrierWave = std::make_unique<AudioParameterInt>(CARRIER_WAVE_ID, CARRIER_WAVE_NAME, 0, 2, 0);
+    auto carrierOctave = std::make_unique<AudioParameterInt>(CARRIER_OCTAVE_ID, CARRIER_OCTAVE_NAME, 2, 18, 4);
+    auto modWave = std::make_unique<AudioParameterInt>(MOD_WAVE_ID, MOD_WAVE_NAME, 0, 2, 0);
+    auto modFreq = std::make_unique<AudioParameterFloat>(MOD_FREQ_ID, MOD_FREQ_NAME, 0.1f, 20000.0f, 1.0f);
+    auto modAmt = std::make_unique<AudioParameterFloat>(MOD_AMT_ID, MOD_AMT_NAME, 0.0f, 400.0f, 20.0f);
+
+    params.push_back(std::move(gain));
+    params.push_back(std::move(cutoff));
+    params.push_back(std::move(carrierWave));
+    params.push_back(std::move(carrierOctave));
+    params.push_back(std::move(modWave));
+    params.push_back(std::move(modFreq));
+    params.push_back(std::move(modAmt));
+
+    return {params.begin(), params.end()};
+}
+
+
 const String FmSynthAudioProcessor::getName() const
 {
     return JucePlugin_Name;

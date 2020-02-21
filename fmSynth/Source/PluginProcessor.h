@@ -14,6 +14,28 @@
 #include "PolySynth.h"
 #include "Oscillator.h"
 
+// ID and Name for the synth parameter
+#define GAIN_ID             "GAIN"
+#define GAIN_NAME           "Gain"
+
+#define FILTER_CUTOFF_ID    "CUTOFF"
+#define FILTER_CUTOFF_NAME  "Cutoff"
+
+#define CARRIER_WAVE_ID     "CARRIERWAVE"
+#define CARRIER_WAVE_NAME   "Wave Type"
+
+#define CARRIER_OCTAVE_ID   "CARRIEROCT"
+#define CARRIER_OCTAVE_NAME "Octave"
+
+#define MOD_WAVE_ID         "MODWAVE"
+#define MOD_WAVE_NAME       "Wave Type"
+
+#define MOD_FREQ_ID         "MODFREQ"
+#define MOD_FREQ_NAME       "Frequency"
+
+#define MOD_AMT_ID          "MODAMT"
+#define MOD_AMT_NAME        "Amount"
+
 //==============================================================================
 /**
 */
@@ -67,10 +89,12 @@ public:
     PolySynth synth;
 private:
     //==============================================================================
-    IIRFilter filterL, filterR; // filters stateful, so each channel needs its own
-    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FmSynthAudioProcessor)
     Random random;
     MidiKeyboardState keyboardState;
     OscillatorVoice* tempVoice;
+    IIRFilter filterL, filterR;
+
+    AudioProcessorValueTreeState valTreeState;
+    AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
 };
