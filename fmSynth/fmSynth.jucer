@@ -4,18 +4,14 @@
               pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn">
   <MAINGROUP id="gK2Drh" name="fmSynth">
     <GROUP id="{B2014D7C-4EDB-8C52-F9E5-E45DC69BF302}" name="Source">
-      <FILE id="qECLYi" name="SineOsc.cpp" compile="1" resource="0" file="Source/SineOsc.cpp"/>
+      <FILE id="MDX5QN" name="Oscillator.h" compile="0" resource="0" file="Source/Oscillator.h"/>
+      <FILE id="Pk4WZ1" name="Oscillator.cpp" compile="1" resource="0" file="Source/Oscillator.cpp"/>
       <FILE id="UHz79f" name="PolySynth.h" compile="0" resource="0" file="Source/PolySynth.h"/>
-      <FILE id="eI6qUb" name="SawOsc.h" compile="0" resource="0" file="Source/SawOsc.h"/>
-      <FILE id="IDbHJm" name="SineOsc.h" compile="0" resource="0" file="Source/SineOsc.h"/>
-      <FILE id="xy8Hx5" name="SquareOsc.h" compile="0" resource="0" file="Source/SquareOsc.h"/>
       <FILE id="qrR8kw" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="HGeujz" name="PolySynth.cpp" compile="1" resource="0" file="Source/PolySynth.cpp"/>
       <FILE id="wbmnBk" name="PluginProcessor.h" compile="0" resource="0"
             file="Source/PluginProcessor.h"/>
-      <FILE id="B39Xyx" name="SawOsc.cpp" compile="1" resource="0" file="Source/SawOsc.cpp"/>
-      <FILE id="F11j0O" name="SquareOsc.cpp" compile="1" resource="0" file="Source/SquareOsc.cpp"/>
       <FILE id="ap3EEX" name="PluginEditor.cpp" compile="1" resource="0"
             file="Source/PluginEditor.cpp"/>
       <FILE id="UCjRrm" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
@@ -108,6 +104,7 @@
   </MODULES>
   <LIVE_SETTINGS>
     <OSX buildEnabled="1"/>
+    <WINDOWS/>
   </LIVE_SETTINGS>
   <JUCEOPTIONS JUCE_VST3_CAN_REPLACE_VST2="0" JUCE_STRICT_REFCOUNTEDPOINTER="1"/>
 </JUCERPROJECT>

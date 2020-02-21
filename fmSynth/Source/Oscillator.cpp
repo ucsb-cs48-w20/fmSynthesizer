@@ -1,21 +1,26 @@
 /*
   ==============================================================================
 
-    SawOsc.cpp
-    Created: 10 Feb 2020 9:47:20pm
-    Author:  Torrance Cui
+    Oscillator.cpp
+    Created: 20 Feb 2020 8:44:34pm
+    Author:  Tom
 
   ==============================================================================
 */
 
-#include "SawOsc.h"
+#include "Oscillator.h"
 
-//=====SawVoice Implementation==========
+//=====Generic Voice Implementation==========
 
-void SawVoice::startNote (int midiNoteNumber, float velocity,
-                SynthesiserSound* sound, int /*currentPitchWheelPosition*/)
+/**
+ This is where we set up all the parameters needed when a note is pressed.
+ */
+void OscillatorVoice::startNote(int midiNoteNumber, float velocity,
+    SynthesiserSound* sound, int /*currentPitchWheelPosition*/)
 {
-    resetCheck = 0;
+    waveType = 0; // TODO: hook this up to GUI
+
+    previousAngle = 0.0;
     nextSample = 0.0;
     currentAngle = 0.0;
     level = velocity * 0.15;
@@ -29,7 +34,10 @@ void SawVoice::startNote (int midiNoteNumber, float velocity,
     angleDelta = cyclesPerSample * twoPi;
 }
 
-void SawVoice::stopNote (float /*velocity*/, bool allowTailOff)
+/**
+ Little decay envelope, SEE MIDI Synth tutorial.
+ */
+void OscillatorVoice::stopNote(float /*velocity*/, bool allowTailOff)
 {
     if (allowTailOff)
     {
@@ -43,8 +51,11 @@ void SawVoice::stopNote (float /*velocity*/, bool allowTailOff)
     }
 }
 
-void SawVoice::renderNextBlock (AudioBuffer<float>& outputBuffer,
-                      int startSample, int numSamples)
+/**
+ Render AUDIO for processing block.
+ */
+void OscillatorVoice::renderNextBlock(AudioBuffer<float>& outputBuffer,
+    int startSample, int numSamples)
 {
     if (angleDelta != 0.0)
     {
@@ -52,7 +63,7 @@ void SawVoice::renderNextBlock (AudioBuffer<float>& outputBuffer,
         {
             while (--numSamples >= 0)
             {
-                auto currentSample = (float)(saw(currentAngle) * level * tailOff);
+                auto currentSample = (float)(generateSample(currentAngle) * level * tailOff);
 
                 for (auto i = outputBuffer.getNumChannels(); --i >= 0;)
                     outputBuffer.addSample(i, startSample, currentSample);
@@ -76,7 +87,7 @@ void SawVoice::renderNextBlock (AudioBuffer<float>& outputBuffer,
         {
             while (--numSamples >= 0) // [6]
             {
-                auto currentSample = (float)(saw(currentAngle) * level);
+                auto currentSample = (float)(generateSample(currentAngle) * level);
 
                 for (auto i = outputBuffer.getNumChannels(); --i >= 0;)
                     outputBuffer.addSample(i, startSample, currentSample);
@@ -89,30 +100,41 @@ void SawVoice::renderNextBlock (AudioBuffer<float>& outputBuffer,
     }
 }
 
-float SawVoice::saw(float angle)
+float OscillatorVoice::generateSample(float angle)
 {
-    // TODO: easier way to do this just using currentAngle
-    //       if currentAngle value decreases, wave must have restarted
-    if (!resetCheck)
+    switch (waveType) 
     {
-        if (std::sin(angle) < 0 && std::cos(angle) >= 0) // negative and increasing
-        {
-            resetCheck = 1;
-        }
+    case(0):
+        return sineWave(angle);
+    case(1):
+        return squareWave(angle);
+    case(2):
+        return sawWave(angle);
     }
-    else if (std::sin(angle) > 0 && std::cos(angle) >= 0) // positive and increasing
+
+}
+float OscillatorVoice::sineWave(float angle)
+{
+    return std::sin(angle);
+}
+float OscillatorVoice::squareWave(float angle)
+{
+    return std::tanh(std::sin(angle) * 30.0);
+}
+float OscillatorVoice::sawWave(float angle)
+{
+    if (angle < previousAngle) 
     {
-        // sin wave just cycled, reset saw wave to -1.0
         nextSample = -1.0;
-        resetCheck = 0;
+        previousAngle = angle;
         return nextSample;
     }
     nextSample += delta;
+    previousAngle = angle;
     return nextSample;
-
 }
 
-void SawVoice::angleCap()
+void OscillatorVoice::angleCap()
 {
     if (currentAngle >= twoPi)
     {

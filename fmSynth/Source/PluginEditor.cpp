@@ -96,14 +96,17 @@ void FmSynthAudioProcessorEditor::sliderValueChanged(Slider* slider)
 }
 
 void FmSynthAudioProcessorEditor::WaveSelectChanged() {
+/* Broken! TODO: implement "wave" parameter for ocsillator
     processor.synth.clearVoices();
     processor.synth.clearSounds();
     processor.currCarWave = carWaveSelect.getSelectedId();
+
     switch (carWaveSelect.getSelectedId()) {
     case 1: processor.synth.addVoice<SineVoice, SineSound>(12); break;
     case 2: processor.synth.addVoice<SquareVoice, SquareSound>(12); break;
     case 3: processor.synth.addVoice<SawVoice, SawSound>(12); break;
     }
+*/
 }
 
 //==============================================================================

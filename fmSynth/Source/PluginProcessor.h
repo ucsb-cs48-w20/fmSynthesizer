@@ -12,9 +12,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PolySynth.h"
-#include "SquareOsc.h"
-#include "SineOsc.h"
-#include "SawOsc.h"
+#include "Oscillator.h"
 
 //==============================================================================
 /**
@@ -70,10 +68,9 @@ public:
 private:
     //==============================================================================
     IIRFilter filterL, filterR; // filters stateful, so each channel needs its own
-    double sampleRate;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FmSynthAudioProcessor)
     Random random;
     MidiKeyboardState keyboardState;
-    SineVoice* tempVoice;
+    OscillatorVoice* tempVoice;
 };

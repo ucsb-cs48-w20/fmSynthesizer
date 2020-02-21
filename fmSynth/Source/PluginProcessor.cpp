@@ -36,7 +36,7 @@ FmSynthAudioProcessor::FmSynthAudioProcessor()
     /**
      Add the voices found in the SqaureOsc files.
      */
-    synth.addVoice<SineVoice, SineSound>(12);
+    synth.addVoice<OscillatorVoice, OscillatorSound>(12);
 }
 
 FmSynthAudioProcessor::~FmSynthAudioProcessor()
@@ -108,7 +108,6 @@ void FmSynthAudioProcessor::changeProgramName(int index, const String& newName)
 //==============================================================================
 void FmSynthAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
-    this->sampleRate = sampleRate;
     synth.prepareToPlay(sampleRate);
 }
 
@@ -155,7 +154,7 @@ void FmSynthAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBuffer&
     // WIP, NOT GENERAL ENOUGH -- Will be used to pass parameters to PolySynth.
     for (auto i = 0; i < synth.getNumVoices(); i++)
     {
-        if ((tempVoice = dynamic_cast<SineVoice*>(synth.getVoice(i))))
+        if ((tempVoice = dynamic_cast<OscillatorVoice*>(synth.getVoice(i))))
         {
         }
     }
