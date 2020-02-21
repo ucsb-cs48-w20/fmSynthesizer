@@ -54,7 +54,7 @@ FmSynthAudioProcessorEditor::FmSynthAudioProcessorEditor (FmSynthAudioProcessor&
     modWaveSelect.addItem("Square", 2);
     modWaveSelect.addItem("Saw", 3);
     addAndMakeVisible(modWaveSelect);
-    modWaveAttachment.reset(new AudioProcessorValueTreeState::ComboBoxAttachment(valueTreeState, CARRIER_WAVE_ID, modWaveSelect));
+    modWaveAttachment.reset(new AudioProcessorValueTreeState::ComboBoxAttachment(valueTreeState, MOD_WAVE_ID, modWaveSelect));
 }
 
 FmSynthAudioProcessorEditor::~FmSynthAudioProcessorEditor()
@@ -72,7 +72,7 @@ void FmSynthAudioProcessorEditor::paint (Graphics& g)
     g.setFont (18.0f);
 
     g.drawFittedText("Filter Cutoff", 480, 20, getWidth(), 30, Justification::left, 1);
-    g.drawFittedText("Volume", 600, 20, getWidth(), 30, Justification::left, 1);
+    g.drawFittedText("Gain", 610, 20, getWidth(), 30, Justification::left, 1);
     g.drawFittedText("Modulator", 60, 20, getWidth(), 30, Justification::left, 1);
     g.drawFittedText("Carrier", 305, 20, getWidth(), 30, Justification::left, 1);
 

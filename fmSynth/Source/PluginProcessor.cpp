@@ -22,8 +22,8 @@ FmSynthAudioProcessor::FmSynthAudioProcessor()
         .withOutput("Output", AudioChannelSet::stereo(), true)
 #endif
     ),
-    synth(keyboardState),
-    valTreeState(*this, nullptr, "PARAMETERS", createParameterLayout())
+    valTreeState(*this, nullptr, "PARAMETERS", createParameterLayout()),
+    synth(keyboardState)
     
 #else
     : synth(keyboardState)     
@@ -35,7 +35,7 @@ FmSynthAudioProcessor::FmSynthAudioProcessor()
     synth.clearVoices();
     synth.clearSounds();
 
-    synth.addVoice<OscillatorVoice, OscillatorSound>(12);
+    synth.addVoice<OscillatorVoice, OscillatorSound>(12, &valTreeState);
 }
 
 FmSynthAudioProcessor::~FmSynthAudioProcessor()

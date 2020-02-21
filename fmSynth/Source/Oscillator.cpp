@@ -18,8 +18,6 @@
 void OscillatorVoice::startNote(int midiNoteNumber, float velocity,
     SynthesiserSound* sound, int /*currentPitchWheelPosition*/)
 {
-    waveType = 0; // TODO: hook this up to GUI
-
     previousAngle = 0.0;
     nextSample = 0.0;
     currentAngle = 0.0;
@@ -102,16 +100,15 @@ void OscillatorVoice::renderNextBlock(AudioBuffer<float>& outputBuffer,
 
 float OscillatorVoice::generateSample(float angle)
 {
-    switch (waveType) 
+    switch ((int)(*params->getRawParameterValue(CARRIER_WAVE_ID)))
     {
-    case(0):
+    case(SINE):
         return sineWave(angle);
-    case(1):
+    case(SQUARE):
         return squareWave(angle);
-    case(2):
+    case(SAW):
         return sawWave(angle);
     }
-
 }
 float OscillatorVoice::sineWave(float angle)
 {

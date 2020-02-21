@@ -11,7 +11,11 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "utilities.h"
 
+#define SINE 1
+#define SQUARE 2
+#define SAW 3
 
 struct OscillatorSound : public SynthesiserSound
 {
@@ -27,7 +31,8 @@ class OscillatorVoice : public SynthesiserVoice
 {
 public:
 
-    OscillatorVoice() {}
+    OscillatorVoice() { params = NULL; }
+    OscillatorVoice(AudioProcessorValueTreeState* params) { this->params = params; }
 
     bool canPlaySound(SynthesiserSound* sound) override
     {
@@ -59,5 +64,5 @@ private:
         currentAngle = 0.0, previousAngle = 0.0, angleDelta = 0.0,
         level = 0.0, tailOff = 0.0, twoPi = 0.0;
 
-    int waveType = 0; // 0 sine   1 square   3 saw
+    AudioProcessorValueTreeState* params;
 };
