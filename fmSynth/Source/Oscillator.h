@@ -59,10 +59,13 @@ private:
     float sawWave(float angle);
 
     void angleCap(); // call after you increment currentAngle to avoid overflows
+    void parameterUpdate(); // check all relevant parameters and adjust members accordingly (this allows for changes mid-note)
 
     float nextSample = 0.0, delta = 0.0,
         currentAngle = 0.0, previousAngle = 0.0, angleDelta = 0.0,
         level = 0.0, tailOff = 0.0, twoPi = 0.0;
+
+    int currentOctave = 0;
 
     AudioProcessorValueTreeState* params;
 };

@@ -24,12 +24,15 @@ void OscillatorVoice::startNote(int midiNoteNumber, float velocity,
     level = velocity * 0.15;
     tailOff = 0.0;
 
-    auto cyclesPerSecond = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
-    auto cyclesPerSample = cyclesPerSecond / getSampleRate();
+    currentOctave = (int)(*params->getRawParameterValue(OCTAVE_ID)); // 1, 2 ,3, or 4
+    auto octave = (float)pow(2, currentOctave-2);
 
-    delta = cyclesPerSample * 2.0;
+    auto cyclesPerSecond = octave * MidiMessage::getMidiNoteInHertz(midiNoteNumber);
+    auto cyclesPerSample = cyclesPerSecond / getSampleRate();
+    
     twoPi = 2.0 * MathConstants<double>::pi;
     angleDelta = cyclesPerSample * twoPi;
+    delta = cyclesPerSample * 2.0;
 }
 
 /**
@@ -57,6 +60,7 @@ void OscillatorVoice::renderNextBlock(AudioBuffer<float>& outputBuffer,
 {
     if (angleDelta != 0.0)
     {
+        parameterUpdate();
         if (tailOff > 0.0) // [7]
         {
             while (--numSamples >= 0)
@@ -137,4 +141,19 @@ void OscillatorVoice::angleCap()
     {
         currentAngle -= twoPi;
     }
+}
+
+void OscillatorVoice::parameterUpdate()
+{
+    // check octave
+    int change = (int)(*params->getRawParameterValue(OCTAVE_ID)) - currentOctave;
+    if (change != 0)
+    {
+        float adjustment = (float)pow(2, change);
+        delta *= adjustment;
+        angleDelta *= adjustment;
+        currentOctave = change + currentOctave;
+    }
+
+    // TODO : check frequency from Modulator here (do we do this before or after octave???)
 }
