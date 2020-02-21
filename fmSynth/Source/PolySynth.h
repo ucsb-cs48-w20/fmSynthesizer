@@ -36,7 +36,7 @@ public:
      @param number : The amount of voices to be added to the PolySynth.
      */
     template<typename T1, typename T2>
-    void addVoice(int number)
+    void addVoice(int number, AudioProcessorValueTreeState* params)
     {
         static_assert(std::is_base_of<SynthesiserVoice, T1>::value,
                       "Second type must derive from the SynthesiserVoice class.");
@@ -44,7 +44,7 @@ public:
                              "First type must derive from the SynthesiserSound class.");
         
         for (auto i = 0; i < number; ++i)
-            synth.addVoice (new T1());
+            synth.addVoice (new T1(params));
         
         synth.addSound (new T2());
     

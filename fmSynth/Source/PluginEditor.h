@@ -16,11 +16,11 @@
 //==============================================================================
 /**
 */
-class FmSynthAudioProcessorEditor  : public AudioProcessorEditor,
-                                     private Slider::Listener
+class FmSynthAudioProcessorEditor  : public AudioProcessorEditor
 {
 public:
-    FmSynthAudioProcessorEditor (FmSynthAudioProcessor&);
+    //FmSynthAudioProcessorEditor (FmSynthAudioProcessor&);
+    FmSynthAudioProcessorEditor(FmSynthAudioProcessor& p, AudioProcessorValueTreeState& vts);
     ~FmSynthAudioProcessorEditor();
 
     //==============================================================================
@@ -28,21 +28,28 @@ public:
     void resized() override;
 
 private:
-    void sliderValueChanged(Slider* slider) override;
-
-    void WaveSelectChanged();
-
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     FmSynthAudioProcessor& processor;
+    AudioProcessorValueTreeState& valueTreeState;
+
+    Slider gainSlider;
     Slider cutoffSlider;
-    Slider volumeSlider;
     Slider octaveKnob;
-    Slider cmRatioKnob;
+    Slider modFreqKnob;
     Slider modAmtKnob;
 
     Label textLabel;
     ComboBox modWaveSelect;
     ComboBox carWaveSelect;
+
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> gainAttachment;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> cutoffAttachment;
+    std::unique_ptr<AudioProcessorValueTreeState::ComboBoxAttachment> carWaveAttachment;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> octAttachment;
+    std::unique_ptr<AudioProcessorValueTreeState::ComboBoxAttachment> modWaveAttachment;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> modFreqAttachment;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> modAmtAttachment;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FmSynthAudioProcessorEditor)
 };
