@@ -1,10 +1,16 @@
+//
+//  FMOsc.h
+//  fmSynth
+//
+//  Created by Jack Kilgore on 2/19/20.
+//
+
+
+
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "Oscillator.h"
-#include "SineOsc.h"
-////EXPERIMENTAL FILES BLEHHH
-
 
 
 struct FMSound : public SynthesiserSound
@@ -20,8 +26,9 @@ struct FMSound : public SynthesiserSound
 class FMVoice : public SynthesiserVoice
 {
 public:
-
-    FMVoice() {}
+    
+    FMVoice() : ModBuffer(1, 512) { params = NULL; }
+    FMVoice(AudioProcessorValueTreeState* params) : ModBuffer(1, 512), mModulator(params), mCarrier(params) { this->params = params; }
 
     bool canPlaySound(SynthesiserSound* sound) override
     {
@@ -51,6 +58,7 @@ public:
 
 private:
     
+    
     void angleCap(); // call after you increment currentAngle to avoid overflows
     
     void setAngleDelta(float freq);
@@ -58,12 +66,13 @@ private:
     float currentAngle = 0.0, angleDelta = 0.0,
             level = 0.0, frequency = 0.0, tailOff = 0.0, twoPi = 0.0;
     
-    
     float TESTSAMPLKE;
     
-    SineVoice mTest;
-    SineVoice mModTest;
-    Oscillator  mCarrier;
-    Oscillator mModulator;
+    OscillatorVoice mModulator;
+    OscillatorVoice mCarrier;
+    
+    AudioProcessorValueTreeState* params;
+    AudioBuffer<float> ModBuffer;
+    
     
 };

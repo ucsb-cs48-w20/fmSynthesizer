@@ -1,3 +1,10 @@
+//
+//  FMOsc.cpp
+//  fmSynth
+//
+//  Created by Jack Kilgore on 2/19/20.
+//
+
 #include "FMOsc.h"
 
 void FMVoice::setAngleDelta(float freq)
@@ -14,10 +21,14 @@ void FMVoice::setAngleDelta(float freq)
 void FMVoice::startNote (int midiNoteNumber, float velocity,
                 SynthesiserSound* sound, int currentPitchWheelPosition)
 {
-    mTest.startNote(midiNoteNumber, velocity, sound, currentPitchWheelPosition);
-    mModTest.startNote(midiNoteNumber, velocity, sound, currentPitchWheelPosition);
-    mModTest.setFrequency(MidiMessage::getMidiNoteInHertz (midiNoteNumber) * 2);
-    mModTest.setLevel(0);
+//    mTest.startNote(midiNoteNumber, velocity, sound, currentPitchWheelPosition);
+    mModulator.startNote(midiNoteNumber, velocity, sound, currentPitchWheelPosition);
+    mModulator.setAngleDelta(2);
+    mModulator.setLevel(200);
+    
+    mCarrier.startNote(midiNoteNumber, velocity, sound, currentPitchWheelPosition);
+    mCarrier.setModBuffer(&ModBuffer);
+    
     level = velocity * 0.15;
     tailOff = 0.0;
     twoPi = 2.0 * MathConstants<double>::pi;
@@ -32,7 +43,8 @@ void FMVoice::renderNextBlock (AudioBuffer<float>& outputBuffer,
                       int startSample, int numSamples)
 {
         
-    mModTest.renderNextBlock(outputBuffer, startSample, numSamples);
+    ModBuffer.clear();
+    mModulator.renderNextBlock(ModBuffer, startSample, numSamples);
     
     
     if (angleDelta != 0.0)
@@ -42,19 +54,15 @@ void FMVoice::renderNextBlock (AudioBuffer<float>& outputBuffer,
                 while (--numSamples >= 0)
                 {
                     
-                    
-                    TESTSAMPLKE = outputBuffer.getSample(0, startSample);
-                    
-                    setAngleDelta((mTest.getFrequency() + outputBuffer.getSample(0, startSample)));
-            
-                    
+                                
+                    setAngleDelta(mCarrier.getFrequency() + ModBuffer.getSample(0, startSample) );
+
                     
                     auto currentSample = (float) (std::sin (currentAngle) * level * tailOff);
                     
-                    for (auto i = outputBuffer.getNumChannels(); --i >= 0;) {
-                        outputBuffer.clear(i, startSample, 1);
+                    for (auto i = outputBuffer.getNumChannels(); --i >= 0;) 
                         outputBuffer.addSample (i, startSample, currentSample);
-                    }
+                    
                        
                     currentAngle += angleDelta;
                     angleCap();
@@ -75,16 +83,14 @@ void FMVoice::renderNextBlock (AudioBuffer<float>& outputBuffer,
             {
                 while (--numSamples >= 0) // [6]
                 {
-                     TESTSAMPLKE = outputBuffer.getSample(0, startSample);
                     
-                    setAngleDelta((mTest.getFrequency() + outputBuffer.getSample(0, startSample)));
+                    setAngleDelta((mCarrier.getFrequency() + ModBuffer.getSample(0, startSample)));
                     
                     auto currentSample = (float) (std::sin (currentAngle) * level);
 
-                    for (auto i = outputBuffer.getNumChannels(); --i >= 0;) {
-                        outputBuffer.clear(i, startSample, 1);
+                    for (auto i = outputBuffer.getNumChannels(); --i >= 0;)
                         outputBuffer.addSample (i, startSample, currentSample);
-                    }
+                    
 
                     
                     currentAngle += angleDelta;
@@ -105,8 +111,8 @@ void FMVoice::angleCap()
 
 void FMVoice::stopNote (float velocity, bool allowTailOff)
 {
-    mModTest.stopNote(velocity, allowTailOff);
-    mTest.stopNote(velocity, allowTailOff);
+    mModulator.stopNote(velocity, allowTailOff);
+//    mCarrier.stopNote(velocity, allowTailOff);
     if (allowTailOff)
     {
         if (tailOff == 0.0)

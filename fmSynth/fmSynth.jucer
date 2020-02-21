@@ -4,6 +4,8 @@
               pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn">
   <MAINGROUP id="gK2Drh" name="fmSynth">
     <GROUP id="{B2014D7C-4EDB-8C52-F9E5-E45DC69BF302}" name="Source">
+      <FILE id="FVOos2" name="FMOsc.cpp" compile="1" resource="0" file="Source/FMOsc.cpp"/>
+      <FILE id="q30CI0" name="FMOsc.h" compile="0" resource="0" file="Source/FMOsc.h"/>
       <FILE id="HQQE2h" name="utilities.h" compile="0" resource="0" file="Source/utilities.h"/>
       <FILE id="MDX5QN" name="Oscillator.h" compile="0" resource="0" file="Source/Oscillator.h"/>
       <FILE id="Pk4WZ1" name="Oscillator.cpp" compile="1" resource="0" file="Source/Oscillator.cpp"/>

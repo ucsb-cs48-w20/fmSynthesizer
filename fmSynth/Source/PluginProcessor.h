@@ -13,6 +13,8 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PolySynth.h"
 #include "Oscillator.h"
+#include "ModOscillator.h"
+#include "FMOsc.h"
 #include "utilities.h"
 
 //==============================================================================

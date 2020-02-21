@@ -24,9 +24,6 @@ FmSynthAudioProcessor::FmSynthAudioProcessor()
     ),
     valTreeState(*this, nullptr, "PARAMETERS", createParameterLayout()),
     synth(keyboardState)
-    
-#else
-    : synth(keyboardState)     
 #endif
 {
     /**
@@ -35,7 +32,7 @@ FmSynthAudioProcessor::FmSynthAudioProcessor()
     synth.clearVoices();
     synth.clearSounds();
 
-    synth.addVoice<OscillatorVoice, OscillatorSound>(12, &valTreeState);
+    synth.addVoice<FMVoice, FMSound>(12, &valTreeState);
 }
 
 FmSynthAudioProcessor::~FmSynthAudioProcessor()
@@ -137,7 +134,6 @@ void FmSynthAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock
 {
     synth.prepareToPlay(sampleRate);
     this->filterCutoff = sampleRate/2;
-    this->noteOnVel = 1000.0;
 }
 
 void FmSynthAudioProcessor::releaseResources()
