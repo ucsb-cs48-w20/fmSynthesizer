@@ -96,14 +96,14 @@ void FmSynthAudioProcessorEditor::sliderValueChanged(Slider* slider)
 }
 
 void FmSynthAudioProcessorEditor::WaveSelectChanged() {
-    processor.synth.clearVoices();
-    processor.synth.clearSounds();
-    processor.currCarWave = carWaveSelect.getSelectedId();
-    switch (carWaveSelect.getSelectedId()) {
-    case 1: processor.synth.addVoice<SineVoice, SineSound>(12); break;
-    case 2: processor.synth.addVoice<SquareVoice, SquareSound>(12); break;
-    case 3: processor.synth.addVoice<SawVoice, SawSound>(12); break;
-    }
+//    processor.synth.clearVoices();
+//    processor.synth.clearSounds();
+//    processor.currCarWave = carWaveSelect.getSelectedId();
+//    switch (carWaveSelect.getSelectedId()) {
+//    case 1: processor.synth.addVoice<SineVoice, SineSound>(12); break;
+//    case 2: processor.synth.addVoice<SquareVoice, SquareSound>(12); break;
+//    case 3: processor.synth.addVoice<SawVoice, SawSound>(12); break;
+//    }
 }
 
 //==============================================================================
@@ -115,7 +115,7 @@ void FmSynthAudioProcessorEditor::paint (Graphics& g)
     g.setColour (Colours::white);
     g.setFont (18.0f);
 
-    g.drawFittedText("Filter Cutoff", 480, 20, getWidth(), 30, Justification::left, 1);
+    g.drawFittedText("Filter Cutoff TEASRET", 480, 20, getWidth(), 30, Justification::left, 1);
     g.drawFittedText("Volume", 600, 20, getWidth(), 30, Justification::left, 1);
     g.drawFittedText("Modulator", 60, 20, getWidth(), 30, Justification::left, 1);
     g.drawFittedText("Carrier", 305, 20, getWidth(), 30, Justification::left, 1);

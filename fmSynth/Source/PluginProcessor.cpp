@@ -36,7 +36,7 @@ FmSynthAudioProcessor::FmSynthAudioProcessor()
     /**
      Add the voices found in the SqaureOsc files.
      */
-    synth.addVoice<SineVoice, SineSound>(12);
+    synth.addVoice<FMVoice, FMSound>(12);
 }
 
 FmSynthAudioProcessor::~FmSynthAudioProcessor()
@@ -110,6 +110,7 @@ void FmSynthAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock
 {
     this->sampleRate = sampleRate;
     synth.prepareToPlay(sampleRate);
+    this->filterCutoff = sampleRate/2;
 }
 
 void FmSynthAudioProcessor::releaseResources()

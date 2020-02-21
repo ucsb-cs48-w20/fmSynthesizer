@@ -12,6 +12,24 @@
 
 //=====SineVoice Implementation==========
 
+void SineVoice::setFrequency(float freq)
+{
+    frequency = freq;
+    auto cyclesPerSample = freq / getSampleRate();
+    angleDelta = cyclesPerSample * MathConstants<float>::pi * 2.0;
+}
+
+void SineVoice::setAngleDelta(float freq)
+{
+    auto cyclesPerSample = freq / getSampleRate();
+    angleDelta = cyclesPerSample * MathConstants<float>::pi * 2.0;
+}
+
+void SineVoice::setLevel(float level)
+{
+    this->level = level;
+}
+
 /**
  This is where we set up all the parameters needed when a note is pressed.
  */
@@ -22,8 +40,8 @@ void SineVoice::startNote (int midiNoteNumber, float velocity,
     level = velocity * 0.15;
     tailOff = 0.0;
 
-    auto cyclesPerSecond = MidiMessage::getMidiNoteInHertz (midiNoteNumber);
-    auto cyclesPerSample = cyclesPerSecond / getSampleRate();
+    frequency = MidiMessage::getMidiNoteInHertz (midiNoteNumber);
+    auto cyclesPerSample = frequency / getSampleRate();
 
     twoPi = 2.0 * MathConstants<double>::pi;
     angleDelta = cyclesPerSample * twoPi;

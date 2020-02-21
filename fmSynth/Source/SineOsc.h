@@ -36,6 +36,25 @@ public:
 
     //    DUMMY FUNCTION 
     //    void setParam1(float* param1);
+    
+    /**
+        @brief    Sets frequency in hertz.
+     */
+    void setFrequency(float freq);
+    
+    /**
+                For modulation purposes.
+     */
+    void setAngleDelta(float freq);
+    
+    float getFrequency() const {return frequency;}
+    
+    /**
+        @brief Set the amplitude of the voice.
+     */
+    void setLevel(float level);
+    
+    float getLevel() const {return level;}
 
     void startNote(int midiNoteNumber, float velocity,
         SynthesiserSound* sound, int /*currentPitchWheelPosition*/) override;
@@ -51,6 +70,6 @@ private:
     void angleCap(); // call after you increment currentAngle to avoid overflows
 
     float currentAngle = 0.0, angleDelta = 0.0,
-        level = 0.0, tailOff = 0.0, twoPi = 0.0;
+        level = 0.0, frequency = 0.0, tailOff = 0.0, twoPi = 0.0;
 
 };
