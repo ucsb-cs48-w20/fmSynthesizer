@@ -111,6 +111,7 @@ void FmSynthAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock
     this->sampleRate = sampleRate;
     synth.prepareToPlay(sampleRate);
     this->filterCutoff = sampleRate/2;
+    this->noteOnVel = 1000.0;
 }
 
 void FmSynthAudioProcessor::releaseResources()

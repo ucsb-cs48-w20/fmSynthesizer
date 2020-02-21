@@ -3,7 +3,6 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "Oscillator.h"
 #include "SineOsc.h"
-
 ////EXPERIMENTAL FILES BLEHHH
 
 
@@ -29,8 +28,17 @@ public:
         return dynamic_cast<FMSound*> (sound) != nullptr;
     }
     
-    void setAngleDelta(float frequency);
-
+    /**
+     @brief Set x in the equation ModulatorFrequency = CarrierFrequency * x;
+     */
+    void setModMultiple(int value);
+    
+    /**
+        @brief Set f in the equation ModulatorFrequency = CarrierFrequency *( x + f);
+                where f is a number between 0 and 1. For detuning the modulator.
+    */
+    void setModDetune(float value);
+    
     void startNote(int midiNoteNumber, float velocity,
         SynthesiserSound* sound, int currentPitchWheelPosition) override;
 
@@ -45,8 +53,11 @@ private:
     
     void angleCap(); // call after you increment currentAngle to avoid overflows
     
+    void setAngleDelta(float freq);
+    
     float currentAngle = 0.0, angleDelta = 0.0,
             level = 0.0, frequency = 0.0, tailOff = 0.0, twoPi = 0.0;
+    
     
     float TESTSAMPLKE;
     

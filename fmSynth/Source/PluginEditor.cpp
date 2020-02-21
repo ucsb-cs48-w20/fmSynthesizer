@@ -115,7 +115,7 @@ void FmSynthAudioProcessorEditor::paint (Graphics& g)
     g.setColour (Colours::white);
     g.setFont (18.0f);
 
-    g.drawFittedText("Filter Cutoff TEASRET", 480, 20, getWidth(), 30, Justification::left, 1);
+    g.drawFittedText("Filter Cutoff.", 480, 20, getWidth(), 30, Justification::left, 1);
     g.drawFittedText("Volume", 600, 20, getWidth(), 30, Justification::left, 1);
     g.drawFittedText("Modulator", 60, 20, getWidth(), 30, Justification::left, 1);
     g.drawFittedText("Carrier", 305, 20, getWidth(), 30, Justification::left, 1);
