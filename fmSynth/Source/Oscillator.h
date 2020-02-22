@@ -31,8 +31,8 @@ class OscillatorVoice : public SynthesiserVoice
 {
 public:
 
-    OscillatorVoice() { params = NULL;}
-    OscillatorVoice(AudioProcessorValueTreeState* params) { this->params = params;}
+    OscillatorVoice() { params = NULL; carrier = false;}
+    OscillatorVoice(AudioProcessorValueTreeState* params) { this->params = params; carrier = false;}
 
     bool canPlaySound(SynthesiserSound* sound) override
     {
