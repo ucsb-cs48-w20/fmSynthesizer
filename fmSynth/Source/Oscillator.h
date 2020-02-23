@@ -46,7 +46,7 @@ public:
     
     float getFrequency() const {return frequency;}
     void setFrequency(float frequency) {this->frequency = frequency;}
-    
+        
     void startNote(int midiNoteNumber, float velocity,
         SynthesiserSound* sound, int /*currentPitchWheelPosition*/) override;
 
@@ -55,35 +55,39 @@ public:
     /**
             Pointer to the buffer where the modulate audio will be stored.
      */
-    void setModBuffer(AudioBuffer<float>* buffer) {ModBuffer = buffer;};
+    void setModBuffer(AudioBuffer<float>* buffer) {ModBuffer = buffer;}
 
     void pitchWheelMoved(int) override {}
     void controllerMoved(int, int) override {}
 
     void renderNextBlock(AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override;
     
-    //temp
     void setAngleDelta(float freq);
     
+    virtual void setInitParams() = 0;
+    
+    virtual void parameterUpdate() = 0; // check all relevant parameters and adjust members accordingly (this allows for changes mid-note)
+    
+    
 protected:
+    AudioProcessorValueTreeState* params;
+
     float generateSample(float angle);
     float sineWave(float angle);
     float squareWave(float angle);
     float sawWave(float angle);
-
     void angleCap(); // call after you increment currentAngle to avoid overflows
-    void parameterUpdate(); // check all relevant parameters and adjust members accordingly (this allows for changes mid-note)
-
-private:
     float nextSample = 0.0, delta = 0.0,
         currentAngle = 0.0, previousAngle = 0.0, angleDelta = 0.0,
-        frequency, level = 0.0, tailOff = 0.0, twoPi = 0.0;
+        frequency, level = 0.0, tailOff = 0.0;
     
-    int currentOctave = 0;
+    constexpr static float TWO_PI = 6.28318530718;
+    
+    int waveID, currentOctave;
+
+private:
     
     bool carrier;
     
     AudioBuffer<float>* ModBuffer;
-    
-    AudioProcessorValueTreeState* params;
 };

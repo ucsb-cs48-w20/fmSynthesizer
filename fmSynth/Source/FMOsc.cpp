@@ -12,14 +12,15 @@
 void FMVoice::startNote (int midiNoteNumber, float velocity,
                 SynthesiserSound* sound, int currentPitchWheelPosition)
 {
+    mCarrier.setInitParams();
     mCarrier.startNote(midiNoteNumber, velocity, sound, currentPitchWheelPosition);
     mCarrier.isCarrier(true);
     mCarrier.setModBuffer(&ModBuffer);
-    mCarrier.setFrequency(MidiMessage::getMidiNoteInHertz (midiNoteNumber));
     
     mModulator.startNote(midiNoteNumber, velocity, sound, currentPitchWheelPosition);
-    mModulator.setAngleDelta(mCarrier.getFrequency() * 0.5);
-    mModulator.setLevel(500);
+    mModulator.setCarrFrequency(MidiMessage::getMidiNoteInHertz(midiNoteNumber));
+    mModulator.setInitParams();
+    mModulator.setModParams();
 }
 
 /**
@@ -29,7 +30,7 @@ void FMVoice::renderNextBlock (AudioBuffer<float>& outputBuffer,
                       int startSample, int numSamples)
 {
     ModBuffer.clear();
-    mModulator.renderNextBlock(ModBuffer, startSample, numSamples);
+    mModulator.renderNextBlock(ModBuffer, startSample, numSamples);    
     mCarrier.renderNextBlock(outputBuffer, startSample, numSamples);
 }
 

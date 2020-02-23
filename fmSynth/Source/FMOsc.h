@@ -10,8 +10,8 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "Oscillator.h"
-
+#include "ModOscillators.h"
+#include "CarrOscillators.h"
 
 struct FMSound : public SynthesiserSound
 {
@@ -27,8 +27,12 @@ class FMVoice : public SynthesiserVoice
 {
 public:
     
-    FMVoice() : ModBuffer(1, 512) { params = NULL; }
-    FMVoice(AudioProcessorValueTreeState* params) : ModBuffer(1, 512), mModulator(params), mCarrier(params) { this->params = params; }
+    FMVoice(int blockSize) : ModBuffer(1, blockSize) { params = NULL; }
+    
+    FMVoice(AudioProcessorValueTreeState* params, int blockSize) : ModBuffer(1, blockSize), mModulator(params), mCarrier(params)
+    {
+        this->params = params;
+    }
 
     bool canPlaySound(SynthesiserSound* sound) override
     {
@@ -58,18 +62,8 @@ public:
 
 private:
     
-    
-    void angleCap(); // call after you increment currentAngle to avoid overflows
-    
-    void setAngleDelta(float freq);
-    
-    float currentAngle = 0.0, angleDelta = 0.0,
-            level = 0.0, frequency = 0.0, tailOff = 0.0, twoPi = 0.0;
-    
-    float TESTSAMPLKE;
-    
-    OscillatorVoice mModulator;
-    OscillatorVoice mCarrier;
+    ModOscVoice_0 mModulator;
+    CarrOscVoice_0 mCarrier;
     
     AudioProcessorValueTreeState* params;
     AudioBuffer<float> ModBuffer;

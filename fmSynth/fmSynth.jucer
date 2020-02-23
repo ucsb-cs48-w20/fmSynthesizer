@@ -4,6 +4,14 @@
               pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn">
   <MAINGROUP id="gK2Drh" name="fmSynth">
     <GROUP id="{B2014D7C-4EDB-8C52-F9E5-E45DC69BF302}" name="Source">
+      <FILE id="CRVHMo" name="CarrOscillators.cpp" compile="1" resource="0"
+            file="Source/CarrOscillators.cpp"/>
+      <FILE id="Z67Ywh" name="CarrOscillators.h" compile="0" resource="0"
+            file="Source/CarrOscillators.h"/>
+      <FILE id="bvpZ0p" name="ModOscillators.cpp" compile="1" resource="0"
+            file="Source/ModOscillators.cpp"/>
+      <FILE id="bF18iy" name="ModOscillators.h" compile="0" resource="0"
+            file="Source/ModOscillators.h"/>
       <FILE id="FVOos2" name="FMOsc.cpp" compile="1" resource="0" file="Source/FMOsc.cpp"/>
       <FILE id="q30CI0" name="FMOsc.h" compile="0" resource="0" file="Source/FMOsc.h"/>
       <FILE id="HQQE2h" name="utilities.h" compile="0" resource="0" file="Source/utilities.h"/>
@@ -106,7 +114,7 @@
     <MODULE id="juce_opengl" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
   </MODULES>
   <LIVE_SETTINGS>
-    <OSX buildEnabled="1"/>
+    <OSX buildEnabled="0"/>
     <WINDOWS/>
   </LIVE_SETTINGS>
   <JUCEOPTIONS JUCE_VST3_CAN_REPLACE_VST2="0" JUCE_STRICT_REFCOUNTEDPOINTER="1"/>

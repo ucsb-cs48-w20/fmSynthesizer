@@ -12,8 +12,6 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PolySynth.h"
-#include "Oscillator.h"
-#include "ModOscillator.h"
 #include "FMOsc.h"
 #include "utilities.h"
 
@@ -72,7 +70,7 @@ private:
     MidiKeyboardState keyboardState;
     OscillatorVoice* tempVoice;
     IIRFilter filterL, filterR;
-
+    
     AudioProcessorValueTreeState valTreeState;
     AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
 };

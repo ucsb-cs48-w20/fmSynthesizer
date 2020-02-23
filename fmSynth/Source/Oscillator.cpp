@@ -14,8 +14,8 @@
 
 void OscillatorVoice::setAngleDelta(float freq)
 {
-    auto cyclesPerSample = freq / getSampleRate();
-    angleDelta = cyclesPerSample * twoPi;
+    auto cyclesPerSample = (float)pow(2, currentOctave-2) * freq / getSampleRate();
+    angleDelta = cyclesPerSample * TWO_PI;
     
 }
 
@@ -30,15 +30,19 @@ void OscillatorVoice::startNote(int midiNoteNumber, float velocity,
     currentAngle = 0.0;
     level = velocity * 0.15;
     tailOff = 0.0;
-
-    currentOctave = (int)(*params->getRawParameterValue(OCTAVE_ID)); // 1, 2 ,3, or 4
-    auto octave = (float)pow(2, currentOctave-2);
-
-    auto cyclesPerSecond = octave * MidiMessage::getMidiNoteInHertz(midiNoteNumber);
+    frequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
+    
+    float cyclesPerSecond;
+    if (carrier)
+    {
+        auto octave = (float)pow(2, currentOctave-2);
+        cyclesPerSecond = octave * frequency;
+    }
+    else cyclesPerSecond = frequency;
+    
     auto cyclesPerSample = cyclesPerSecond / getSampleRate();
     
-    twoPi = 2.0 * MathConstants<double>::pi;
-    angleDelta = cyclesPerSample * twoPi;
+    angleDelta = cyclesPerSample * TWO_PI;
     delta = cyclesPerSample * 2.0;
 }
 
@@ -117,7 +121,7 @@ void OscillatorVoice::renderNextBlock(AudioBuffer<float>& outputBuffer,
 
 float OscillatorVoice::generateSample(float angle)
 {
-    switch ((int)(*params->getRawParameterValue(CARRIER_WAVE_ID)))
+    switch (waveID)
     {
     case(SQUARE):
         return squareWave(angle);
@@ -151,23 +155,8 @@ float OscillatorVoice::sawWave(float angle)
 
 void OscillatorVoice::angleCap()
 {
-    if (currentAngle >= twoPi)
+    if (currentAngle >= TWO_PI)
     {
-        currentAngle -= twoPi;
+        currentAngle -= TWO_PI;
     }
-}
-
-void OscillatorVoice::parameterUpdate()
-{
-    // check octave
-    int change = (int)(*params->getRawParameterValue(OCTAVE_ID)) - currentOctave;
-    if (change != 0)
-    {
-        float adjustment = (float)pow(2, change);
-        delta *= adjustment;
-        angleDelta *= adjustment;
-        currentOctave = change + currentOctave;
-    }
-
-    // TODO : check frequency from Modulator here (do we do this before or after octave???)
 }
