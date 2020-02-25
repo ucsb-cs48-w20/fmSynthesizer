@@ -64,11 +64,18 @@ public:
     
     void setAngleDelta(float freq);
         
-    virtual void parameterUpdate() = 0; // check all relevant parameters and adjust members accordingly (this allows for changes mid-note)
+   
     
     
 protected:
+    // check all relevant parameters and adjust members accordingly (this allows for changes mid-note)
+    // WORKS at the Sample Block Rate
+    virtual void parameterUpdatePerBlock() = 0;
+    
+    virtual void parameterUpdatePerSample() = 0;
+    
     AudioProcessorValueTreeState* params;
+    
 
     float generateSample(float angle);
     float sineWave(float angle);

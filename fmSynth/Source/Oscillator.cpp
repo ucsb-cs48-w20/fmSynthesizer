@@ -85,11 +85,12 @@ void OscillatorVoice::renderNextBlock(AudioBuffer<float>& outputBuffer,
 {
     if (angleDelta != 0.0)
     {
-        parameterUpdate();
+        parameterUpdatePerBlock();
         if (tailOff > 0.0) // [7]
         {
             while (--numSamples >= 0)
             {
+                parameterUpdatePerSample();
                 
                 if(carrier)
                     setAngleDelta(frequency + ModBuffer->getSample(0,startSample));

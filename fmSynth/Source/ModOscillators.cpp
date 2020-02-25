@@ -28,13 +28,11 @@ void ModOscVoice_0::startNote(int midiNoteNumber, float velocity,
     setLevel(amount);
     tailOff = 0.0;
     frequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
-    
     setAngleDelta(frequency * multipleOfCarrier + detune);
-    
 }
 
 
-void ModOscVoice_0::parameterUpdate()
+void ModOscVoice_0::parameterUpdatePerBlock()
 {
     int change;
     float changeF;
@@ -70,10 +68,4 @@ void ModOscVoice_0::parameterUpdate()
         setAngleDelta(carrierFrequency * multipleOfCarrier + detune);
         delta = angleDelta/juce::MathConstants<float>::pi;
     }
-    
-    
-
-    
-
-    
 }

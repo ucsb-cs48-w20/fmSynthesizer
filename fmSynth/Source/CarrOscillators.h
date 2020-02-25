@@ -41,5 +41,6 @@ public:
                    SynthesiserSound* sound, int /*currentPitchWheelPosition*/) override;
     
 protected:
-    void parameterUpdate() override;
+    void parameterUpdatePerBlock() override;
+    void parameterUpdatePerSample() override {};
 };

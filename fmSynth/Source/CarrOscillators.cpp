@@ -22,14 +22,13 @@ void CarrOscVoice_0::startNote(int midiNoteNumber, float velocity,
     setAngleDelta(frequency);
 }
 
-void CarrOscVoice_0::parameterUpdate()
+void CarrOscVoice_0::parameterUpdatePerBlock()
 {
     int change;
-    
+
     change = (int)(*params->getRawParameterValue(CARRIER_WAVE_ID)) - waveID;
     if (change != 0)
         waveID = change + waveID;
-    
     // check octave
     change = (int)(*params->getRawParameterValue(OCTAVE_ID)) - currentOctave;
     if (change != 0)
@@ -39,5 +38,4 @@ void CarrOscVoice_0::parameterUpdate()
         angleDelta *= adjustment;
         currentOctave = change + currentOctave;
     }
-
 }
