@@ -18,13 +18,19 @@
 #define FILTER_CUTOFF_NAME  "Cutoff"
 
 #define CARRIER_WAVE_ID     "CARRIERWAVE"
-#define CARRIER_WAVE_NAME   "Wave Type"
+#define CARRIER_WAVE_NAME   "Carrier Wave Type"
 
 #define OCTAVE_ID   "OCT"
 #define OCTAVE_NAME "Octave"
 
 #define MOD_WAVE_ID         "MODWAVE"
-#define MOD_WAVE_NAME       "Wave Type"
+#define MOD_WAVE_NAME       "Mod Wave Type"
+
+#define MOD_MULTIPLE_ID     "MODMULTIPLE"
+#define MOD_MULTIPLE_NAME   "Mod Multiple"
+
+#define MOD_DETUNE_ID       "MODDETUNE"
+#define MOD_DETUNE_NAME      "Mod Detune"
 
 #define MOD_FREQ_ID         "MODFREQ"
 #define MOD_FREQ_NAME       "Frequency"

@@ -24,19 +24,8 @@ FmSynthAudioProcessor::FmSynthAudioProcessor()
     ),
     valTreeState(*this, nullptr, "PARAMETERS", createParameterLayout()),
     synth(keyboardState)
-    
-#else
-    : synth(keyboardState)     
 #endif
-{
-    /**
-     Clear Voice and Sound Buffer for polySynth instance.
-     */
-    synth.clearVoices();
-    synth.clearSounds();
-
-    synth.addVoice<OscillatorVoice, OscillatorSound>(12, &valTreeState);
-}
+{}
 
 FmSynthAudioProcessor::~FmSynthAudioProcessor()
 {
@@ -56,15 +45,17 @@ AudioProcessorValueTreeState::ParameterLayout FmSynthAudioProcessor::createParam
     auto carrierWave = std::make_unique<AudioParameterInt>(CARRIER_WAVE_ID, CARRIER_WAVE_NAME, 1, 3, 1);
     auto carrierOctave = std::make_unique<AudioParameterInt>(OCTAVE_ID, OCTAVE_NAME, 1, 4, 2);
     auto modWave = std::make_unique<AudioParameterInt>(MOD_WAVE_ID, MOD_WAVE_NAME, 1, 3, 1);
-    auto modFreq = std::make_unique<AudioParameterFloat>(MOD_FREQ_ID, MOD_FREQ_NAME, 0.1f, 20000.0f, 1.0f);
-    auto modAmt = std::make_unique<AudioParameterFloat>(MOD_AMT_ID, MOD_AMT_NAME, 0.0f, 400.0f, 20.0f);
+    auto modMultiple = std::make_unique<AudioParameterInt>(MOD_MULTIPLE_ID, MOD_MULTIPLE_NAME, -7, 5, -2);
+    auto modDetune = std::make_unique<AudioParameterFloat>(MOD_DETUNE_ID, MOD_DETUNE_NAME, 0.01f, 2000.0f, 0.0f);
+    auto modAmt = std::make_unique<AudioParameterFloat>(MOD_AMT_ID, MOD_AMT_NAME, 0.0f, 1000.0f, 20.0f);
 
     params.push_back(std::move(gain));
     params.push_back(std::move(cutoff));
     params.push_back(std::move(carrierWave));
     params.push_back(std::move(carrierOctave));
     params.push_back(std::move(modWave));
-    params.push_back(std::move(modFreq));
+    params.push_back(std::move(modMultiple));
+    params.push_back(std::move(modDetune));
     params.push_back(std::move(modAmt));
 
     return {params.begin(), params.end()};
@@ -135,7 +126,14 @@ void FmSynthAudioProcessor::changeProgramName(int index, const String& newName)
 //==============================================================================
 void FmSynthAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
-    synth.prepareToPlay(sampleRate);
+    synth.prepareToPlay(sampleRate, samplesPerBlock);
+    /**
+     Clear Voice and Sound Buffer for polySynth instance.
+     */
+    synth.clearVoices();
+    synth.clearSounds();
+
+    synth.addVoice<FMVoice, FMSound>(12, &valTreeState);
 }
 
 void FmSynthAudioProcessor::releaseResources()

@@ -36,7 +36,8 @@ private:
     Slider gainSlider;
     Slider cutoffSlider;
     Slider octaveKnob;
-    Slider modFreqKnob;
+    Slider modMultipleKnob;
+    Slider modDetuneKnob;
     Slider modAmtKnob;
 
     Label textLabel;
@@ -48,7 +49,8 @@ private:
     std::unique_ptr<AudioProcessorValueTreeState::ComboBoxAttachment> carWaveAttachment;
     std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> octAttachment;
     std::unique_ptr<AudioProcessorValueTreeState::ComboBoxAttachment> modWaveAttachment;
-    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> modFreqAttachment;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> modMultipleAttachment;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> modDetuneAttachment;
     std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> modAmtAttachment;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FmSynthAudioProcessorEditor)

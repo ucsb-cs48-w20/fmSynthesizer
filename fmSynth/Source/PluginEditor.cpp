@@ -15,7 +15,7 @@
 FmSynthAudioProcessorEditor::FmSynthAudioProcessorEditor (FmSynthAudioProcessor& p, AudioProcessorValueTreeState& vts)
     : AudioProcessorEditor (&p), processor (p), valueTreeState(vts)
 {
-    setSize (700, 400);
+    setSize (700, 500);
 
     cutoffSlider.setSliderStyle(Slider::LinearBarVertical);
     cutoffSlider.setTextBoxStyle(Slider::NoTextBox, false, 90, 0);
@@ -34,10 +34,15 @@ FmSynthAudioProcessorEditor::FmSynthAudioProcessorEditor (FmSynthAudioProcessor&
     addAndMakeVisible(octaveKnob);
     octAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, OCTAVE_ID, octaveKnob));
 
-    modFreqKnob.setSliderStyle(Slider::Rotary);
-    modFreqKnob.setTextBoxStyle(Slider::TextBoxBelow, true, 90, 25);
-    addAndMakeVisible(modFreqKnob);
-    modFreqAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, MOD_FREQ_ID, modFreqKnob));
+    modMultipleKnob.setSliderStyle(Slider::Rotary);
+    modMultipleKnob.setTextBoxStyle(Slider::TextBoxBelow, true, 90, 25);
+    addAndMakeVisible(modMultipleKnob);
+    modMultipleAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, MOD_MULTIPLE_ID, modMultipleKnob));
+    
+    modDetuneKnob.setSliderStyle(Slider::Rotary);
+    modDetuneKnob.setTextBoxStyle(Slider::TextBoxBelow, true, 90, 25);
+    addAndMakeVisible(modDetuneKnob);
+    modMultipleAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, MOD_DETUNE_ID, modDetuneKnob));
 
     modAmtKnob.setSliderStyle(Slider::Rotary);
     modAmtKnob.setTextBoxStyle(Slider::TextBoxBelow, true, 90, 25);
@@ -93,8 +98,9 @@ void FmSynthAudioProcessorEditor::resized()
     cutoffSlider.setBounds(520, 50, 20, 300);
     gainSlider.setBounds(620, 50, 20, 300);
     octaveKnob.setBounds(275, 130, 120, 120);
-    modFreqKnob.setBounds(50, 130, 120, 120);
-    modAmtKnob.setBounds(50, 260, 120, 120);
+    modMultipleKnob.setBounds(50, 70, 120, 120);
+    modDetuneKnob.setBounds(50, 210, 120, 120);
+    modAmtKnob.setBounds(50, 330, 120, 120);
     modWaveSelect.setBounds(50, 50, 100, 20);
     carWaveSelect.setBounds(280, 50, 100, 20);
 }
