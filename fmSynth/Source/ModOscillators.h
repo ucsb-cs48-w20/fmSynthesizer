@@ -33,12 +33,9 @@ public:
        return dynamic_cast<ModOscSound_0*> (sound) != nullptr;
     }
     
-    void setCarrFrequency(float carrFrequency){carrierFrequency = carrFrequency;}
-    
-    void setModParams();
-    
-    void setInitParams() override;
-        
+     void startNote(int midiNoteNumber, float velocity,
+           SynthesiserSound* sound, int /*currentPitchWheelPosition*/) override;
+                
 protected:
     void parameterUpdate() override;
 

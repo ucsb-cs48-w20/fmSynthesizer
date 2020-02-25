@@ -37,10 +37,9 @@ public:
        return dynamic_cast<CarrOscSound_0*> (sound) != nullptr;
     }
     
-    void setInitParams() override;
+    void startNote(int midiNoteNumber, float velocity,
+                   SynthesiserSound* sound, int /*currentPitchWheelPosition*/) override;
     
 protected:
     void parameterUpdate() override;
-
-
 };

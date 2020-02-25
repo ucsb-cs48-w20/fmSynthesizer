@@ -12,11 +12,24 @@
 
 //=====Generic Voice Implementation==========
 
+void OscillatorVoice::isCarrier(bool carrier, AudioBuffer<float>* buffer)
+{
+    if(carrier && buffer) {
+        this->carrier = true;
+        ModBuffer = buffer;
+    }
+    else if(carrier && !buffer) {
+        std::cerr <<  "when setting isCarrier to true, must pass in a valid AudioBuffer pointer!";
+        exit(1);
+    }
+    else this->carrier = false;
+}
+
 void OscillatorVoice::setAngleDelta(float freq)
 {
     auto cyclesPerSample = (float)pow(2, currentOctave-2) * freq / getSampleRate();
     angleDelta = cyclesPerSample * TWO_PI;
-    
+    delta = cyclesPerSample * 2.0;
 }
 
 /**
@@ -61,6 +74,7 @@ void OscillatorVoice::stopNote(float /*velocity*/, bool allowTailOff)
         clearCurrentNote();
         angleDelta = 0.0;
     }
+    
 }
 
 /**
@@ -76,6 +90,7 @@ void OscillatorVoice::renderNextBlock(AudioBuffer<float>& outputBuffer,
         {
             while (--numSamples >= 0)
             {
+                
                 if(carrier)
                     setAngleDelta(frequency + ModBuffer->getSample(0,startSample));
                 

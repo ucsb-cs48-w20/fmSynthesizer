@@ -39,10 +39,15 @@ public:
         return dynamic_cast<OscillatorSound*> (sound) != nullptr;
     }
     
-    void isCarrier(bool carrier) {this->carrier = carrier;}
-    
-    float getLevel() const {return level;}
+    /**
+     @brief If true, the oscillator assumes that the frequency is being modulated per sample based on the value found in buffer.
+     @param carrier :  If true, you must pass in a non nullptr to an AudioBuffer. If false just pass a nullptr.
+     @param buffer : The buffer containing the samples from a modulation source.
+     */
+    void isCarrier(bool carrier, AudioBuffer<float>* buffer);
+    bool getCarrier() const {return carrier;}
     void setLevel(float level) {this->level = level;}
+    float getLevel() const {return level;}
     
     float getFrequency() const {return frequency;}
     void setFrequency(float frequency) {this->frequency = frequency;}
@@ -51,11 +56,6 @@ public:
         SynthesiserSound* sound, int /*currentPitchWheelPosition*/) override;
 
     void stopNote(float /*velocity*/, bool allowTailOff) override;
-    
-    /**
-            Pointer to the buffer where the modulate audio will be stored.
-     */
-    void setModBuffer(AudioBuffer<float>* buffer) {ModBuffer = buffer;}
 
     void pitchWheelMoved(int) override {}
     void controllerMoved(int, int) override {}
@@ -63,9 +63,7 @@ public:
     void renderNextBlock(AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override;
     
     void setAngleDelta(float freq);
-    
-    virtual void setInitParams() = 0;
-    
+        
     virtual void parameterUpdate() = 0; // check all relevant parameters and adjust members accordingly (this allows for changes mid-note)
     
     

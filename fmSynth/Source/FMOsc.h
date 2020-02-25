@@ -27,11 +27,18 @@ class FMVoice : public SynthesiserVoice
 {
 public:
     
-    FMVoice(int blockSize) : ModBuffer(1, blockSize) { params = NULL; }
+    FMVoice(int blockSize) : ModBuffer(1, blockSize)
+    {
+        params = NULL;
+        mCarrier.isCarrier(true, &ModBuffer);
+        mModulator.isCarrier(false, nullptr);
+    }
     
     FMVoice(AudioProcessorValueTreeState* params, int blockSize) : ModBuffer(1, blockSize), mModulator(params), mCarrier(params)
     {
         this->params = params;
+        mCarrier.isCarrier(true, &ModBuffer);
+        mModulator.isCarrier(false, nullptr);
     }
 
     bool canPlaySound(SynthesiserSound* sound) override

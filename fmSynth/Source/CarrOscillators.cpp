@@ -8,10 +8,18 @@
 #include "CarrOscillators.h"
 
 
-
-void CarrOscVoice_0::setInitParams() {
-//    waveID = (int)(*params->getRawParameterValue(CARRIER_WAVE_ID));
+void CarrOscVoice_0::startNote(int midiNoteNumber, float velocity,
+             SynthesiserSound* sound, int /*currentPitchWheelPosition*/)
+{
+    waveID = (int)(*params->getRawParameterValue(CARRIER_WAVE_ID));
     currentOctave = (int)(*params->getRawParameterValue(OCTAVE_ID));
+    previousAngle = 0.0;
+    nextSample = 0.0;
+    currentAngle = 0.0;
+    level = velocity * 0.15;
+    tailOff = 0.0;
+    frequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
+    setAngleDelta(frequency);
 }
 
 void CarrOscVoice_0::parameterUpdate()

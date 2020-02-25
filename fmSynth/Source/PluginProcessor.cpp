@@ -45,7 +45,7 @@ AudioProcessorValueTreeState::ParameterLayout FmSynthAudioProcessor::createParam
     auto carrierWave = std::make_unique<AudioParameterInt>(CARRIER_WAVE_ID, CARRIER_WAVE_NAME, 1, 3, 1);
     auto carrierOctave = std::make_unique<AudioParameterInt>(OCTAVE_ID, OCTAVE_NAME, 1, 4, 2);
     auto modWave = std::make_unique<AudioParameterInt>(MOD_WAVE_ID, MOD_WAVE_NAME, 1, 3, 1);
-    auto modMultiple = std::make_unique<AudioParameterInt>(MOD_MULTIPLE_ID, MOD_MULTIPLE_NAME, -7, 5, 2);
+    auto modMultiple = std::make_unique<AudioParameterInt>(MOD_MULTIPLE_ID, MOD_MULTIPLE_NAME, -7, 5, -2);
     auto modDetune = std::make_unique<AudioParameterFloat>(MOD_DETUNE_ID, MOD_DETUNE_NAME, 0.01f, 2000.0f, 0.0f);
     auto modAmt = std::make_unique<AudioParameterFloat>(MOD_AMT_ID, MOD_AMT_NAME, 0.0f, 1000.0f, 20.0f);
 
