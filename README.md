@@ -12,34 +12,23 @@ Our **target audience** is any musician looking for a highly tweakable instrumen
 ## Installation
 
 ### Prerequisites
- - **Windows** Visual Studio (2015 and later)
- - **OSX** Xcode
+ - CMAKE
+ - Python 3
 DAW that supports VST3 or AU
 
 ### Dependencies
 
 **JUCE Framework:** a C++ framework that streamlines the installation, development, and distribution process for audio software.
 
+**FRUT:** an extension of JUCE that is used to convert its build files into a CMakeList.txt.
+
 ### Installation Steps
 
-1. Install Visual Studio(Windows) or XCode(OSX).
-2. Install the JUCE framework:
- - https://shop.juce.com/get-juce
- - The "education" license is free and sufficent for our needs.
- - Follow the simple installation instructions for JUCE according to your OS.
-3. Clone this repo (fmSynthesizer) to your machine
-4. Open Projucer (located in your JUCE installation folder) and create a new project.
- - Select Audio Plugin
- - Uncheck "use global path" option and click "Create"
- - Open the plugin settings and inside of "plugin characterstics" select: "plugin is a synth" and "plugin MIDI input"
-5. Delete all of the files that have been generated within your project
-6. Drag the files from fmSynth/Source into your project
-7. Press "Save and Open in IDE"
-8. Once the IDE has opened, build the project
-9. OSX: The plugin should now be installed and recognized in your IDE of choice
-10. Windows: in the Juce project folder, navigate to Builds\VisualStudio\x64\VST3
- - This is where the built VST3 is located. Installation of VST3 plugins is simple but varies depending on your DAW of choice.
-
+1. Clone repo: https://github.com/ucsb-cs48-w20/fmSynthesizer/
+2. cd fmSynth/
+3. To configure the build files, run: python3 configure.py
+4. To compile the files in src/, run: python3 run.py
+5. find the VST/AU/Standalone application in build/
 
 ## Functionality
 
