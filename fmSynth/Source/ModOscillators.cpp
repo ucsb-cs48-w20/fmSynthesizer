@@ -42,7 +42,7 @@ void ModOscVoice_0::parameterUpdatePerBlock()
         waveID = change + waveID;
     
     change = (int)(*params->getRawParameterValue(MOD_MULTIPLE_ID)) - rawMultiple;
-
+    
     if (change != 0)
     {
         rawMultiple = change - rawMultiple;
