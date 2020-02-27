@@ -12,9 +12,10 @@ Our **target audience** is any musician looking for a highly tweakable instrumen
 ## Installation
 
 ### Prerequisites
+ - MinGW (Windows Only)
  - CMAKE
  - Python 3
-DAW that supports VST3 or AU
+ - DAW that supports VST3 or AU
 
 ### Dependencies
 
