@@ -15,7 +15,7 @@ set(fmSynth_jucer_FILE
 
 
 jucer_project_begin(
-  JUCER_VERSION "5.4.5"
+  JUCER_VERSION "5.4.7"
   PROJECT_FILE "${fmSynth_jucer_FILE}"
   PROJECT_ID "w3QUN6"
 )
@@ -61,16 +61,19 @@ jucer_audio_plugin_settings(
 jucer_project_files("fmSynth/Source"
 # Compile   Xcode     Binary    File
 #           Resource  Resource
-  x         .         .         "Source/SineOsc.cpp"
+  x         .         .         "Source/CarrOscillators.cpp"
+  .         .         .         "Source/CarrOscillators.h"
+  x         .         .         "Source/ModOscillators.cpp"
+  .         .         .         "Source/ModOscillators.h"
+  x         .         .         "Source/FMOsc.cpp"
+  .         .         .         "Source/FMOsc.h"
+  .         .         .         "Source/utilities.h"
+  .         .         .         "Source/Oscillator.h"
+  x         .         .         "Source/Oscillator.cpp"
   .         .         .         "Source/PolySynth.h"
-  .         .         .         "Source/SawOsc.h"
-  .         .         .         "Source/SineOsc.h"
-  .         .         .         "Source/SquareOsc.h"
   x         .         .         "Source/PluginProcessor.cpp"
   x         .         .         "Source/PolySynth.cpp"
   .         .         .         "Source/PluginProcessor.h"
-  x         .         .         "Source/SawOsc.cpp"
-  x         .         .         "Source/SquareOsc.cpp"
   x         .         .         "Source/PluginEditor.cpp"
   .         .         .         "Source/PluginEditor.h"
 )
@@ -198,7 +201,9 @@ jucer_project_module(
 
 jucer_appconfig_header(
   USER_CODE_SECTION
-""
+"
+// (You can get your own code in this section by calling jucer_appconfig_header)
+"
 )
 
 jucer_export_target(

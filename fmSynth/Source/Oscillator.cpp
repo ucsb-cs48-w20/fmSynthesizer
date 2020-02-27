@@ -12,6 +12,26 @@
 
 //=====Generic Voice Implementation==========
 
+void OscillatorVoice::isCarrier(bool carrier, AudioBuffer<float>* buffer)
+{
+    if(carrier && buffer) {
+        this->carrier = true;
+        ModBuffer = buffer;
+    }
+    else if(carrier && !buffer) {
+        std::cerr <<  "when setting isCarrier to true, must pass in a valid AudioBuffer pointer!";
+        exit(1);
+    }
+    else this->carrier = false;
+}
+
+void OscillatorVoice::setAngleDelta(float freq)
+{
+    auto cyclesPerSample = (float)pow(2, currentOctave-2) * freq / getSampleRate();
+    angleDelta = cyclesPerSample * TWO_PI;
+    delta = cyclesPerSample * 2.0;
+}
+
 /**
  This is where we set up all the parameters needed when a note is pressed.
  */
@@ -23,15 +43,19 @@ void OscillatorVoice::startNote(int midiNoteNumber, float velocity,
     currentAngle = 0.0;
     level = velocity * 0.15;
     tailOff = 0.0;
-
-    currentOctave = (int)(*params->getRawParameterValue(OCTAVE_ID)); // 1, 2 ,3, or 4
-    auto octave = (float)pow(2, currentOctave-2);
-
-    auto cyclesPerSecond = octave * MidiMessage::getMidiNoteInHertz(midiNoteNumber);
+    frequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
+    
+    float cyclesPerSecond;
+    if (carrier)
+    {
+        auto octave = (float)pow(2, currentOctave-2);
+        cyclesPerSecond = octave * frequency;
+    }
+    else cyclesPerSecond = frequency;
+    
     auto cyclesPerSample = cyclesPerSecond / getSampleRate();
     
-    twoPi = 2.0 * MathConstants<double>::pi;
-    angleDelta = cyclesPerSample * twoPi;
+    angleDelta = cyclesPerSample * TWO_PI;
     delta = cyclesPerSample * 2.0;
 }
 
@@ -50,6 +74,7 @@ void OscillatorVoice::stopNote(float /*velocity*/, bool allowTailOff)
         clearCurrentNote();
         angleDelta = 0.0;
     }
+    
 }
 
 /**
@@ -60,11 +85,16 @@ void OscillatorVoice::renderNextBlock(AudioBuffer<float>& outputBuffer,
 {
     if (angleDelta != 0.0)
     {
-        parameterUpdate();
+        parameterUpdatePerBlock();
         if (tailOff > 0.0) // [7]
         {
             while (--numSamples >= 0)
             {
+                parameterUpdatePerSample();
+                
+                if(carrier)
+                    setAngleDelta(frequency + ModBuffer->getSample(0,startSample));
+                
                 auto currentSample = (float)(generateSample(currentAngle) * level * tailOff);
 
                 for (auto i = outputBuffer.getNumChannels(); --i >= 0;)
@@ -89,6 +119,9 @@ void OscillatorVoice::renderNextBlock(AudioBuffer<float>& outputBuffer,
         {
             while (--numSamples >= 0) // [6]
             {
+                if(carrier)
+                    setAngleDelta(frequency + ModBuffer->getSample(0,startSample));
+                
                 auto currentSample = (float)(generateSample(currentAngle) * level);
 
                 for (auto i = outputBuffer.getNumChannels(); --i >= 0;)
@@ -104,14 +137,15 @@ void OscillatorVoice::renderNextBlock(AudioBuffer<float>& outputBuffer,
 
 float OscillatorVoice::generateSample(float angle)
 {
-    switch ((int)(*params->getRawParameterValue(CARRIER_WAVE_ID)))
+    switch (waveID)
     {
-    case(SINE):
-        return sineWave(angle);
     case(SQUARE):
         return squareWave(angle);
     case(SAW):
         return sawWave(angle);
+    case(SINE):
+    default:
+           return sineWave(angle);
     }
 }
 float OscillatorVoice::sineWave(float angle)
@@ -137,23 +171,8 @@ float OscillatorVoice::sawWave(float angle)
 
 void OscillatorVoice::angleCap()
 {
-    if (currentAngle >= twoPi)
+    if (currentAngle >= TWO_PI)
     {
-        currentAngle -= twoPi;
+        currentAngle -= TWO_PI;
     }
-}
-
-void OscillatorVoice::parameterUpdate()
-{
-    // check octave
-    int change = (int)(*params->getRawParameterValue(OCTAVE_ID)) - currentOctave;
-    if (change != 0)
-    {
-        float adjustment = (float)pow(2, change);
-        delta *= adjustment;
-        angleDelta *= adjustment;
-        currentOctave = change + currentOctave;
-    }
-
-    // TODO : check frequency from Modulator here (do we do this before or after octave???)
 }
