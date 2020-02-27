@@ -27,6 +27,14 @@ struct OscillatorSound : public SynthesiserSound
 
 };
 
+/**
+ SOME JACK KiILGORE NOTES:
+    - This is an abstract class.
+    - Must override parameterUpdatePerBlock() and parameterUpdatePerSample()
+        - These are used to update the values found in the AudioValueTree
+        - Each inherited class uses these functions to update their own unique parameters.
+ */
+
 class OscillatorVoice : public SynthesiserVoice
 {
 public:

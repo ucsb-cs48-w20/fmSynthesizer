@@ -18,7 +18,6 @@ struct ModOscSound_0 : public OscillatorSound
 
 };
 
-
 class ModOscVoice_0 : public OscillatorVoice
 {
 public:
