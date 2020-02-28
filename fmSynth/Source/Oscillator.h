@@ -101,6 +101,5 @@ protected:
 private:
     
     bool carrier;
-    
     AudioBuffer<float>* ModBuffer;
 };

@@ -66,6 +66,8 @@ public:
     void controllerMoved(int, int) override {}
 
     void renderNextBlock(AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override;
+    
+    void setADSRParameters();
 
 private:
     
@@ -74,6 +76,8 @@ private:
     
     AudioProcessorValueTreeState* params;
     AudioBuffer<float> ModBuffer;
+    
+    ADSR envelope;
     
     
 };

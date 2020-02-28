@@ -57,6 +57,7 @@ void OscillatorVoice::startNote(int midiNoteNumber, float velocity,
     
     angleDelta = cyclesPerSample * TWO_PI;
     delta = cyclesPerSample * 2.0;
+    
 }
 
 /**
