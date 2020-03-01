@@ -41,6 +41,7 @@ void OscillatorVoice::startNote(int midiNoteNumber, float velocity,
     previousAngle = 0.0;
     nextSample = 0.0;
     currentAngle = 0.0;
+    hold = 0.0;
     level = velocity * 0.15;
     tailOff = 0.0;
     frequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
@@ -144,9 +145,13 @@ float OscillatorVoice::generateSample(float angle)
         return squareWave(angle);
     case(SAW):
         return sawWave(angle);
+    case(TRI):
+        return triangleWave(angle);
+    case(NOISE):
+        return noise(angle);
     case(SINE):
     default:
-           return sineWave(angle);
+        return sineWave(angle);
     }
 }
 float OscillatorVoice::sineWave(float angle)
@@ -159,7 +164,7 @@ float OscillatorVoice::squareWave(float angle)
 }
 float OscillatorVoice::sawWave(float angle)
 {
-    if (angle < previousAngle) 
+    if (angle <= previousAngle)
     {
         nextSample = -1.0;
         previousAngle = angle;
@@ -169,6 +174,31 @@ float OscillatorVoice::sawWave(float angle)
     previousAngle = angle;
     return nextSample;
 }
+float OscillatorVoice::triangleWave(float angle)
+{
+    if(std::cos(angle) >= 0)
+    {
+        nextSample += delta+delta;
+    }
+    else
+    {
+        nextSample -= delta+delta;
+    }
+    
+    return nextSample;
+}
+
+float OscillatorVoice::noise(float angle)
+{
+    if (angle <= previousAngle)
+    {
+        hold = 2.0*Random::getSystemRandom().nextFloat()-1.0;
+        previousAngle = angle;
+    }
+    previousAngle = angle;
+    return hold;
+}
+
 
 void OscillatorVoice::angleCap()
 {

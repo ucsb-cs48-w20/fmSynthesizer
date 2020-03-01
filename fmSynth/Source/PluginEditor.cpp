@@ -42,7 +42,7 @@ FmSynthAudioProcessorEditor::FmSynthAudioProcessorEditor (FmSynthAudioProcessor&
     modDetuneKnob.setSliderStyle(Slider::Rotary);
     modDetuneKnob.setTextBoxStyle(Slider::TextBoxBelow, true, 90, 25);
     addAndMakeVisible(modDetuneKnob);
-    modMultipleAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, MOD_DETUNE_ID, modDetuneKnob));
+    modDetuneAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, MOD_DETUNE_ID, modDetuneKnob));
 
     modAmtKnob.setSliderStyle(Slider::Rotary);
     modAmtKnob.setTextBoxStyle(Slider::TextBoxBelow, true, 90, 25);
@@ -52,12 +52,16 @@ FmSynthAudioProcessorEditor::FmSynthAudioProcessorEditor (FmSynthAudioProcessor&
     carWaveSelect.addItem("Sine", 1);
     carWaveSelect.addItem("Square", 2);
     carWaveSelect.addItem("Saw", 3);
+    carWaveSelect.addItem("Tri", 4);
+    carWaveSelect.addItem("Noise", 5);
     addAndMakeVisible(carWaveSelect);
     carWaveAttachment.reset(new AudioProcessorValueTreeState::ComboBoxAttachment(valueTreeState, CARRIER_WAVE_ID, carWaveSelect));
 
     modWaveSelect.addItem("Sine", 1);
     modWaveSelect.addItem("Square", 2);
     modWaveSelect.addItem("Saw", 3);
+    modWaveSelect.addItem("Tri", 4);
+    modWaveSelect.addItem("Noise", 5);
     addAndMakeVisible(modWaveSelect);
     modWaveAttachment.reset(new AudioProcessorValueTreeState::ComboBoxAttachment(valueTreeState, MOD_WAVE_ID, modWaveSelect));
 }

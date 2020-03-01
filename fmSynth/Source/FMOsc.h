@@ -78,6 +78,4 @@ private:
     AudioBuffer<float> ModBuffer;
     
     ADSR envelope;
-    
-    
 };

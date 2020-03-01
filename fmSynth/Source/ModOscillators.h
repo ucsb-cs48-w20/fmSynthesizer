@@ -40,7 +40,8 @@ protected:
     void parameterUpdatePerSample() override {};
 
 private:
-    
+    float testBitch;
     float carrierFrequency, multipleOfCarrier, detune, amount;
     int rawMultiple;
+    int tester;
 };

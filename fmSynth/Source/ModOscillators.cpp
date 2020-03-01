@@ -11,6 +11,7 @@ void ModOscVoice_0::startNote(int midiNoteNumber, float velocity,
     SynthesiserSound* sound, int /*currentPitchWheelPosition*/)
 {
     rawMultiple = (int)(*params->getRawParameterValue(MOD_MULTIPLE_ID));
+    testBitch = *params->getRawParameterValue(MOD_MULTIPLE_ID);
     if(rawMultiple < 0)
       multipleOfCarrier = -1 * 1/(float)rawMultiple;
     else multipleOfCarrier = rawMultiple;
@@ -42,15 +43,17 @@ void ModOscVoice_0::parameterUpdatePerBlock()
         waveID = change + waveID;
     
     change = (int)(*params->getRawParameterValue(MOD_MULTIPLE_ID)) - rawMultiple;
+    tester = (int)(*params->getRawParameterValue(MOD_MULTIPLE_ID));
+    
+    	
     
     if (change != 0)
     {
-        rawMultiple = change - rawMultiple;
+        rawMultiple = (int)(*params->getRawParameterValue(MOD_MULTIPLE_ID));
         if(rawMultiple < 0)
             multipleOfCarrier = -1 * 1/(float)rawMultiple;
         else multipleOfCarrier = rawMultiple;
         setAngleDelta(carrierFrequency * multipleOfCarrier + detune);
-        delta = angleDelta/juce::MathConstants<float>::pi;
     }
     
     changeF = (*params->getRawParameterValue(MOD_DETUNE_ID)) - detune;
@@ -58,7 +61,6 @@ void ModOscVoice_0::parameterUpdatePerBlock()
     {
         detune = *params->getRawParameterValue(MOD_DETUNE_ID);
         setAngleDelta(carrierFrequency * multipleOfCarrier + detune);
-        delta = angleDelta/juce::MathConstants<float>::pi;
     }
     
     changeF = (*params->getRawParameterValue(MOD_AMT_ID)) - amount;
@@ -66,6 +68,5 @@ void ModOscVoice_0::parameterUpdatePerBlock()
     {
         detune = *params->getRawParameterValue(MOD_AMT_ID);
         setAngleDelta(carrierFrequency * multipleOfCarrier + detune);
-        delta = angleDelta/juce::MathConstants<float>::pi;
     }
 }
