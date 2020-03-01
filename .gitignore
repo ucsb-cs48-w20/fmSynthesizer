@@ -40,3 +40,4 @@ fmSynth/CMakeLists.txt #for now??
 *.out
 *.app
 fmSynth/CMakeLists.txt
+test.filtergraph
