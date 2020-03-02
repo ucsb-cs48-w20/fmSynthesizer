@@ -11,7 +11,6 @@ void ModOscVoice_0::startNote(int midiNoteNumber, float velocity,
     SynthesiserSound* sound, int /*currentPitchWheelPosition*/)
 {
     rawMultiple = (int)(*params->getRawParameterValue(MOD_MULTIPLE_ID));
-    testBitch = *params->getRawParameterValue(MOD_MULTIPLE_ID);
     if(rawMultiple < 0)
       multipleOfCarrier = -1 * 1/(float)rawMultiple;
     else multipleOfCarrier = rawMultiple;
@@ -43,9 +42,6 @@ void ModOscVoice_0::parameterUpdatePerBlock()
         waveID = change + waveID;
     
     change = (int)(*params->getRawParameterValue(MOD_MULTIPLE_ID)) - rawMultiple;
-    tester = (int)(*params->getRawParameterValue(MOD_MULTIPLE_ID));
-    
-    	
     
     if (change != 0)
     {
@@ -69,4 +65,50 @@ void ModOscVoice_0::parameterUpdatePerBlock()
         detune = *params->getRawParameterValue(MOD_AMT_ID);
         setAngleDelta(carrierFrequency * multipleOfCarrier + detune);
     }
+}
+
+LFO::LFO(AudioProcessorValueTreeState* params, int LFOindex) : OscillatorVoice(params)
+{
+    switch(LFOindex)
+    {
+        case 1:
+            freq_ID = LFO_FREQ_ID_1;
+            wave_ID = LFO_WAVE_ID_1;
+            amt_ID = LFO_AMT_ID_1;
+            value_ID = LFO_VAL_ID_1;
+            break;
+        case 2:
+            freq_ID = LFO_FREQ_ID_2;
+            wave_ID = LFO_WAVE_ID_2;
+            amt_ID = LFO_AMT_ID_2;
+            value_ID = LFO_VAL_ID_2;
+            break;
+        case 3:
+            freq_ID = LFO_FREQ_ID_3;
+            wave_ID = LFO_WAVE_ID_3;
+            amt_ID = LFO_AMT_ID_3;
+            value_ID = LFO_VAL_ID_3;
+            break;
+        case 4:
+            freq_ID = LFO_FREQ_ID_4;
+            wave_ID = LFO_WAVE_ID_4;
+            amt_ID = LFO_AMT_ID_4;
+            value_ID = LFO_VAL_ID_4;
+            break;
+        default:
+            std::cout << "fuck" << std::endl;
+    }
+    
+}
+
+void LFO::generateLFOSample()
+{
+// TODO SGJRGHIRDSGHSIRHGISRGHIRHG 
+//    auto hold = params->getParameterAsValue(value_ID);
+//    hold.setValue(generateSample(currentAngle));
+}
+
+void LFO::parameterUpdate(int Hz)
+{
+    
 }
