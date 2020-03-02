@@ -39,3 +39,5 @@ fmSynth/CMakeLists.txt #for now??
 *.exe
 *.out
 *.app
+fmSynth/CMakeLists.txt
+test.filtergraph

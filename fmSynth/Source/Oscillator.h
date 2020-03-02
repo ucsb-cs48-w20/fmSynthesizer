@@ -16,6 +16,8 @@
 #define SINE 1
 #define SQUARE 2
 #define SAW 3
+#define TRI 4
+#define NOISE 5
 
 struct OscillatorSound : public SynthesiserSound
 {
@@ -89,6 +91,8 @@ protected:
     float sineWave(float angle);
     float squareWave(float angle);
     float sawWave(float angle);
+    float triangleWave(float angle);
+    float noise(float angle);
     void angleCap(); // call after you increment currentAngle to avoid overflows
     float nextSample = 0.0, delta = 0.0,
         currentAngle = 0.0, previousAngle = 0.0, angleDelta = 0.0,
@@ -99,7 +103,7 @@ protected:
     int waveID, currentOctave;
 
 private:
-    
     bool carrier;
+    float hold;
     AudioBuffer<float>* ModBuffer;
 };

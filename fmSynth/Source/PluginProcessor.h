@@ -73,4 +73,9 @@ private:
     
     AudioProcessorValueTreeState valTreeState;
     AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
+    
+    LFO lfo_1;
+    LFO lfo_2;
+    LFO lfo_3;
+    LFO lfo_4;
 };

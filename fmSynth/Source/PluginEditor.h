@@ -40,7 +40,7 @@ private:
     Slider modDetuneKnob;
     Slider modAmtKnob;
 
-    Label textLabel;
+    Label modMultLabel, carrOctLabel, modAmtLabel, modDetLabel;
     ComboBox modWaveSelect;
     ComboBox carWaveSelect;
 

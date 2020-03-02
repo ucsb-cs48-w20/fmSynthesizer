@@ -23,7 +23,11 @@ FmSynthAudioProcessor::FmSynthAudioProcessor()
 #endif
     ),
     valTreeState(*this, nullptr, "PARAMETERS", createParameterLayout()),
-    synth(keyboardState)
+    synth(keyboardState),
+    lfo_1(&valTreeState,1),
+    lfo_2(&valTreeState,2),
+    lfo_3(&valTreeState,3),
+    lfo_4(&valTreeState,4)
 #endif
 {}
 
@@ -40,15 +44,40 @@ AudioProcessorValueTreeState::ParameterLayout FmSynthAudioProcessor::createParam
     NormalisableRange<float> cutoffRange(0.0, 20000.0, 1.0, .3, false);
 
     std::vector<std::unique_ptr<RangedAudioParameter>> params;
+    
     auto gain = std::make_unique<AudioParameterFloat>(GAIN_ID, GAIN_NAME, 0.0f, 1.0f, 1.0f);
     auto cutoff = std::make_unique<AudioParameterFloat>(FILTER_CUTOFF_ID, FILTER_CUTOFF_NAME, cutoffRange, 20000.0f);
-    auto carrierWave = std::make_unique<AudioParameterInt>(CARRIER_WAVE_ID, CARRIER_WAVE_NAME, 1, 3, 1);
+    auto carrierWave = std::make_unique<AudioParameterInt>(CARRIER_WAVE_ID, CARRIER_WAVE_NAME, 1, 5, 1);
     auto carrierOctave = std::make_unique<AudioParameterInt>(OCTAVE_ID, OCTAVE_NAME, 1, 4, 2);
-    auto modWave = std::make_unique<AudioParameterInt>(MOD_WAVE_ID, MOD_WAVE_NAME, 1, 3, 1);
-    auto modMultiple = std::make_unique<AudioParameterInt>(MOD_MULTIPLE_ID, MOD_MULTIPLE_NAME, -7, 5, -2);
+    auto modWave = std::make_unique<AudioParameterInt>(MOD_WAVE_ID, MOD_WAVE_NAME, 1, 5, 1);
+    auto modMultiple = std::make_unique<AudioParameterInt>(MOD_MULTIPLE_ID, MOD_MULTIPLE_NAME, -5, 5, 2);
     auto modDetune = std::make_unique<AudioParameterFloat>(MOD_DETUNE_ID, MOD_DETUNE_NAME, 0.01f, 2000.0f, 0.0f);
     auto modAmt = std::make_unique<AudioParameterFloat>(MOD_AMT_ID, MOD_AMT_NAME, 0.0f, 1000.0f, 20.0f);
-
+    
+    auto lfo_gain           = std::make_unique<AudioParameterInt>(LFO_GAIN_ID, LFO_GAIN_NAME, 0, 4, 0);
+    auto lfo_cutoff         = std::make_unique<AudioParameterInt>(LFO_FILTER_CUTOFF_ID, LFO_FILTER_CUTOFF_NAME, 0, 4, 0);
+    auto lfo_carrierWave    = std::make_unique<AudioParameterInt>(LFO_CARRIER_WAVE_ID, LFO_CARRIER_WAVE_NAME, 0, 4, 0);
+    auto lfo_carrierOctave  = std::make_unique<AudioParameterInt>(LFO_OCTAVE_ID, LFO_OCTAVE_NAME, 0, 4, 0);
+    auto lfo_modWave        = std::make_unique<AudioParameterInt>(LFO_MOD_WAVE_ID, LFO_MOD_WAVE_NAME, 0, 4, 0);
+    auto lfo_modMultiple    = std::make_unique<AudioParameterInt>(LFO_MOD_MULTIPLE_ID, LFO_MOD_MULTIPLE_NAME, 0, 4, 0);
+    auto lfo_modDetune      = std::make_unique<AudioParameterInt>(LFO_MOD_DETUNE_ID, LFO_MOD_DETUNE_NAME, 0, 4, 0);
+    auto lfo_modAmt         = std::make_unique<AudioParameterInt>(LFO_MOD_AMT_ID, LFO_MOD_AMT_NAME, 0, 4, 0);
+    
+    auto LFO_freq_1 = std::make_unique<AudioParameterFloat>(LFO_FREQ_ID_1, LFO_FREQ_NAME_1, 0.01, 100.0, 15.0);
+    auto LFO_freq_2 = std::make_unique<AudioParameterFloat>(LFO_FREQ_ID_2, LFO_FREQ_NAME_2, 0.01, 100.0, 15.0);
+    auto LFO_freq_3 = std::make_unique<AudioParameterFloat>(LFO_FREQ_ID_3, LFO_FREQ_NAME_3, 0.01, 100.0, 15.0);
+    auto LFO_freq_4 = std::make_unique<AudioParameterFloat>(LFO_FREQ_ID_4, LFO_FREQ_NAME_4, 0.01, 100.0, 15.0);
+    
+    auto LFO_amt_1 = std::make_unique<AudioParameterFloat>(LFO_AMT_ID_1, LFO_AMT_NAME_1, 0.0, 1.0, .25);
+    auto LFO_amt_2 = std::make_unique<AudioParameterFloat>(LFO_AMT_ID_2, LFO_AMT_NAME_2, 0.0, 1.0, .25);
+    auto LFO_amt_3 = std::make_unique<AudioParameterFloat>(LFO_AMT_ID_3, LFO_AMT_NAME_3, 0.0, 1.0, .25);
+    auto LFO_amt_4 = std::make_unique<AudioParameterFloat>(LFO_AMT_ID_4, LFO_AMT_NAME_4, 0.0, 1.0, .25);
+    
+    auto LFO_val_1 = std::make_unique<AudioParameterFloat>(LFO_VAL_ID_1, LFO_VAL_NAME_1, -1.0f, 1.0f, 0.0f);
+    auto LFO_val_2 = std::make_unique<AudioParameterFloat>(LFO_VAL_ID_2, LFO_VAL_NAME_2, -1.0f, 1.0f, 0.0f);
+    auto LFO_val_3 = std::make_unique<AudioParameterFloat>(LFO_VAL_ID_3, LFO_VAL_NAME_3, -1.0f, 1.0f, 0.0f);
+    auto LFO_val_4 = std::make_unique<AudioParameterFloat>(LFO_VAL_ID_4, LFO_VAL_NAME_4, -1.0f, 1.0f, 0.0f);
+    
     params.push_back(std::move(gain));
     params.push_back(std::move(cutoff));
     params.push_back(std::move(carrierWave));
@@ -57,6 +86,28 @@ AudioProcessorValueTreeState::ParameterLayout FmSynthAudioProcessor::createParam
     params.push_back(std::move(modMultiple));
     params.push_back(std::move(modDetune));
     params.push_back(std::move(modAmt));
+    
+    params.push_back(std::move(lfo_gain));
+    params.push_back(std::move(lfo_cutoff));
+    params.push_back(std::move(lfo_carrierWave));
+    params.push_back(std::move(lfo_carrierOctave));
+    params.push_back(std::move(lfo_modWave));
+    params.push_back(std::move(lfo_modMultiple));
+    params.push_back(std::move(lfo_modDetune));
+    params.push_back(std::move(lfo_modAmt));
+    
+    params.push_back(std::move(LFO_freq_1));
+    params.push_back(std::move(LFO_freq_2));
+    params.push_back(std::move(LFO_freq_3));
+    params.push_back(std::move(LFO_freq_4));
+    params.push_back(std::move(LFO_amt_1));
+    params.push_back(std::move(LFO_amt_2));
+    params.push_back(std::move(LFO_amt_3));
+    params.push_back(std::move(LFO_amt_4));
+    params.push_back(std::move(LFO_val_1));
+    params.push_back(std::move(LFO_val_2));
+    params.push_back(std::move(LFO_val_3));
+    params.push_back(std::move(LFO_val_4));
 
     return {params.begin(), params.end()};
 }
@@ -166,7 +217,7 @@ bool FmSynthAudioProcessor::isBusesLayoutSupported(const BusesLayout& layouts) c
 
 void FmSynthAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
-
+    
     buffer.clear();
 
     ScopedNoDenormals noDenormals;
