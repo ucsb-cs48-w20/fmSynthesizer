@@ -41,11 +41,11 @@ void FMVoice::stopNote (float velocity, bool allowTailOff)
 {
     mModulator.stopNote(velocity, allowTailOff);
     mCarrier.stopNote(velocity, allowTailOff);
-    //envelope.noteOff();
+    envelope.noteOff();
 
 }
 
-void FMVoice::setADSRParameters() {
+void setADSRParams() {
     /* stub
      access value tree and set up enevelope parameters*/
 }
