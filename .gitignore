@@ -9,7 +9,6 @@ fmSynth/UnitTests/JuceLibraryCode
 fmSynth/build
 fmSynth/CMakeLists.txt #for now??
 fmSynth/UnitTests/build
-fmSynth/UnitTests/CMakeLists.txt
 
 # Prerequisites
 *.d
