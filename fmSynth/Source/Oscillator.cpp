@@ -98,9 +98,17 @@ void OscillatorVoice::renderNextBlock(AudioBuffer<float>& outputBuffer,
                     setAngleDelta(frequency + ModBuffer->getSample(0,startSample));
                 
                 auto currentSample = (float)(generateSample(currentAngle) * level * tailOff);
-
-                for (auto i = outputBuffer.getNumChannels(); --i >= 0;)
-                    outputBuffer.addSample(i, startSample, currentSample);
+                
+                if(!recycleOutput)
+                    for (auto i = outputBuffer.getNumChannels(); --i >= 0;)
+                        outputBuffer.addSample(i, startSample, currentSample);
+                else {
+                    for (auto i = outputBuffer.getNumChannels(); --i >= 0;) {
+                        outputBuffer.clear(startSample,1);
+                        outputBuffer.addSample(i, startSample, currentSample);
+                    }
+                }
+                    
 
                 currentAngle += angleDelta;
                 angleCap();

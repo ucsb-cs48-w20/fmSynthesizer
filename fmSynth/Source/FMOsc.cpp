@@ -15,6 +15,8 @@ void FMVoice::startNote (int midiNoteNumber, float velocity,
     
     mModulator.startNote(midiNoteNumber, velocity, sound, currentPitchWheelPosition);
     
+    mModulator_1.startNote(midiNoteNumber, velocity, sound, currentPitchWheelPosition);
+    
     mCarrier.startNote(midiNoteNumber, velocity, sound, currentPitchWheelPosition);
     
     setADSRParameters();
@@ -30,6 +32,7 @@ void FMVoice::renderNextBlock (AudioBuffer<float>& outputBuffer,
 {
     ModBuffer.clear();
     mModulator.renderNextBlock(ModBuffer, startSample, numSamples);
+    mModulator_1.renderNextBlock(ModBuffer, startSample, numSamples);
     mCarrier.renderNextBlock(outputBuffer, startSample, numSamples);
     //envelope.applyEnvelopeToBuffer(outputBuffer, startSample, numSamples);
 

@@ -41,8 +41,8 @@ class OscillatorVoice : public SynthesiserVoice
 {
 public:
 
-    OscillatorVoice() { params = NULL; carrier = false;}
-    OscillatorVoice(AudioProcessorValueTreeState* params) { this->params = params; carrier = false;}
+    OscillatorVoice() { params = NULL; carrier = false; recycleOutput = false;}
+    OscillatorVoice(AudioProcessorValueTreeState* params) { this->params = params; carrier = false; recycleOutput = false;}
 
     bool canPlaySound(SynthesiserSound* sound) override
     {
@@ -56,6 +56,11 @@ public:
      */
     void isCarrier(bool carrier, AudioBuffer<float>* buffer);
     bool getCarrier() const {return carrier;}
+    
+    void isRecycleOutput(bool recycleOutput) {this->recycleOutput = recycleOutput;}
+    bool getRecycleOutput() const {return recycleOutput;}
+    
+    
     void setLevel(float level) {this->level = level;}
     float getLevel() const {return level;}
     
@@ -103,7 +108,7 @@ protected:
     int waveID, currentOctave;
 
 private:
-    bool carrier;
+    bool carrier, recycleOutput;
     float hold;
     AudioBuffer<float>* ModBuffer;
 };

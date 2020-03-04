@@ -37,3 +37,18 @@
 
 #define MOD_AMT_ID          "MODAMT"
 #define MOD_AMT_NAME        "Amount"
+
+#define MOD_WAVE_1_ID         "MODWAVE_1"
+#define MOD_WAVE_1_NAME       "Mod Wave Type_1"
+
+#define MOD_MULTIPLE_1_ID     "MODMULTIPLE_1"
+#define MOD_MULTIPLE_1_NAME   "Mod Multiple_1"
+
+#define MOD_DETUNE_1_ID       "MODDETUNE_1"
+#define MOD_DETUNE_1_NAME      "Mod Detune_1"
+
+#define MOD_FREQ_1_ID         "MODFREQ_1"
+#define MOD_FREQ_1_NAME       "Frequency_1"
+
+#define MOD_AMT_1_ID          "MODAMT_1"
+#define MOD_AMT_1_NAME        "Amount_1"
