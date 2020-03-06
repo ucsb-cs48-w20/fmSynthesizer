@@ -17,3 +17,11 @@ jobs:
       run: python3 run.py
       working-directory: ./fmSynth
       shell: bash
+    - name: configure UnitTests
+      run: python3 configure.py
+      working-directory: ./UnitTests
+      shell: bash
+    - name: run UnitTests
+      run: python3 run.py
+      working-directory: ./UnitTests
+      shell: bash
