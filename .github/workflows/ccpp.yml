@@ -17,7 +17,7 @@ jobs:
       uses: actions/cache@v1.1.2
       with:
         # A directory to store and save the cache
-        path: /external 
+        path: $GITHUB_WORKSPACE/external 
         # An explicit key for restoring and saving the cache
         key: frut-juce-03-08-2019
       
