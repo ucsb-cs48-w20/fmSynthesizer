@@ -9,6 +9,10 @@ jobs:
     
     steps:
     - uses: actions/checkout@v2
+    - name: install dependencies
+      run: apt install xorg-dev
+      shell: bash
+      
     - name: configure
       run: python3 configure.py
       working-directory: ./fmSynth
@@ -17,6 +21,7 @@ jobs:
       run: python3 run.py
       working-directory: ./fmSynth
       shell: bash
+      
     - name: configure UnitTests
       run: python3 configure.py
       working-directory: ./UnitTests
