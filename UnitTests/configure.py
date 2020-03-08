@@ -15,7 +15,7 @@ if not os.path.exists("../external/FRUT/prefix"):
     call("cmake --build . --target install", shell = True)
     os.chdir("../../../UnitTests")
     
-call("../external/FRUT/prefix/FRUT/bin/Jucer2Reprojucer UnitTests.jucer ../external/FRUT/prefix/FRUT/cmake/Reprojucer.cmake", shell = True)
+call("../external/FRUT/prefix/FRUT/bin/Jucer2Reprojucer UnitTestRunner.jucer ../external/FRUT/prefix/FRUT/cmake/Reprojucer.cmake", shell = True)
 call(["cmake","-E","make_directory","build"])
 os.chdir("build/")
 

@@ -1,7 +1,6 @@
 
 #pragma once
-#include "../JuceLibraryCode/JuceHeader.h"
-#include "../Source/PolySynth.h"
+#include "../../fmSynth/Source/PolySynth.h"
 #include <assert.h>
 
 
