@@ -116,7 +116,7 @@ jobs:
   
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
-        with:
+      with:
         # Artifact name
           name: fmSynth
         # Directory containing files to upload
