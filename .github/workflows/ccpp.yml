@@ -118,6 +118,14 @@ jobs:
       uses: actions/upload-artifact@v1.0.0
       with:
         # Artifact name
-          name: fmSynth
+          name: fmSynthAU
         # Directory containing files to upload
-          path: fmSynth/build/fmSynth*
+          path: fmSynth/build/fmSynth.AU
+          
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        # Artifact name
+          name: fmSynthAU
+        # Directory containing files to upload
+          path: fmSynth/build/fmSynth.VST3
