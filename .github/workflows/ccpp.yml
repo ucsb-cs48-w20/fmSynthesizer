@@ -10,7 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: install dependencies
-      run: apt install xorg-dev
+      run: sudo apt-get install xorg-dev
       shell: bash
       
     - name: configure
