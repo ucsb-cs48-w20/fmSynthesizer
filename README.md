@@ -7,7 +7,7 @@ A polyphonic FM synthesizer with highly flexible parameter modulation.
 Our synthesizer aims to be a highly flexible instrument which is both easy to use and inspiring for the musician. The instrument's design emphasizes an exploration of interesting new sounds without requiring extensize prior knowlege about synthesis.
 
 Our **target audience** is any musician looking for a highly tweakable instrument capable of producing novel/unique sound.
-**Main functionality**: Our synth will take the form of a standardized plugin, easily usable with and OS and DAW. The foundation of our signal processing relies on frequency modulation(FM). FM allows for highly complex sounds that would otherwise be unattainable. On top of this, our synth will allow for very powerful paramater modulation through the use of numerous LFOs (Low Frequency Oscillators).The combination of these two design choices will allow for very insteresting and surprising results for the musician.
+**Main functionality**: Our synth will take the form of a standardized plugin, easily usable with and OS and DAW. The foundation of our signal processing relies on frequency modulation (FM). FM allows for highly complex sounds that would otherwise be unattainable. On top of this, our synth will allow for very powerful parameter modulation through the use of numerous LFOs (Low Frequency Oscillators).The combination of these two design choices will allow for very insteresting and surprising results for the musician.
 
 ## Installation
 
