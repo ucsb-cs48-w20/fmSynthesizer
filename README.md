@@ -34,10 +34,10 @@ Our **target audience** is any musician looking for a highly tweakable instrumen
 ## Functionality
 
  - Holler has three executables:
-    1. Standalone application - support for MIDI instruments
-    2. VST Plugin - support for common DAWs (Windows, MacOS, Unix)
-    3. AU Plugin (MacOS)
-    
+    - Standalone application - support for MIDI instruments
+    - VST Plugin - support for common DAWs (Windows, MacOS, Unix)
+    - AU Plugin (MacOS)
+  
  - The VST/AU can be loaded as a plugin with your DAW, taking in MIDI note and control input.
      - Outputs audio that can be chained with an arbitrary number of effects.
      - All adjustable parameters can be controlled by the DAW.
