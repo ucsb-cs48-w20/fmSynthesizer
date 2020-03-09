@@ -1,4 +1,4 @@
-# FM Synthesizer
+# The Holler
 
 A polyphonic FM synthesizer with highly flexible parameter modulation.
 
@@ -33,17 +33,35 @@ Our **target audience** is any musician looking for a highly tweakable instrumen
 
 ## Functionality
 
-Currently, the synth only has a few features. Once the plugin is running within your DAW:
- - The synth plugin will be looking for midi signals for note input 
- - Select the carrier wave type (sin, square, or sawtooth) via the dropdown menu
- - Set the filter cutoff frequency using the filter cutoff slider
+ - Holler has three executables:
+    1. Standalone application - support for MIDI instruments
+    2. VST Plugin - support for common DAWs (Windows, MacOS, Unix)
+    3. AU Plugin (MacOS)
+    
+ - The VST/AU can be loaded as a plugin with your DAW, taking in MIDI note and control input.
+     - Outputs audio that can be chained with an arbitrary number of effects.
+     - All adjustable parameters can be controlled by the DAW.
+     
+ - The Holler is a frequency modulation synthesizer, where a carrier signal's frequency is modulated by another signal.
+ 
+ - 12 voice polyphonic triggered by MIDI input.
+ 
+ - There are two chained modulators that modulate the carrier signal.
+ 
+ - For each signal, the user can select from a variety of different wave types: Noise, Triangle, Saw, Sine, Square.
+ 
+ - Modulating signals have the following parameters: wave type, octave change, detune, and amount.
+ 
+ - Carrier signal has the same parameters except the amount knob.
+ 
+ - ADSR envelopes are applied to each note.
 
 ## Known Problems
 
- - There is an audible "click" when notes start. This expected as we have not implemented an envelope yet.
-
- - Several GUI elements are not functional, as they have not been implemented yet. (modulator section, volume, octave selection, etc)
-
+ - There is an audible "click" when a note is released (WIP).
+ 
+ - Triangle wave occassionally bugs out when modulating another signal.
+ 
 
 ## Contributing
 
