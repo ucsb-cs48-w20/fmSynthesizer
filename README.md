@@ -1,4 +1,4 @@
-# The Holler
+# The Höller
 
 A polyphonic FM synthesizer with highly flexible parameter modulation.
 
