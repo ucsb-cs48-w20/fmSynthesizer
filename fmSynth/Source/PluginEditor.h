@@ -40,6 +40,11 @@ private:
     Slider modDetuneKnob;
     Slider modAmtKnob;
     
+    Slider attackSlider;
+    Slider decaySlider;
+    Slider sustainSlider;
+    Slider releaseSlider;
+    
     Slider mod1MultipleKnob;
     Slider mod1DetuneKnob;
     Slider mod1AmtKnob;
@@ -62,6 +67,11 @@ private:
     std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> mod1MultipleAttachment;
     std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> mod1DetuneAttachment;
     std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> mod1AmtAttachment;
+    
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> attackAttachment;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> decayAttachment;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> sustainAttachment;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> releaseAttachment;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FmSynthAudioProcessorEditor)
 };
