@@ -146,7 +146,6 @@ FmSynthAudioProcessorEditor::~FmSynthAudioProcessorEditor()
 {
 }
 
-
 //==============================================================================
 void FmSynthAudioProcessorEditor::paint (Graphics& g)
 {
@@ -156,18 +155,19 @@ void FmSynthAudioProcessorEditor::paint (Graphics& g)
     g.setColour (Colours::white);
     g.setFont (18.0f);
 
-    g.drawFittedText("Filter Cutoff", 480, 20, getWidth(), 30, Justification::left, 1);
-    g.drawFittedText("Gain", 610, 20, getWidth(), 30, Justification::left, 1);
+    g.drawFittedText("Filter Cutoff", 410, 20, getWidth(), 30, Justification::left, 1);
+    g.drawFittedText("Gain", 550, 20, getWidth(), 30, Justification::left, 1);
     g.drawFittedText("Modulators", 85, 2, getWidth(), 30, Justification::left, 1);
     
     g.drawFittedText("Carrier", 290, 2, getWidth(), 30, Justification::left, 1);
   
-    g.drawFittedText("A", 520, 375, getWidth(), 30, Justification::left, 1);
-    g.drawFittedText("D", 553.3, 375, getWidth(), 30, Justification::left, 1);
-    g.drawFittedText("S", 586.6, 375, getWidth(), 30, Justification::left, 1);
-    g.drawFittedText("R", 620, 375, getWidth(), 30, Justification::left, 1);
-    
     g.setFont (12.0f);
+    
+    g.drawFittedText("A", 440, 470, getWidth(), 30, Justification::left, 1);
+    g.drawFittedText("D", 470, 470, getWidth(), 30, Justification::left, 1);
+    g.drawFittedText("S", 500, 470, getWidth(), 30, Justification::left, 1);
+    g.drawFittedText("R", 530, 470, getWidth(), 30, Justification::left, 1);
+    
     g.drawFittedText("1", 75, 25, getWidth(), 30, Justification::left, 1);
     g.drawFittedText("2", 195, 25,  getWidth(), 30, Justification::left, 1);
     
@@ -200,10 +200,6 @@ void FmSynthAudioProcessorEditor::resized()
     mod1AmtKnob.setBounds(left, 370, 100, 100);
     mod1WaveSelect.setBounds(left, 50, 100, 20);
   
-    attackSlider.setBounds(520, 400, 10, 100);
-    decaySlider.setBounds(553.3, 400, 10, 100);
-    sustainSlider.setBounds(586.6, 400, 10, 100);
-    releaseSlider.setBounds(620, 400, 10, 100);
     
     left+= spacing;
     
@@ -219,13 +215,21 @@ void FmSynthAudioProcessorEditor::resized()
     carWaveSelect.setBounds(left, 50, 100, 20);
     
     left+= spacing;
-    left+= 25;
+    left+= 50;
 
     cutoffSlider.setBounds(left, 50, 30, 300);
     
-    left+= 75;
+    attackSlider.setBounds(left, 375, 20, 100);
+    decaySlider.setBounds(left+30, 375, 20, 100);
+    sustainSlider.setBounds(left+60, 375, 20, 100);
+    releaseSlider.setBounds(left+90, 375, 20, 100);
+    
+    left+= spacing;
     
     gainSlider.setBounds(left, 50, 30, 300);
     
     
+    
+    
 }
+
