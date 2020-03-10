@@ -28,6 +28,30 @@ FmSynthAudioProcessorEditor::FmSynthAudioProcessorEditor (FmSynthAudioProcessor&
     gainSlider.setPopupDisplayEnabled(true, false, this);
     addAndMakeVisible(gainSlider);
     gainAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, GAIN_ID, gainSlider));
+      
+    attackSlider.setSliderStyle(Slider::LinearBarVertical);
+    attackSlider.setTextBoxStyle(Slider::NoTextBox, false, 90, 0);
+    attackSlider.setPopupDisplayEnabled(true, false, this);
+    addAndMakeVisible(attackSlider);
+    attackAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, ATTACK_ID, attackSlider));
+    
+    decaySlider.setSliderStyle(Slider::LinearBarVertical);
+    decaySlider.setTextBoxStyle(Slider::NoTextBox, false, 90, 0);
+    decaySlider.setPopupDisplayEnabled(true, false, this);
+    addAndMakeVisible(decaySlider);
+    decayAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, DECAY_ID, decaySlider));
+    
+    sustainSlider.setSliderStyle(Slider::LinearBarVertical);
+    sustainSlider.setTextBoxStyle(Slider::NoTextBox, false, 90, 0);
+    sustainSlider.setPopupDisplayEnabled(true, false, this);
+    addAndMakeVisible(sustainSlider);
+    sustainAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, SUSTAIN_ID, sustainSlider));
+    
+    releaseSlider.setSliderStyle(Slider::LinearBarVertical);
+    releaseSlider.setTextBoxStyle(Slider::NoTextBox, false, 90, 0);
+    releaseSlider.setPopupDisplayEnabled(true, false, this);
+    addAndMakeVisible(releaseSlider);
+    releaseAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, RELEASE_ID, releaseSlider));
 
     octaveKnob.setSliderStyle(Slider::Rotary);
     octaveKnob.setTextBoxStyle(Slider::TextBoxBelow, true, 50, 25);
@@ -137,6 +161,11 @@ void FmSynthAudioProcessorEditor::paint (Graphics& g)
     g.drawFittedText("Modulators", 85, 2, getWidth(), 30, Justification::left, 1);
     
     g.drawFittedText("Carrier", 290, 2, getWidth(), 30, Justification::left, 1);
+  
+    g.drawFittedText("A", 520, 375, getWidth(), 30, Justification::left, 1);
+    g.drawFittedText("D", 553.3, 375, getWidth(), 30, Justification::left, 1);
+    g.drawFittedText("S", 586.6, 375, getWidth(), 30, Justification::left, 1);
+    g.drawFittedText("R", 620, 375, getWidth(), 30, Justification::left, 1);
     
     g.setFont (12.0f);
     g.drawFittedText("1", 75, 25, getWidth(), 30, Justification::left, 1);
@@ -170,6 +199,11 @@ void FmSynthAudioProcessorEditor::resized()
     mod1DetuneKnob.setBounds(left, 235, 100, 100);
     mod1AmtKnob.setBounds(left, 370, 100, 100);
     mod1WaveSelect.setBounds(left, 50, 100, 20);
+  
+    attackSlider.setBounds(520, 400, 10, 100);
+    decaySlider.setBounds(553.3, 400, 10, 100);
+    sustainSlider.setBounds(586.6, 400, 10, 100);
+    releaseSlider.setBounds(620, 400, 10, 100);
     
     left+= spacing;
     
