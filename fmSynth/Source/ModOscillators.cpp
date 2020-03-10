@@ -10,6 +10,10 @@
 void ModOscVoice_0::startNote(int midiNoteNumber, float velocity,
     SynthesiserSound* sound, int /*currentPitchWheelPosition*/)
 {
+    setADSRParameters();
+    envelope.noteOn();
+    noteToClear = true;
+
     rawMultiple = (int)(*params->getRawParameterValue(MOD_MULTIPLE_ID));
     if(rawMultiple < 0)
       multipleOfCarrier = -1 * 1/(float)rawMultiple;
@@ -75,6 +79,10 @@ void ModOscVoice_0::parameterUpdatePerBlock()
 void ModOscVoice_1::startNote(int midiNoteNumber, float velocity,
     SynthesiserSound* sound, int /*currentPitchWheelPosition*/)
 {
+    setADSRParameters();
+    envelope.noteOn();
+    noteToClear = true;
+
     rawMultiple = (int)(*params->getRawParameterValue(MOD_MULTIPLE_1_ID));
     if(rawMultiple < 0)
       multipleOfCarrier = -1 * 1/(float)rawMultiple;

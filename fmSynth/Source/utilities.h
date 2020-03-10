@@ -64,3 +64,15 @@
 
 #define MOD_AMT_1_ID          "MODAMT_1"
 #define MOD_AMT_1_NAME        "Amount_1"
+
+#define ATTACK_ID          "ATTACK"
+#define ATTACK_NAME       "Attack"
+
+#define DECAY_ID        "DECAY"
+#define DECAY_NAME      "Decay"
+
+#define SUSTAIN_ID       "SUSTAIN"
+#define SUSTAIN_NAME      "Sustain"
+
+#define RELEASE_ID         "RELEASE"
+#define RELEASE_NAME       "Release"

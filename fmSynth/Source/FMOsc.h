@@ -42,6 +42,7 @@ public:
         mModulator.isCarrier(false, nullptr);
         mModulator_1.isCarrier(true, &ModBuffer);
         mModulator_1.isRecycleOutput(true);
+        mCarrier.isRecycleOutput(true);
     }
 
     bool canPlaySound(SynthesiserSound* sound) override
@@ -70,7 +71,6 @@ public:
 
     void renderNextBlock(AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override;
     
-    void setADSRParameters();
 
 private:
     
@@ -80,6 +80,5 @@ private:
     
     AudioProcessorValueTreeState* params;
     AudioBuffer<float> ModBuffer;
-    
-    ADSR envelope;
+ 
 };

@@ -41,8 +41,22 @@ class OscillatorVoice : public SynthesiserVoice
 {
 public:
 
-    OscillatorVoice() { params = NULL; carrier = false; recycleOutput = false;}
-    OscillatorVoice(AudioProcessorValueTreeState* params) { this->params = params; carrier = false; recycleOutput = false;}
+    OscillatorVoice() { 
+        params = NULL; 
+        carrier = false; 
+        recycleOutput = false;
+        envelope.setSampleRate(getSampleRate());
+        setADSRParameters();
+        noteToClear = false;
+    }
+    OscillatorVoice(AudioProcessorValueTreeState* params) { 
+        this->params = params; 
+        carrier = false; 
+        recycleOutput = false;
+        envelope.setSampleRate(getSampleRate());
+        setADSRParameters();
+        noteToClear = false;
+    }
 
     bool canPlaySound(SynthesiserSound* sound) override
     {
@@ -99,6 +113,7 @@ protected:
     float triangleWave(float angle);
     float noise(float angle);
     void angleCap(); // call after you increment currentAngle to avoid overflows
+    void setADSRParameters();
     float nextSample = 0.0, delta = 0.0,
         currentAngle = 0.0, previousAngle = 0.0, angleDelta = 0.0,
         frequency, level = 0.0, tailOff = 0.0;
@@ -107,8 +122,14 @@ protected:
     
     int waveID, currentOctave;
 
+    bool noteToClear;
+
+    ADSR envelope;
+    ADSR::Parameters adsr;
+
 private:
     bool carrier, recycleOutput;
     float hold;
     AudioBuffer<float>* ModBuffer;
+
 };

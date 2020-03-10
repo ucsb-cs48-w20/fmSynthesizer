@@ -38,6 +38,9 @@ void OscillatorVoice::setAngleDelta(float freq)
 void OscillatorVoice::startNote(int midiNoteNumber, float velocity,
     SynthesiserSound* sound, int /*currentPitchWheelPosition*/)
 {
+    setADSRParameters();
+    envelope.noteOn();
+
     previousAngle = 0.0;
     nextSample = 0.0;
     currentAngle = 0.0;
@@ -45,6 +48,7 @@ void OscillatorVoice::startNote(int midiNoteNumber, float velocity,
     level = velocity * 0.15;
     tailOff = 0.0;
     frequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
+    noteToClear = true;
     
     float cyclesPerSecond;
     if (carrier)
@@ -66,17 +70,7 @@ void OscillatorVoice::startNote(int midiNoteNumber, float velocity,
  */
 void OscillatorVoice::stopNote(float /*velocity*/, bool allowTailOff)
 {
-    if (allowTailOff)
-    {
-        if (tailOff == 0.0)
-            tailOff = 1.0;
-    }
-    else
-    {
-        clearCurrentNote();
-        angleDelta = 0.0;
-    }
-    
+    envelope.noteOff();
 }
 
 /**
@@ -88,58 +82,39 @@ void OscillatorVoice::renderNextBlock(AudioBuffer<float>& outputBuffer,
     if (angleDelta != 0.0)
     {
         parameterUpdatePerBlock();
-        if (tailOff > 0.0) // [7]
+ 
+        while (--numSamples >= 0)
         {
-            while (--numSamples >= 0)
-            {
-                parameterUpdatePerSample();
-                
-                if(carrier)
-                    setAngleDelta(frequency + ModBuffer->getSample(0,startSample));
-                
-                auto currentSample = (float)(generateSample(currentAngle) * level * tailOff);
-                
-                if(!recycleOutput)
-                    for (auto i = outputBuffer.getNumChannels(); --i >= 0;)
-                        outputBuffer.addSample(i, startSample, currentSample);
-                else {
-                    for (auto i = outputBuffer.getNumChannels(); --i >= 0;) {
-                        outputBuffer.clear(startSample,1);
-                        outputBuffer.addSample(i, startSample, currentSample);
-                    }
-                }
-                    
+            parameterUpdatePerSample();
+            
+            if(carrier) setAngleDelta(frequency + ModBuffer->getSample(0,startSample));
+            
+            auto currentSample = (float)(generateSample(currentAngle) * level);
 
-                currentAngle += angleDelta;
-                angleCap();
-                ++startSample;
-
-                tailOff *= 0.99; // [8]
-
-                if (tailOff <= 0.005)
-                {
-                    clearCurrentNote(); // [9]
-
-                    angleDelta = 0.0;
-                    break;
-                }
+            if (carrier) {
+                currentSample *= envelope.getNextSample();
             }
-        }
-        else
-        {
-            while (--numSamples >= 0) // [6]
-            {
-                if(carrier)
-                    setAngleDelta(frequency + ModBuffer->getSample(0,startSample));
-                
-                auto currentSample = (float)(generateSample(currentAngle) * level);
-
+            
+            if(!recycleOutput)
                 for (auto i = outputBuffer.getNumChannels(); --i >= 0;)
                     outputBuffer.addSample(i, startSample, currentSample);
+            else {
+                for (auto i = outputBuffer.getNumChannels(); --i >= 0;) {
+                    outputBuffer.clear(startSample,1);
+                    outputBuffer.addSample(i, startSample, currentSample);
+                }
+            }
+                
 
-                currentAngle += angleDelta;
-                angleCap();
-                ++startSample;
+            currentAngle += angleDelta;
+            angleCap();
+            ++startSample;
+
+            if (!envelope.isActive()) {
+                if (noteToClear) {
+                    clearCurrentNote();
+                    noteToClear = false;
+                }
             }
         }
     }
@@ -214,4 +189,14 @@ void OscillatorVoice::angleCap()
     {
         currentAngle -= TWO_PI;
     }
+}
+
+void OscillatorVoice::setADSRParameters() {
+    
+    adsr.attack = *(params->getRawParameterValue(ATTACK_ID));
+    adsr.decay = *(params->getRawParameterValue(DECAY_ID));
+    adsr.sustain = *(params->getRawParameterValue(SUSTAIN_ID));
+    adsr.release = *(params->getRawParameterValue(RELEASE_ID));
+
+    envelope.setParameters(adsr);
 }
