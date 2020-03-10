@@ -29,6 +29,12 @@
 #define FILTER_CUTOFF_ID    "CUTOFF"
 #define FILTER_CUTOFF_NAME  "Cutoff"
 
+#define FILTER_RES_ID    "RESONANCE"
+#define FILTER_RES_NAME  "Resonance"
+
+#define FILTER_TYPE_ID    "FILTERTYPE"
+#define FILTER_TYPE_NAME  "Filter Type"
+
 #define CARRIER_WAVE_ID     "CARRIERWAVE"
 #define CARRIER_WAVE_NAME   "Carrier Wave Type"
 

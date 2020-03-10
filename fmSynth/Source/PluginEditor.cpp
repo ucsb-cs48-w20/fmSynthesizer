@@ -17,11 +17,23 @@ FmSynthAudioProcessorEditor::FmSynthAudioProcessorEditor (FmSynthAudioProcessor&
 {
     setSize (700, 500);
 
-    cutoffSlider.setSliderStyle(Slider::LinearBarVertical);
-    cutoffSlider.setTextBoxStyle(Slider::NoTextBox, false, 90, 0);
-    cutoffSlider.setPopupDisplayEnabled(true, false, this);
-    addAndMakeVisible(cutoffSlider);
-    cutoffAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, FILTER_CUTOFF_ID, cutoffSlider));
+    cutoffKnob.setSliderStyle(Slider::Rotary);
+    cutoffKnob.setTextBoxStyle(Slider::TextBoxBelow, true, 50, 25);
+    addAndMakeVisible(cutoffKnob);
+    cutoffAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, FILTER_CUTOFF_ID, cutoffKnob));
+
+    resKnob.setSliderStyle(Slider::Rotary);
+    resKnob.setTextBoxStyle(Slider::TextBoxBelow, true, 50, 25);
+    addAndMakeVisible(resKnob);
+    resAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, FILTER_RES_ID, resKnob));
+
+    filterTypeSelect.addItem("Lowpass", 1);
+    filterTypeSelect.addItem("Highpass", 2);
+    filterTypeSelect.addItem("Bandpass", 3);
+    filterTypeSelect.addItem("Notchpass", 4);
+    filterTypeSelect.addItem("Allpass", 5);
+    addAndMakeVisible(filterTypeSelect);
+    filterTypeAttachment.reset(new AudioProcessorValueTreeState::ComboBoxAttachment(valueTreeState, FILTER_TYPE_ID, filterTypeSelect));
 
     gainSlider.setSliderStyle(Slider::LinearBarVertical);
     gainSlider.setTextBoxStyle(Slider::NoTextBox, false, 90, 0);
@@ -164,8 +176,8 @@ void FmSynthAudioProcessorEditor::paint (Graphics& g)
     g.setColour (Colours::white);
     g.setFont (font);
 
-    g.drawFittedText("Filter Cutoff", 410, 20, getWidth(), 30, Justification::left, 1);
-    g.drawFittedText("Gain", 550, 20, getWidth(), 30, Justification::left, 1);
+    g.drawFittedText("Filter", 430, 2, getWidth(), 30, Justification::left, 1);
+    g.drawFittedText("Gain", 550, 2, getWidth(), 30, Justification::left, 1);
     g.drawFittedText("Modulators", 85, 2, getWidth(), 30, Justification::left, 1);
     
     g.drawFittedText("Carrier", 290, 2, getWidth(), 30, Justification::left, 1);
@@ -183,6 +195,8 @@ void FmSynthAudioProcessorEditor::paint (Graphics& g)
     g.drawFittedText("Octave", 120, 85, getWidth(), 30, Justification::left, 1);
     g.drawFittedText("Detune", 120, 220,  getWidth(), 30, Justification::left, 1);
     g.drawFittedText("Amplitude", 111, 355,  getWidth(), 30, Justification::left, 1);
+    g.drawFittedText("Cutoff", 440, 85, getWidth(), 30, Justification::left, 1);
+    g.drawFittedText("Resonance", 427, 220, getWidth(), 30, Justification::left, 1);
     
     //BRANDING
     g.setFont (15.0f);
@@ -233,10 +247,13 @@ void FmSynthAudioProcessorEditor::resized()
     carWaveSelect.setBounds(left, 50, 100, 20);
     
     left+= spacing;
+
+    filterTypeSelect.setBounds(left+21, 50, 100, 20);
+    cutoffKnob.setBounds(left+21, 100, 100, 100);
+    resKnob.setBounds(left+21, 235, 100, 100);
+
     left+= 50;
 
-    cutoffSlider.setBounds(left, 50, 30, 300);
-    
     attackSlider.setBounds(left, 375, 20, 100);
     decaySlider.setBounds(left+30, 375, 20, 100);
     sustainSlider.setBounds(left+60, 375, 20, 100);

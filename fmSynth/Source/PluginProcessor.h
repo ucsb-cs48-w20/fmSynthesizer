@@ -65,6 +65,8 @@ private:
     
     float gain;
     double filterCutoff;
+    double res;
+    int filterType;
 
     Random random;
     MidiKeyboardState keyboardState;

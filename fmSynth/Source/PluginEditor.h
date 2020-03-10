@@ -34,7 +34,8 @@ private:
     AudioProcessorValueTreeState& valueTreeState;
 
     Slider gainSlider;
-    Slider cutoffSlider;
+    Slider cutoffKnob;
+    Slider resKnob;
     Slider octaveKnob;
     Slider modMultipleKnob;
     Slider modDetuneKnob;
@@ -53,9 +54,12 @@ private:
     ComboBox modWaveSelect;
     ComboBox mod1WaveSelect;
     ComboBox carWaveSelect;
+    ComboBox filterTypeSelect;
 
     std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> gainAttachment;
     std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> cutoffAttachment;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> resAttachment;
+    std::unique_ptr<AudioProcessorValueTreeState::ComboBoxAttachment> filterTypeAttachment;
     std::unique_ptr<AudioProcessorValueTreeState::ComboBoxAttachment> carWaveAttachment;
     std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> octAttachment;
     std::unique_ptr<AudioProcessorValueTreeState::ComboBoxAttachment> modWaveAttachment;
