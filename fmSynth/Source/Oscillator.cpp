@@ -66,10 +66,9 @@ void OscillatorVoice::startNote(int midiNoteNumber, float velocity,
  */
 void OscillatorVoice::stopNote(float /*velocity*/, bool allowTailOff)
 {
-    if (allowTailOff)
+    if (true)
     {
-        if (tailOff == 0.0)
-            tailOff = 1.0;
+           tailOff = 1.0;
     }
     else
     {
@@ -97,7 +96,7 @@ void OscillatorVoice::renderNextBlock(AudioBuffer<float>& outputBuffer,
                 if(carrier)
                     setAngleDelta(frequency + ModBuffer->getSample(0,startSample));
                 
-                auto currentSample = (float)(generateSample(currentAngle) * level * tailOff);
+                auto currentSample = generateSample(currentAngle) * level;
                 
                 if(!recycleOutput)
                     for (auto i = outputBuffer.getNumChannels(); --i >= 0;)
@@ -114,12 +113,12 @@ void OscillatorVoice::renderNextBlock(AudioBuffer<float>& outputBuffer,
                 angleCap();
                 ++startSample;
 
-                tailOff *= 0.99; // [8]
+                tailOff *= 0.9999; // [8]
 
                 if (tailOff <= 0.005)
                 {
                     clearCurrentNote(); // [9]
-
+                    
                     angleDelta = 0.0;
                     break;
                 }
@@ -129,13 +128,21 @@ void OscillatorVoice::renderNextBlock(AudioBuffer<float>& outputBuffer,
         {
             while (--numSamples >= 0) // [6]
             {
-                if(carrier)
-                    setAngleDelta(frequency + ModBuffer->getSample(0,startSample));
-                
-                auto currentSample = (float)(generateSample(currentAngle) * level);
+                parameterUpdatePerSample();
 
-                for (auto i = outputBuffer.getNumChannels(); --i >= 0;)
-                    outputBuffer.addSample(i, startSample, currentSample);
+                if (carrier) setAngleDelta(frequency + ModBuffer->getSample(0, startSample));
+
+                auto currentSample = generateSample(currentAngle) * level;
+
+                if (!recycleOutput)
+                    for (auto i = outputBuffer.getNumChannels(); --i >= 0;)
+                        outputBuffer.addSample(i, startSample, currentSample);
+                else {
+                    for (auto i = outputBuffer.getNumChannels(); --i >= 0;) {
+                        outputBuffer.clear(startSample, 1);
+                        outputBuffer.addSample(i, startSample, currentSample);
+                    }
+                }
 
                 currentAngle += angleDelta;
                 angleCap();
@@ -213,5 +220,9 @@ void OscillatorVoice::angleCap()
     if (currentAngle >= TWO_PI)
     {
         currentAngle -= TWO_PI;
+    }
+    if(currentAngle == 0.0)
+    {   
+        currentAngle = 0.0001;
     }
 }

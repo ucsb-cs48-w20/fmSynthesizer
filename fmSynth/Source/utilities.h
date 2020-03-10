@@ -14,18 +14,6 @@
 #define GAIN_ID             "GAIN"
 #define GAIN_NAME           "Gain"
 
-#define ATTACK_ID           "ATTACK"
-#define ATTACK_NAME         "Attack"
-
-#define DECAY_ID           "DECAY"
-#define DECAY_NAME         "Decay"
-
-#define SUSTAIN_ID           "SUSTAIN"
-#define SUSTAIN_NAME         "Sustain"
-
-#define RELEASE_ID           "RELEASE"
-#define RELEASE_NAME         "Release"
-
 #define FILTER_CUTOFF_ID    "CUTOFF"
 #define FILTER_CUTOFF_NAME  "Cutoff"
 
