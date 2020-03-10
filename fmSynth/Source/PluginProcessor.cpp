@@ -57,7 +57,7 @@ AudioProcessorValueTreeState::ParameterLayout FmSynthAudioProcessor::createParam
   
     auto attack = std::make_unique<AudioParameterFloat>(ATTACK_ID, ATTACK_NAME, 0.1f, 5.0f, 0.1f);
     auto decay = std::make_unique<AudioParameterFloat>(DECAY_ID, DECAY_NAME, 0.1f, 5.0f, 0.1f);
-    auto sustain = std::make_unique<AudioParameterFloat>(SUSTAIN_ID, SUSTAIN_NAME, 0.1f, 5.0f, 0.1f);
+    auto sustain = std::make_unique<AudioParameterFloat>(SUSTAIN_ID, SUSTAIN_NAME, 0.1f, 1.0f, 0.1f);
     auto release = std::make_unique<AudioParameterFloat>(RELEASE_ID, RELEASE_NAME, 0.1f, 5.0f, 0.1f);
 
     
