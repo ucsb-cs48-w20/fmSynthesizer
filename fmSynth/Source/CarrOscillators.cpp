@@ -11,6 +11,9 @@
 void CarrOscVoice_0::startNote(int midiNoteNumber, float velocity,
              SynthesiserSound* sound, int /*currentPitchWheelPosition*/)
 {
+    setADSRParameters();
+    envelope.noteOn();
+    noteToClear = true;
     waveID = (int)(*params->getRawParameterValue(CARRIER_WAVE_ID));
     currentOctave = (int)(*params->getRawParameterValue(OCTAVE_ID));
     previousAngle = 0.0;

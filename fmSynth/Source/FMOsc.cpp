@@ -12,12 +12,15 @@
 void FMVoice::startNote (int midiNoteNumber, float velocity,
                 SynthesiserSound* sound, int currentPitchWheelPosition)
 {
-    
+    //envelope.setSampleRate(getSampleRate());
+
     mModulator.startNote(midiNoteNumber, velocity, sound, currentPitchWheelPosition);
+    
+    mModulator_1.startNote(midiNoteNumber, velocity, sound, currentPitchWheelPosition);
     
     mCarrier.startNote(midiNoteNumber, velocity, sound, currentPitchWheelPosition);
     
-    setADSRParameters();
+    //setADSRParameters();
     //envelope.noteOn();
    
 }
@@ -30,10 +33,16 @@ void FMVoice::renderNextBlock (AudioBuffer<float>& outputBuffer,
 {
     ModBuffer.clear();
     mModulator.renderNextBlock(ModBuffer, startSample, numSamples);
-    mCarrier.renderNextBlock(outputBuffer, startSample, numSamples);
-    //envelope.applyEnvelopeToBuffer(outputBuffer, startSample, numSamples);
+    mModulator_1.renderNextBlock(ModBuffer, startSample, numSamples);
+    mCarrier.renderNextBlock(ModBuffer, startSample, numSamples);
+    //envelope.applyEnvelopeToBuffer(ModBuffer, startSample, numSamples);
 
-    /**envelope.applyEnvelopeToBuffer (AudioBuffer< FloatType > &buffer, int startSample, int numSamples) */
+    for (int sample = 0; sample < numSamples; ++sample) {
+        for (int channel = 0; channel < outputBuffer.getNumChannels(); ++channel) {
+            outputBuffer.addSample(channel, startSample, ModBuffer.getSample(0, startSample));
+        }
+        ++startSample;
+    }
 }
 
 
@@ -45,7 +54,3 @@ void FMVoice::stopNote (float velocity, bool allowTailOff)
 
 }
 
-void setADSRParams() {
-    /* stub
-     access value tree and set up enevelope parameters*/
-}

@@ -39,9 +39,19 @@ private:
     Slider modMultipleKnob;
     Slider modDetuneKnob;
     Slider modAmtKnob;
+    
+    Slider attackSlider;
+    Slider decaySlider;
+    Slider sustainSlider;
+    Slider releaseSlider;
+    
+    Slider mod1MultipleKnob;
+    Slider mod1DetuneKnob;
+    Slider mod1AmtKnob;
 
-    Label textLabel;
+    Label carrOctLabel, modMultLabel, modAmtLabel, modDetLabel, mod1MultLabel, mod1AmtLabel, mod1DetLabel;
     ComboBox modWaveSelect;
+    ComboBox mod1WaveSelect;
     ComboBox carWaveSelect;
 
     std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> gainAttachment;
@@ -52,6 +62,16 @@ private:
     std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> modMultipleAttachment;
     std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> modDetuneAttachment;
     std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> modAmtAttachment;
+    
+    std::unique_ptr<AudioProcessorValueTreeState::ComboBoxAttachment> mod1WaveAttachment;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> mod1MultipleAttachment;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> mod1DetuneAttachment;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> mod1AmtAttachment;
+    
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> attackAttachment;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> decayAttachment;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> sustainAttachment;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> releaseAttachment;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FmSynthAudioProcessorEditor)
 };

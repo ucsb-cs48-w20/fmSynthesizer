@@ -34,11 +34,15 @@ public:
         mModulator.isCarrier(false, nullptr);
     }
     
-    FMVoice(AudioProcessorValueTreeState* params, int blockSize) : ModBuffer(1, blockSize), mModulator(params), mCarrier(params)
+    FMVoice(AudioProcessorValueTreeState* params, int blockSize) : ModBuffer(1, blockSize), mModulator(params),
+    mModulator_1(params), mCarrier(params)
     {
         this->params = params;
         mCarrier.isCarrier(true, &ModBuffer);
         mModulator.isCarrier(false, nullptr);
+        mModulator_1.isCarrier(true, &ModBuffer);
+        mModulator_1.isRecycleOutput(true);
+        mCarrier.isRecycleOutput(true);
     }
 
     bool canPlaySound(SynthesiserSound* sound) override
@@ -67,15 +71,14 @@ public:
 
     void renderNextBlock(AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override;
     
-    void setADSRParameters();
 
 private:
     
     ModOscVoice_0 mModulator;
+    ModOscVoice_1 mModulator_1;
     CarrOscVoice_0 mCarrier;
     
     AudioProcessorValueTreeState* params;
     AudioBuffer<float> ModBuffer;
-    
-    ADSR envelope;
+ 
 };

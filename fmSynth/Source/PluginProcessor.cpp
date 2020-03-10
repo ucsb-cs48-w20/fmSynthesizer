@@ -46,10 +46,19 @@ AudioProcessorValueTreeState::ParameterLayout FmSynthAudioProcessor::createParam
     auto carrierWave = std::make_unique<AudioParameterInt>(CARRIER_WAVE_ID, CARRIER_WAVE_NAME, 1, 5, 1);
     auto carrierOctave = std::make_unique<AudioParameterInt>(OCTAVE_ID, OCTAVE_NAME, 1, 4, 2);
     auto modWave = std::make_unique<AudioParameterInt>(MOD_WAVE_ID, MOD_WAVE_NAME, 1, 5, 1);
-    auto modMultiple = std::make_unique<AudioParameterInt>(MOD_MULTIPLE_ID, MOD_MULTIPLE_NAME, -5, 5, 2);
-    auto modDetune = std::make_unique<AudioParameterFloat>(MOD_DETUNE_ID, MOD_DETUNE_NAME, 0.01f, 2000.0f, 0.0f);
+    auto modMultiple = std::make_unique<AudioParameterInt>(MOD_MULTIPLE_ID, MOD_MULTIPLE_NAME, -9, 5, 2);
+    auto modDetune = std::make_unique<AudioParameterFloat>(MOD_DETUNE_ID, MOD_DETUNE_NAME, -120.0f, 120.0f, 0);
     auto modAmt = std::make_unique<AudioParameterFloat>(MOD_AMT_ID, MOD_AMT_NAME, 0.0f, 1000.0f, 20.0f);
     
+    auto modWave_1 = std::make_unique<AudioParameterInt>(MOD_WAVE_1_ID, MOD_WAVE_1_NAME, 1, 5, 1);
+    auto modMultiple_1 = std::make_unique<AudioParameterInt>(MOD_MULTIPLE_1_ID, MOD_MULTIPLE_1_NAME, -9, 5, 0);
+    auto modDetune_1 = std::make_unique<AudioParameterFloat>(MOD_DETUNE_1_ID, MOD_DETUNE_1_NAME, -120.0f, 120.0f, 0);
+    auto modAmt_1 = std::make_unique<AudioParameterFloat>(MOD_AMT_1_ID, MOD_AMT_1_NAME, 0.0f, 1000.0f, 300.0f);
+  
+    auto attack = std::make_unique<AudioParameterFloat>(ATTACK_ID, ATTACK_NAME, 0.1f, 5.0f, 0.1f);
+    auto decay = std::make_unique<AudioParameterFloat>(DECAY_ID, DECAY_NAME, 0.1f, 5.0f, 0.1f);
+    auto sustain = std::make_unique<AudioParameterFloat>(SUSTAIN_ID, SUSTAIN_NAME, 0.1f, 1.0f, 0.1f);
+    auto release = std::make_unique<AudioParameterFloat>(RELEASE_ID, RELEASE_NAME, 0.1f, 5.0f, 0.1f);
 
     
     params.push_back(std::move(gain));
@@ -60,6 +69,15 @@ AudioProcessorValueTreeState::ParameterLayout FmSynthAudioProcessor::createParam
     params.push_back(std::move(modMultiple));
     params.push_back(std::move(modDetune));
     params.push_back(std::move(modAmt));
+    params.push_back(std::move(modWave_1));
+    params.push_back(std::move(modMultiple_1));
+    params.push_back(std::move(modDetune_1));
+    params.push_back(std::move(modAmt_1));
+  
+    params.push_back(std::move(attack));
+    params.push_back(std::move(decay));
+    params.push_back(std::move(sustain));
+    params.push_back(std::move(release));
 
     return {params.begin(), params.end()};
 }
