@@ -150,10 +150,19 @@ FmSynthAudioProcessorEditor::~FmSynthAudioProcessorEditor()
 void FmSynthAudioProcessorEditor::paint (Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));
+    
+    Colour one = Colours::midnightblue;
+    Colour two = Colours::darkslategrey;
+    
+    ColourGradient cg = ColourGradient(one, 50, 50, two, 400, 400, false);
+    
+    g.setGradientFill(cg);
+    g.fillAll();
 
+    Font font = Font("Futura", 18.0f, 1);
+    
     g.setColour (Colours::white);
-    g.setFont (18.0f);
+    g.setFont (font);
 
     g.drawFittedText("Filter Cutoff", 410, 20, getWidth(), 30, Justification::left, 1);
     g.drawFittedText("Gain", 550, 20, getWidth(), 30, Justification::left, 1);
@@ -174,14 +183,23 @@ void FmSynthAudioProcessorEditor::paint (Graphics& g)
     g.drawFittedText("Octave", 120, 85, getWidth(), 30, Justification::left, 1);
     g.drawFittedText("Detune", 120, 220,  getWidth(), 30, Justification::left, 1);
     g.drawFittedText("Amplitude", 111, 355,  getWidth(), 30, Justification::left, 1);
+    
+    //BRANDING
+    g.setFont (15.0f);
+    g.drawFittedText("THE", 565, 440,  getWidth(), 30, Justification::left, 1);
+    g.setFont (35.0f);
+    g.drawFittedText("HOLLER", 565, 460,  getWidth(), 30, Justification::left, 1);
+    g.setFont (10.0f);
+    g.drawFittedText("TM", 674, 450,  getWidth(), 30, Justification::left, 1);
 
-    g.setColour(Colours::grey);
+    g.setColour(Colours::white);
 
     Line<float> line1(Point<float>(255, 0), Point<float>(255, getHeight()));
     g.drawLine(line1, 2.0f);
 
     Line<float> line2(Point<float>(375, 0), Point<float>(375, getHeight()));
     g.drawLine(line2, 2.0f);
+    
 }
 
 void FmSynthAudioProcessorEditor::resized()
@@ -229,7 +247,4 @@ void FmSynthAudioProcessorEditor::resized()
     gainSlider.setBounds(left, 50, 30, 300);
     
     
-    
-    
 }
-
