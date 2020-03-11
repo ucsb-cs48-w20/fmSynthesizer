@@ -43,7 +43,7 @@ AudioProcessorValueTreeState::ParameterLayout FmSynthAudioProcessor::createParam
     
     auto gain = std::make_unique<AudioParameterFloat>(GAIN_ID, GAIN_NAME, 0.0f, 1.0f, 1.0f);
     auto cutoff = std::make_unique<AudioParameterFloat>(FILTER_CUTOFF_ID, FILTER_CUTOFF_NAME, cutoffRange, 20000.0f);
-    auto resonance = std::make_unique<AudioParameterFloat>(FILTER_RES_ID, FILTER_RES_NAME, 0, 125, 10);
+    auto resonance = std::make_unique<AudioParameterFloat>(FILTER_RES_ID, FILTER_RES_NAME, 1, 10, 1);
     auto filterSelectType = std::make_unique<AudioParameterInt>(FILTER_TYPE_ID, FILTER_TYPE_NAME, 1, 5, 1);
     auto carrierWave = std::make_unique<AudioParameterInt>(CARRIER_WAVE_ID, CARRIER_WAVE_NAME, 1, 5, 1);
     auto carrierOctave = std::make_unique<AudioParameterInt>(OCTAVE_ID, OCTAVE_NAME, 1, 4, 2);
