@@ -25,7 +25,9 @@ FmSynthAudioProcessor::FmSynthAudioProcessor()
     valTreeState(*this, nullptr, "PARAMETERS", createParameterLayout()),
     synth(keyboardState)
 #endif
-{}
+{
+    valTreeState.state = ValueTree("savedParams");
+}
 
 FmSynthAudioProcessor::~FmSynthAudioProcessor()
 {
@@ -71,7 +73,7 @@ AudioProcessorValueTreeState::ParameterLayout FmSynthAudioProcessor::createParam
     auto modMultiple_1 = std::make_unique<AudioParameterInt>(MOD_MULTIPLE_1_ID, MOD_MULTIPLE_1_NAME, -9, 5, 0);
     
     auto modDetune_1 = std::make_unique<AudioParameterFloat>(MOD_DETUNE_1_ID,MOD_DETUNE_1_NAME,
-                                                         NormalisableRange<float>(-120.0f,120.0f,0.01f,0.3f,true),0.0f);
+                                                         NormalisableRange<float>(-120.0f,120.0f,0.001f,0.3f,true),0.0f);
     
     auto modAmt_1 = std::make_unique<AudioParameterFloat>(MOD_AMT_1_ID,MOD_AMT_1_NAME,
                                                               NormalisableRange<float>(0.0f,1000.0f,0.01f,0.6f,true),20.0f);
@@ -289,15 +291,18 @@ AudioProcessorEditor* FmSynthAudioProcessor::createEditor()
 //==============================================================================
 void FmSynthAudioProcessor::getStateInformation(MemoryBlock& destData)
 {
-    // You should use this method to store your parameters in the memory block.
-    // You could do that either as raw data, or use the XML or ValueTree classes
-    // as intermediaries to make it easy to save and load complex data.
+    std::unique_ptr<XmlElement> xml(valTreeState.state.createXml());
+    copyXmlToBinary(*xml, destData);
 }
 
 void FmSynthAudioProcessor::setStateInformation(const void* data, int sizeInBytes)
 {
-    // You should use this method to restore your parameters from this memory block,
-    // whose contents will have been created by the getStateInformation() call.
+    std::unique_ptr<XmlElement> params(getXmlFromBinary(data, sizeInBytes));
+    if(params != nullptr) {
+        if(params ->hasTagName(valTreeState.state.getType())) {
+            valTreeState.state = ValueTree::fromXml(*params);
+        }
+    }
 }
 
 //==============================================================================
