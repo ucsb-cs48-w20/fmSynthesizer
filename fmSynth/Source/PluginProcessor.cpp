@@ -47,7 +47,7 @@ AudioProcessorValueTreeState::ParameterLayout FmSynthAudioProcessor::createParam
                                                       NormalisableRange<float>(0.0f,1.5f,0.01f,0.75f),1.0f);
     
     auto cutoff = std::make_unique<AudioParameterFloat>(FILTER_CUTOFF_ID,FILTER_CUTOFF_NAME,
-                                                      NormalisableRange<float>(30.0f,24000.0f,1.0f,0.2f),24000.0f);
+                                                      NormalisableRange<float>(30.0f,20000.0f,1.0f,0.2f),20000.0f);
     
     auto resonance = std::make_unique<AudioParameterFloat>(FILTER_RES_ID,FILTER_RES_NAME,
                                                         NormalisableRange<float>(1.0f,15.0f,0.01f,1.0f),1.0f);
