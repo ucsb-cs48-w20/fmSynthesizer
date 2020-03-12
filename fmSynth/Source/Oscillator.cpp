@@ -161,11 +161,11 @@ float OscillatorVoice::triangleWave(float angle)
 {
     if(std::cos(angle) >= 0)
     {
-        nextSample += delta+delta;
+        nextSample += (delta+delta);
     }
     else
     {
-        nextSample -= delta+delta;
+        nextSample -= (delta+delta);
     }
     
     return nextSample;
