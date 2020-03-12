@@ -71,7 +71,7 @@ private:
     Random random;
     MidiKeyboardState keyboardState;
     OscillatorVoice* tempVoice;
-    IIRFilter filterL, filterR;
+    IIRFilter filterL, filterR, filterBrickWallL, filterBrickWallR;
     
     AudioProcessorValueTreeState valTreeState;
     AudioProcessorValueTreeState::ParameterLayout createParameterLayout();

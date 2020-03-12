@@ -50,7 +50,7 @@ void FMVoice::stopNote (float velocity, bool allowTailOff)
 {
     mModulator.stopNote(velocity, allowTailOff);
     mCarrier.stopNote(velocity, allowTailOff);
-    envelope.noteOff();
+//    envelope.noteOff();
 
 }
 

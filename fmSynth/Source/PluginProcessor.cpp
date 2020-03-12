@@ -56,12 +56,18 @@ AudioProcessorValueTreeState::ParameterLayout FmSynthAudioProcessor::createParam
     auto modMultiple_1 = std::make_unique<AudioParameterInt>(MOD_MULTIPLE_1_ID, MOD_MULTIPLE_1_NAME, -9, 5, 0);
     auto modDetune_1 = std::make_unique<AudioParameterFloat>(MOD_DETUNE_1_ID, MOD_DETUNE_1_NAME, -120.0f, 120.0f, 0);
     auto modAmt_1 = std::make_unique<AudioParameterFloat>(MOD_AMT_1_ID, MOD_AMT_1_NAME, 0.0f, 1000.0f, 300.0f);
-  
-    auto attack = std::make_unique<AudioParameterFloat>(ATTACK_ID, ATTACK_NAME, 0.1f, 5.0f, 0.1f);
-    auto decay = std::make_unique<AudioParameterFloat>(DECAY_ID, DECAY_NAME, 0.1f, 5.0f, 0.1f);
-    auto sustain = std::make_unique<AudioParameterFloat>(SUSTAIN_ID, SUSTAIN_NAME, 0.1f, 1.0f, 0.1f);
-    auto release = std::make_unique<AudioParameterFloat>(RELEASE_ID, RELEASE_NAME, 0.1f, 5.0f, 0.1f);
-
+    
+    auto attack = std::make_unique<AudioParameterFloat>(ATTACK_ID,ATTACK_NAME,
+                                                        NormalisableRange<float>(0.001f,10.0f,0.001f,0.3f),0.01f);
+    
+    auto decay = std::make_unique<AudioParameterFloat>(DECAY_ID,DECAY_NAME,
+                                                       NormalisableRange<float>(0.001f,5.0f,0.001f,0.3f),0.01f);
+    
+    auto sustain = std::make_unique<AudioParameterFloat>(SUSTAIN_ID,SUSTAIN_NAME,
+                                                         NormalisableRange<float>(0.0f,1.5f,0.01f,0.9f),1.0f);
+    
+    auto release = std::make_unique<AudioParameterFloat>(RELEASE_ID,RELEASE_NAME,
+                                                         NormalisableRange<float>(0.001f,10.0f,0.001f,0.3f),0.01f);
     
     params.push_back(std::move(gain));
     params.push_back(std::move(cutoff));
@@ -239,6 +245,11 @@ void FmSynthAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBuffer&
     }
     filterL.processSamples(buffer.getWritePointer(0, 0), buffer.getNumSamples());
     filterR.processSamples(buffer.getWritePointer(1, 0), buffer.getNumSamples());
+    
+    filterBrickWallL.setCoefficients((IIRCoefficients::makeHighPass(getSampleRate(), 27.0, 1.0)));
+    filterBrickWallR.setCoefficients((IIRCoefficients::makeHighPass(getSampleRate(), 27.0, 1.0)));
+    filterBrickWallL.processSamples(buffer.getWritePointer(0, 0), buffer.getNumSamples());
+    filterBrickWallR.processSamples(buffer.getWritePointer(1, 0), buffer.getNumSamples());
 
     //gain rescales the volume setting to be from 0 to 1
     gain = *valTreeState.getRawParameterValue(GAIN_ID);

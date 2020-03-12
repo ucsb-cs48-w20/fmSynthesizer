@@ -69,50 +69,21 @@ FmSynthAudioProcessorEditor::FmSynthAudioProcessorEditor (FmSynthAudioProcessor&
     octaveKnob.setTextBoxStyle(Slider::TextBoxBelow, true, 50, 25);
     addAndMakeVisible(octaveKnob);
     octAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, OCTAVE_ID, octaveKnob));
-    
-//    carrOctLabel.setFont(Font(16.0f));
-//    carrOctLabel.setText("Octave", dontSendNotification);
-//    carrOctLabel.setColour(Label::textColourId, Colours::white);
-//    carrOctLabel.setJustificationType(Justification::centred);
-//    carrOctLabel.attachToComponent(&octaveKnob, false);
-//    addAndMakeVisible(carrOctLabel);
 
     modMultipleKnob.setSliderStyle(Slider::Rotary);
     modMultipleKnob.setTextBoxStyle(Slider::TextBoxBelow, true, 50, 25);
     addAndMakeVisible(modMultipleKnob);
     modMultipleAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, MOD_MULTIPLE_ID, modMultipleKnob));
     
-//    modMultLabel.setFont(Font(16.0f));
-//    modMultLabel.setText("Octave", dontSendNotification);
-//    modMultLabel.setColour(Label::textColourId, Colours::white);
-//    modMultLabel.setJustificationType(Justification::centred);
-//    modMultLabel.attachToComponent(&modMultipleKnob, false);
-//    addAndMakeVisible(modMultLabel);
-    
     modDetuneKnob.setSliderStyle(Slider::Rotary);
     modDetuneKnob.setTextBoxStyle(Slider::TextBoxBelow, true, 50, 25);
     addAndMakeVisible(modDetuneKnob);
     modDetuneAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, MOD_DETUNE_ID, modDetuneKnob));
-    
-//    modDetLabel.setFont(Font(16.0f));
-//    modDetLabel.setText("Detune", dontSendNotification);
-//    modDetLabel.setColour(Label::textColourId, Colours::white);
-//    modDetLabel.setJustificationType(Justification::centred);
-//    modDetLabel.attachToComponent(&modDetuneKnob, false);
-//    addAndMakeVisible(modDetLabel);
 
     modAmtKnob.setSliderStyle(Slider::Rotary);
     modAmtKnob.setTextBoxStyle(Slider::TextBoxBelow, true, 50, 25);
     addAndMakeVisible(modAmtKnob);
     modAmtAttachment.reset(new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, MOD_AMT_ID, modAmtKnob));
-    
-//    modAmtLabel.setFont(Font(16.0f));
-//    modAmtLabel.setText("Amplitude", dontSendNotification);
-//    modAmtLabel.setColour(Label::textColourId, Colours::white);
-//    modAmtLabel.setJustificationType(Justification::centred);
-//    modAmtLabel.attachToComponent(&modAmtKnob, false);
-//    addAndMakeVisible(modAmtLabel);
-
     
     mod1MultipleKnob.setSliderStyle(Slider::Rotary);
     mod1MultipleKnob.setTextBoxStyle(Slider::TextBoxBelow, true, 50, 25);
