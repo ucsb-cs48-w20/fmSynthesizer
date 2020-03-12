@@ -57,10 +57,10 @@ Our **target audience** is any musician looking for a highly tweakable instrumen
  - ADSR envelopes are applied to each note.
 
 ## Known Problems
-
- - There is an audible "click" when a note is released (WIP).
  
  - Triangle wave occassionally bugs out when modulating another signal.
+ 
+ - Text positioning is slightly inconsistent between OSes
  
 
 ## Contributing
