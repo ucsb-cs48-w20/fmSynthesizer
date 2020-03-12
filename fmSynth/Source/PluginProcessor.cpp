@@ -43,6 +43,8 @@ AudioProcessorValueTreeState::ParameterLayout FmSynthAudioProcessor::createParam
     
     auto gain = std::make_unique<AudioParameterFloat>(GAIN_ID, GAIN_NAME, 0.0f, 1.0f, 1.0f);
     auto cutoff = std::make_unique<AudioParameterFloat>(FILTER_CUTOFF_ID, FILTER_CUTOFF_NAME, cutoffRange, 20000.0f);
+    auto resonance = std::make_unique<AudioParameterFloat>(FILTER_RES_ID, FILTER_RES_NAME, 1, 10, 1);
+    auto filterSelectType = std::make_unique<AudioParameterInt>(FILTER_TYPE_ID, FILTER_TYPE_NAME, 1, 5, 1);
     auto carrierWave = std::make_unique<AudioParameterInt>(CARRIER_WAVE_ID, CARRIER_WAVE_NAME, 1, 5, 1);
     auto carrierOctave = std::make_unique<AudioParameterInt>(OCTAVE_ID, OCTAVE_NAME, 1, 4, 2);
     auto modWave = std::make_unique<AudioParameterInt>(MOD_WAVE_ID, MOD_WAVE_NAME, 1, 5, 1);
@@ -63,6 +65,8 @@ AudioProcessorValueTreeState::ParameterLayout FmSynthAudioProcessor::createParam
     
     params.push_back(std::move(gain));
     params.push_back(std::move(cutoff));
+    params.push_back(std::move(resonance));
+    params.push_back(std::move(filterSelectType));
     params.push_back(std::move(carrierWave));
     params.push_back(std::move(carrierOctave));
     params.push_back(std::move(modWave));
@@ -211,8 +215,28 @@ void FmSynthAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBuffer&
     synth.renderNextAudioBlock(buffer, 0, buffer.getNumSamples(), midiMessages);
 
     filterCutoff = *valTreeState.getRawParameterValue(FILTER_CUTOFF_ID);
-    filterL.setCoefficients(IIRCoefficients::makeLowPass(getSampleRate(), filterCutoff));
-    filterR.setCoefficients(IIRCoefficients::makeLowPass(getSampleRate(), filterCutoff));
+    filterType = *valTreeState.getRawParameterValue(FILTER_TYPE_ID);
+    res = *valTreeState.getRawParameterValue(FILTER_RES_ID);
+    if (filterType == 1) {
+        filterL.setCoefficients(IIRCoefficients::makeLowPass(getSampleRate(), filterCutoff, res));
+        filterR.setCoefficients(IIRCoefficients::makeLowPass(getSampleRate(), filterCutoff, res));
+    }
+    else if (filterType == 2){
+        filterL.setCoefficients(IIRCoefficients::makeHighPass(getSampleRate(), filterCutoff, res));
+        filterR.setCoefficients(IIRCoefficients::makeHighPass(getSampleRate(), filterCutoff, res));
+    }
+    else if (filterType == 3) {
+        filterL.setCoefficients(IIRCoefficients::makeBandPass(getSampleRate(), filterCutoff, res));
+        filterR.setCoefficients(IIRCoefficients::makeBandPass(getSampleRate(), filterCutoff, res));
+    }
+    else if (filterType == 4){
+        filterL.setCoefficients(IIRCoefficients::makeNotchFilter(getSampleRate(), filterCutoff, res));
+        filterR.setCoefficients(IIRCoefficients::makeNotchFilter(getSampleRate(), filterCutoff, res));
+    }
+    else if (filterType == 5) {
+        filterL.setCoefficients(IIRCoefficients::makeAllPass(getSampleRate(), filterCutoff, res));
+        filterR.setCoefficients(IIRCoefficients::makeAllPass(getSampleRate(), filterCutoff, res));
+    }
     filterL.processSamples(buffer.getWritePointer(0, 0), buffer.getNumSamples());
     filterR.processSamples(buffer.getWritePointer(1, 0), buffer.getNumSamples());
 

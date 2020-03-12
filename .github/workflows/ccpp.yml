@@ -3,7 +3,7 @@ name: C/C++ CI
 on: [push]
 
 jobs:
-  build:
+  build_linux:
 
     runs-on: ubuntu-latest
     
@@ -17,11 +17,31 @@ jobs:
       uses: actions/cache@v1.1.2
       with:
         # A directory to store and save the cache
-        path: $GITHUB_WORKSPACE/external 
+        path: external/
         # An explicit key for restoring and saving the cache
-        key: frut-juce-03-08-2019
+        key: $${{ runner.os }}-frut-03-08-2019-juce
       
-    
+    - name: Cache fmSynth cmake files
+      uses: actions/cache@v1.1.2
+      with:
+        # A directory to store and save the cache
+        path: fmSynth/build
+        # An explicit key for restoring and saving the cache
+        key: ${{ runner.os }}-fmSynth-${{ github.sha }}
+        restore-keys: ${{ runner.os }}-fmSynth-
+
+
+    - name: Cache UnitTest cmake files
+      uses: actions/cache@v1.1.2
+      with:
+        # A directory to store and save the cache
+        path: UnitTests/build
+        # An explicit key for restoring and saving the cache
+        key: ${{ runner.os }}-UnitTest-${{ github.sha }}
+        restore-keys: ${{ runner.os }}-UnitTest- 
+        
+        
+  
     - name: configure
       run: python3 configure.py
       working-directory: ./fmSynth
@@ -39,3 +59,58 @@ jobs:
       run: python3 run.py
       working-directory: ./UnitTests
       shell: bash
+
+  build_macos:
+
+    runs-on: macos-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+      
+    - name: Cache FRUT/JUCE
+      uses: actions/cache@v1.1.2
+      with:
+        # A directory to store and save the cache
+        path: external/
+        # An explicit key for restoring and saving the cache
+        key: $${{ runner.os }}-frut-03-08-2019-juce
+      
+    - name: Cache fmSynth cmake files
+      uses: actions/cache@v1.1.2
+      with:
+        # A directory to store and save the cache
+        path: fmSynth/build
+        # An explicit key for restoring and saving the cache
+        key: ${{ runner.os }}-fmSynth-${{ github.sha }}
+        restore-keys: ${{ runner.os }}-fmSynth-
+
+
+    - name: Cache UnitTest cmake files
+      uses: actions/cache@v1.1.2
+      with:
+        # A directory to store and save the cache
+        path: UnitTests/build
+        # An explicit key for restoring and saving the cache
+        key: ${{ runner.os }}-UnitTest-${{ github.sha }}
+        restore-keys: ${{ runner.os }}-UnitTest- 
+        
+        
+  
+    - name: configure
+      run: python3 configure.py
+      working-directory: ./fmSynth
+      shell: bash
+    - name: make
+      run: python3 run.py
+      working-directory: ./fmSynth
+      shell: bash
+      
+    - name: configure UnitTests
+      run: python3 configure.py
+      working-directory: ./UnitTests
+      shell: bash
+    - name: run UnitTests
+      run: python3 run.py
+      working-directory: ./UnitTests
+      shell: bash
+  
